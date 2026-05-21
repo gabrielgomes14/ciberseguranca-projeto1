@@ -14,7 +14,6 @@ _DEFAULT_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "diagno
 def _db_path() -> str:
     return os.environ.get("DIAGNOSTICO_DB_PATH", _DEFAULT_PATH)
 
-
 @dataclass(frozen=True)
 class Diagnostico:
     id: int
@@ -23,7 +22,6 @@ class Diagnostico:
     data_auditoria: str
     criado_em: str
     atualizado_em: str
-
 
 @dataclass(frozen=True)
 class Snapshot:
@@ -34,7 +32,6 @@ class Snapshot:
     score_geral: float
     scores_por_categoria: dict[str, float]
     avaliados: int
-
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS diagnostico (
