@@ -8,6 +8,20 @@ from core.state import avaliacoes_do_modulo, diagnostico_ativo, limpar_modulo, p
 from modulos.iso27002.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES, Controle
 
 
+def _filtrar(controles: list[Controle], avaliacoes: dict[str, Avaliacao], busca: str, status_filtros: list[str]) -> list[Controle]:
+    busca_norm = busca.strip().lower()
+    resultado: list[Controle] = []
+    for c in controles:
+        if busca_norm and busca_norm not in c.id.lower() and busca_norm not in c.titulo.lower() and busca_norm not in c.descricao.lower():
+            continue
+        if status_filtros:
+            atual = avaliacoes.get(c.id, Avaliacao()).status or RESPOSTA_NAO_AVALIADO
+            if atual not in status_filtros:
+                continue
+        resultado.append(c)
+    return resultado
+
+
 def _barra_diagnostico() -> None:
     ativo_id = diagnostico_ativo("iso27002")
     diags = listar_diagnosticos("iso27002")
@@ -52,7 +66,7 @@ def render() -> None:
         with col_b2:
             opcoes_status = list(RESPOSTAS_VALIDAS) + [RESPOSTA_NAO_AVALIADO]
             status_filtros = st.multiselect("Filtrar por status atual", opcoes_status, default=[])
-
+            
     with st.sidebar:
         st.markdown("### ISO/IEC 27002:2022")
         if st.button("🏠 Início", use_container_width=True):
