@@ -249,10 +249,10 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
 def _secoes(modulo: str) -> dict[str, str]:
     if modulo == "iso27001":
         from modulos.iso27001.clausulas import SECOES
-        return SECOES
+        return dict(SECOES)
     if modulo == "iso27701":
         from modulos.iso27701.controles import CATEGORIAS
-        return CATEGORIAS
+        return dict(CATEGORIAS)
     return {}
 
 
