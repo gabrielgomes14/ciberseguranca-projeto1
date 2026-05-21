@@ -8,6 +8,10 @@ RESPOSTA_NAO_CONFORME = "Não Conforme"
 RESPOSTA_NA = "N/A"
 RESPOSTA_NAO_AVALIADO = "Não avaliado"
 
+# Thresholds de score (0-100) usados por status_label e por componentes de visualização.
+SCORE_THRESHOLD_PARCIAL = 40.0
+SCORE_THRESHOLD_CONFORME = 80.0
+
 RESPOSTAS_VALIDAS: tuple[str, ...] = (
     RESPOSTA_CONFORME,
     RESPOSTA_PARCIAL,
@@ -73,9 +77,9 @@ def score_geral(avaliacoes: dict[str, Avaliacao], todos_ids: list[str], *, ponde
 
 
 def status_label(score: float) -> str:
-    if score >= 80.0:
+    if score >= SCORE_THRESHOLD_CONFORME:
         return RESPOSTA_CONFORME
-    if score >= 40.0:
+    if score >= SCORE_THRESHOLD_PARCIAL:
         return RESPOSTA_PARCIAL
     return RESPOSTA_NAO_CONFORME
 
