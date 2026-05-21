@@ -34,7 +34,12 @@ def render() -> None:
     _barra_diagnostico()
     avaliacoes = avaliacoes_do_modulo("iso27002")
 
-    ponderado = False
+    ponderado = st.toggle(
+        "Pontuação ponderada por criticidade",
+        value=st.session_state.get("ponderado", True),
+        key="ponderado",
+        help="Quando ativo, controles 'Alta' pesam 3x e 'Baixa' 1x.",
+    )
 
     todos_ids = [c.id for c in TODOS_CONTROLES]
     score_total = score_geral(avaliacoes, todos_ids, ponderado=ponderado)
