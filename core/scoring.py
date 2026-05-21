@@ -50,6 +50,11 @@ def score_controle(status: str) -> float:
     return _STATUS_PARA_SCORE.get(status, 0.0)
 
 
+def clamp_score(score: float) -> float:
+    """Garante que o score fique no intervalo [0, 100]."""
+    return max(0.0, min(100.0, score))
+
+
 def _avaliacoes_pontuaveis(
     avaliacoes: dict[str, Avaliacao],
     ids: list[str],

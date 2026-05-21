@@ -8,6 +8,7 @@ from core.scoring import (
     SCORE_THRESHOLD_CONFORME,
     SCORE_THRESHOLD_PARCIAL,
     STATUS_COLORS,
+    clamp_score,
     status_label,
 )
 
@@ -23,14 +24,9 @@ def _hex_to_rgba(hex_color: str, alpha: float) -> str:
     return f"rgba({r},{g},{b},{alpha})"
 
 
-def _clamp_score(score: float) -> float:
-    """Garante que o score fique no intervalo [0, 100]."""
-    return max(0.0, min(100.0, score))
-
-
 def render_gauge(score: float, label: str, *, key: str | None = None) -> None:
     """Renderiza um gauge 0–100 colorido conforme `status_label(score)`."""
-    score_safe = _clamp_score(score)
+    score_safe = clamp_score(score)
     cor = STATUS_COLORS[status_label(score_safe)]
     fig = go.Figure(
         go.Indicator(
