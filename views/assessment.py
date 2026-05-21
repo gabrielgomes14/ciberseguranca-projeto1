@@ -22,6 +22,13 @@ def _filtrar(controles: list[Controle], avaliacoes: dict[str, Avaliacao], busca:
     return resultado
 
 
+def _aplicar_em_massa(avaliacoes: dict[str, Avaliacao], ids: list[str], status: str) -> None:
+    for cid in ids:
+        atual = avaliacoes.get(cid, Avaliacao())
+        atual.status = status
+        avaliacoes[cid] = atual
+
+
 def _barra_diagnostico() -> None:
     ativo_id = diagnostico_ativo("iso27002")
     diags = listar_diagnosticos("iso27002")
@@ -66,7 +73,44 @@ def render() -> None:
         with col_b2:
             opcoes_status = list(RESPOSTAS_VALIDAS) + [RESPOSTA_NAO_AVALIADO]
             status_filtros = st.multiselect("Filtrar por status atual", opcoes_status, default=[])
-            
+
+    st.divider()
+
+    abas = st.tabs([TEMA_LABELS[t] for t in TEMAS])
+    for aba, (tema_id, controles) in zip(abas, TEMAS.items(), strict=True):
+        with aba:
+            controles_filtrados = _filtrar(controles, avaliacoes, busca, status_filtros)
+            st.caption(f"{len(controles_filtrados)} de {len(controles)} controles · {TEMA_LABELS[tema_id]}")
+
+            with st.popover("⚡ Marcar em massa neste tema"):
+                ids_filtrados = [c.id for c in controles_filtrados]
+                st.write(f"Aplicar status a **{len(ids_filtrados)}** controles visíveis.")
+                col_m1, col_m2 = st.columns([3, 1])
+                with col_m1:
+                    status_massa = st.selectbox(
+                        "Status",
+                        options=RESPOSTAS_VALIDAS,
+                        key=f"massa_status_{tema_id}",
+                        label_visibility="collapsed",
+                    )
+                with col_m2:
+                    if st.button("Aplicar", key=f"massa_btn_{tema_id}", use_container_width=True, disabled=not ids_filtrados):
+                        _aplicar_em_massa(avaliacoes, ids_filtrados, status_massa)
+                        st.rerun()
+
+            if not controles_filtrados:
+                st.info("Nenhum controle corresponde aos filtros.")
+                continue
+
+            for controle in controles_filtrados:
+                atual = avaliacoes.get(controle.id, Avaliacao())
+                nova = render_control_card(controle, atual)
+                if nova != atual:
+                    if not nova.status and not nova.observacao and not nova.responsavel and not nova.prazo and not nova.evidencias:
+                        avaliacoes.pop(controle.id, None)
+                    else:
+                        avaliacoes[controle.id] = nova
+
     with st.sidebar:
         st.markdown("### ISO/IEC 27002:2022")
         if st.button("🏠 Início", use_container_width=True):
