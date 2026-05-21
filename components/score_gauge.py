@@ -16,10 +16,15 @@ _LAYOUT_TRANSPARENT_BG = "rgba(0,0,0,0)"
 
 
 def _hex_to_rgba(hex_color: str, alpha: float) -> str:
-    """Converte uma cor #RRGGBB em rgba(r,g,b,a). Lança ValueError para formatos inesperados."""
+    """Converte uma cor hex em rgba(r,g,b,a).
+
+    Aceita `#RRGGBB` e `#RRGGBBAA`. Quando o hex tem 8 dígitos, o canal alpha
+    embutido é descartado em favor do parâmetro `alpha`, para manter consistência
+    com os call sites existentes.
+    """
     h = hex_color.lstrip("#")
-    if len(h) != 6:
-        raise ValueError(f"Esperado #RRGGBB, recebido: {hex_color!r}")
+    if len(h) not in (6, 8):
+        raise ValueError(f"Esperado #RRGGBB ou #RRGGBBAA, recebido: {hex_color!r}")
     r, g, b = int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16)
     return f"rgba({r},{g},{b},{alpha})"
 
