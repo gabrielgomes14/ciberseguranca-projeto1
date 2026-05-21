@@ -1,3 +1,5 @@
+import html
+
 import streamlit as st
 
 from core.models import (
@@ -11,12 +13,14 @@ from core.types import ItemDiagnostico
 
 def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
     status_atual = avaliacao.status
-    cor = STATUS_COLORS.get(status_atual or RESPOSTA_NAO_AVALIADO, STATUS_COLORS[RESPOSTA_NAO_AVALIADO])
+    cor = STATUS_COLORS.get(status_atual or RESPOSTA_NAO_AVALIADO) or STATUS_COLORS[RESPOSTA_NAO_AVALIADO]
+
     with st.container(border=True):
+        titulo_safe = html.escape(f"{item.id} — {item.titulo}")
         st.markdown(
             f"<div style='display:flex;align-items:center;gap:0.6rem;'>"
             f"<span style='display:inline-block;width:10px;height:10px;border-radius:50%;background:{cor};'></span>"
-            f"<strong style='color:#0f172a;'>{item.id} — {item.titulo}</strong>"
+            f"<strong style='color:#0f172a;'>{titulo_safe}</strong>"
             f"</div>",
             unsafe_allow_html=True,
         )
@@ -64,6 +68,7 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
                     value="; ".join(avaliacao.evidencias),
                     key=f"evid_{item.modulo}_{item.id}",
                 )
+
             nova_observacao = st.text_area(
                 "Observação",
                 value=avaliacao.observacao,
@@ -74,6 +79,7 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
             nova_remediacao = avaliacao.remediacao
             if novo_status == RESPOSTA_NAO_CONFORME:
                 st.markdown("**🔧 Remediação em andamento** *(obrigatório para Não Conforme)*")
+                
                 nova_remediacao = st.text_area(
                     "Descreva as ações em andamento",
                     value=avaliacao.remediacao,
@@ -84,12 +90,13 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
                 )
 
     evidencias = [e.strip() for e in evid_input.split(";") if e.strip()]
+    
     return Avaliacao(
         status=novo_status,
         observacao=nova_observacao,
         criticidade=nova_criticidade,
         responsavel=novo_responsavel,
         prazo=novo_prazo,
-        remediacao=nova_remediacao if novo_status == RESPOSTA_NAO_CONFORME else "",
+        remediacao=nova_remediacao,
         evidencias=evidencias,
     )
