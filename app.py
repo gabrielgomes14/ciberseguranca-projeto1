@@ -1,9 +1,9 @@
 import streamlit as st
-
-from core.state import inicializar_estado
 from modulos.iso27001 import doa as iso27001_doa
 from modulos.iso27001 import views as iso27001_views
 from modulos.iso27701 import views as iso27701_views
+
+from core.state import inicializar_estado
 from views import action_plan, assessment, dashboard, diagnosticos, history, home
 
 st.set_page_config(

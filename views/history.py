@@ -1,10 +1,10 @@
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-
-from core.db import Snapshot, excluir_snapshot, listar_diagnosticos, listar_snapshots
 from core.pdf_report import gerar_pdf_comparativo
 from modulos.iso27002.controls import TEMA_LABELS, TEMAS
+
+from core.db import Snapshot, excluir_snapshot, listar_diagnosticos, listar_snapshots
 
 MODULO_OPCOES = {
     "iso27001": "ISO/IEC 27001:2022",
