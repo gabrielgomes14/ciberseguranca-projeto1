@@ -79,7 +79,7 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
             nova_remediacao = avaliacao.remediacao
             if novo_status == RESPOSTA_NAO_CONFORME:
                 st.markdown("**🔧 Remediação em andamento** *(obrigatório para Não Conforme)*")
-                
+
                 nova_remediacao = st.text_area(
                     "Descreva as ações em andamento",
                     value=avaliacao.remediacao,
@@ -90,7 +90,7 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
                 )
 
     evidencias = [e.strip() for e in evid_input.split(";") if e.strip()]
-    
+
     return Avaliacao(
         status=novo_status,
         observacao=nova_observacao,
