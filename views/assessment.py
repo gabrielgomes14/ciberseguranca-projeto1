@@ -1,5 +1,73 @@
 import streamlit as st
 
+from components.control_card import render_control_card
+from core.db import listar_diagnosticos
+from core.models import Avaliacao
+from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTAS_VALIDAS
+from core.state import avaliacoes_do_modulo, diagnostico_ativo, limpar_modulo, persistir
+from modulos.iso27002.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES, Controle
+
+
+def _barra_diagnostico() -> None:
+    ativo_id = diagnostico_ativo("iso27002")
+    diags = listar_diagnosticos("iso27002")
+    diag_atual = next((d for d in diags if d.id == ativo_id), None)
+    col_d1, col_d2, col_d3 = st.columns([3, 1, 1])
+    with col_d1:
+        if diag_atual:
+            st.info(f"Diagnóstico ativo: **{diag_atual.organizacao}** · ID #{ativo_id} · 📅 {diag_atual.data_auditoria}")
+        else:
+            st.warning("Nenhum diagnóstico ativo. Suas respostas não serão salvas. Selecione/crie um diagnóstico.")
+    with col_d2:
+        if st.button("💾 Salvar", use_container_width=True, disabled=ativo_id is None):
+            if persistir("iso27002"):
+                st.toast("Diagnóstico salvo no banco.", icon="💾")
+    with col_d3:
+        if st.button("📁 Diagnósticos", use_container_width=True):
+            st.session_state.modulo_alvo = "iso27002"
+            st.session_state.page = "diagnosticos"
+            st.rerun()
+
 
 def render() -> None:
-    st.info("ISO/IEC 27002 — Assessment (em construção)")
+    st.title("📋 ISO/IEC 27002 — Avaliação dos Controles")
+    _barra_diagnostico()
+
+    avaliacoes = avaliacoes_do_modulo("iso27002")
+    respondidos = sum(1 for c in TODOS_CONTROLES if avaliacoes.get(c.id, Avaliacao()).status)
+    total = len(TODOS_CONTROLES)
+
+    col_a, col_b = st.columns([3, 1])
+    with col_a:
+        st.progress(respondidos / total, text=f"Progresso: {respondidos}/{total} controles avaliados")
+    with col_b:
+        if st.button("Ver Resultado", type="primary", disabled=respondidos == 0, use_container_width=True):
+            st.session_state.page = "iso27002_dashboard"
+            st.rerun()
+
+    with st.expander("🔎 Buscar e filtrar"):
+        col_b1, col_b2 = st.columns([2, 3])
+        with col_b1:
+            busca = st.text_input("Busca por ID, título ou descrição", value=st.session_state.get("busca", ""), key="busca")
+        with col_b2:
+            opcoes_status = list(RESPOSTAS_VALIDAS) + [RESPOSTA_NAO_AVALIADO]
+            status_filtros = st.multiselect("Filtrar por status atual", opcoes_status, default=[])
+
+    with st.sidebar:
+        st.markdown("### ISO/IEC 27002:2022")
+        if st.button("🏠 Início", use_container_width=True):
+            st.session_state.page = "home"
+            st.rerun()
+        if st.button("📊 Resultado", use_container_width=True, disabled=respondidos == 0):
+            st.session_state.page = "iso27002_dashboard"
+            st.rerun()
+        if st.button("📌 Plano de ação", use_container_width=True, disabled=respondidos == 0):
+            st.session_state.page = "iso27002_action_plan"
+            st.rerun()
+        if st.button("📈 Histórico", use_container_width=True):
+            st.session_state.page = "history"
+            st.rerun()
+        st.divider()
+        if st.button("Limpar avaliações", use_container_width=True):
+            limpar_modulo("iso27002")
+            st.rerun()
