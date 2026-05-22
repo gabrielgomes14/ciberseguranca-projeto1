@@ -16,12 +16,22 @@ CATEGORIAS: dict[str, str] = {
 }
 
 
+def _lgpd_sufixo(lgpd: list[str] | None) -> str:
+    """Formata a lista de artigos LGPD como sufixo legível para a descrição.
+
+    Retorna string vazia quando não há mapeamento. Centraliza o formato
+    ` · LGPD <art1>, <art2>` em um único lugar.
+    """
+    if not lgpd:
+        return ""
+    return f" · LGPD {', '.join(lgpd)}"
+
+
 def _c(cid: str, titulo: str, descricao: str, lgpd: list[str] | None = None) -> ItemDiagnostico:
     """Cria um `ItemDiagnostico` derivando a categoria do `cid` e anexando o sufixo LGPD à descrição."""
     partes = cid.split(".")
     cat = ".".join(partes[:2]) if cid.startswith("A.3") else ".".join(partes[:3])
-    sufixo = f" · LGPD {', '.join(lgpd)}" if lgpd else ""
-    desc = descricao + sufixo
+    desc = descricao + _lgpd_sufixo(lgpd)
     return ItemDiagnostico(id=cid, titulo=titulo, descricao=desc, categoria_id=cat, modulo=MODULO_ID)
 
 
