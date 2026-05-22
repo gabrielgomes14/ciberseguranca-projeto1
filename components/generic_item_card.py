@@ -10,6 +10,7 @@ from core.models import (
 from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTA_NAO_CONFORME, RESPOSTAS_SELECIONAVEIS, STATUS_COLORS
 from core.types import ItemDiagnostico
 
+
 def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
     status_atual = avaliacao.status
     cor = STATUS_COLORS.get(status_atual or RESPOSTA_NAO_AVALIADO, STATUS_COLORS[RESPOSTA_NAO_AVALIADO])
