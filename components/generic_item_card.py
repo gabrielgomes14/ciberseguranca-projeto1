@@ -64,7 +64,7 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
                 "Observação",
                 value=avaliacao.observacao,
                 key=f"obs_{item.modulo}_{item.id}",
-                height=68,
+                height=80,
             )
 
             nova_remediacao = avaliacao.remediacao

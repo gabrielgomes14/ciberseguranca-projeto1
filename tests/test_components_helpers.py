@@ -41,3 +41,11 @@ def test_render_header_card_passa_unsafe_allow_html() -> None:
         _render_header_card("X", "T", "#000")
         kwargs = st_mock.markdown.call_args[1]
         assert kwargs.get("unsafe_allow_html") is True
+
+
+def test_render_header_card_usa_constante_de_cor_de_texto() -> None:
+    """A cor do texto do cabeçalho vem de `_COR_INK`, não de literal duplicado."""
+    from components._helpers import _COR_INK
+
+    html_str = _capturar_markdown("X", "T", "#000")
+    assert _COR_INK in html_str
