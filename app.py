@@ -1,6 +1,4 @@
 import streamlit as st
-from modulos.iso27001 import doa as iso27001_doa
-from modulos.iso27001 import views as iso27001_views
 
 from core.state import inicializar_estado
 from modulos.iso27701 import views as iso27701_views
@@ -26,9 +24,6 @@ inicializar_estado()
 ROTAS = {
     "home": home.render,
     "diagnosticos": diagnosticos.render,
-    "iso27001_assessment": iso27001_views.render_assessment,
-    "iso27001_dashboard": iso27001_views.render_dashboard,
-    "iso27001_doa": iso27001_doa.render_doa,
     "iso27002_assessment": assessment.render,
     "iso27002_dashboard": dashboard.render,
     "iso27002_action_plan": action_plan.render,
