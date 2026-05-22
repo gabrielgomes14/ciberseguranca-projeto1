@@ -1,5 +1,3 @@
-from typing import cast
-
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
@@ -250,7 +248,7 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
 def _secoes(modulo: str) -> dict[str, str]:
     if modulo == "iso27701":
         from modulos.iso27701.controles import CATEGORIAS
-        return cast(dict[str, str], CATEGORIAS)
+        return {str(k): str(v) for k, v in CATEGORIAS.items()}
     return {}
 
 
