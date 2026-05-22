@@ -5,24 +5,17 @@ from core.types import ModuloInfo
 
 MODULOS: list[ModuloInfo] = [
     ModuloInfo(
-        id="iso27001",
-        nome="ISO/IEC 27001:2022",
-        norma="SGSI — Requisitos",
-        descricao="Cláusulas 4 a 10 do Sistema de Gestão da Segurança da Informação. Use a 27002 para avaliar a aplicabilidade dos controles do Anexo A.",
-        icone="🏛️",
-    ),
-    ModuloInfo(
         id="iso27002",
         nome="ISO/IEC 27002:2022",
-        norma="Controles de Segurança",
-        descricao="93 controles distribuídos em 4 temas (organizacionais, pessoas, físicos, tecnológicos). Suporta o diagnóstico do Anexo A da 27001.",
+        norma="Controles de Segurança da Informação",
+        descricao="93 controles distribuídos em 4 temas (organizacionais, pessoas, físicos, tecnológicos).",
         icone="🛡️",
     ),
     ModuloInfo(
         id="iso27701",
-        nome="ISO/IEC 27701:2019",
-        norma="Privacidade — Extensão do SGSI",
-        descricao="Controles adicionais para gestão de informações de privacidade (SGPI) — Anexo A (Controladores) e Anexo B (Operadores) com mapeamento à LGPD.",
+        nome="ISO/IEC 27701:2026",
+        norma="SGPI — Sistema de Gestão de Privacidade da Informação",
+        descricao="Anexo A da norma ABNT NBR ISO/IEC 27701:2026 — controles para controladores (A.1), operadores (A.2) e segurança da informação aplicada a DP (A.3). Vinculado à LGPD.",
         icone="🔒",
     ),
 ]
@@ -36,9 +29,10 @@ def _abrir_modulo(modulo_id: str) -> None:
 
 
 def render() -> None:
-    st.title("🛡️ Diagnóstico de Conformidade — Família ISO/IEC 27000")
+    st.title("🛡️ Diagnóstico de Conformidade — ISO/IEC 27002 e 27701")
     st.markdown(
-        "Ferramenta para diagnóstico de conformidade com as normas **27001**, **27002** e **27701**. "
+        "Ferramenta para diagnóstico de conformidade com as normas **27002** (segurança da informação) "
+        "e **27701** (privacidade da informação, com mapeamento à LGPD). "
         "Dados persistidos em SQLite local — você pode manter múltiplos diagnósticos comparáveis no tempo."
     )
     st.divider()
@@ -55,7 +49,7 @@ def render() -> None:
                 st.success(f"{len(diags)} diagnóstico(s) salvo(s)")
             else:
                 st.info("Nenhum diagnóstico ainda")
-            disponivel = modulo.id in {"iso27001", "iso27002", "iso27701"}
+            disponivel = modulo.id in {"iso27002", "iso27701"}
             if st.button(
                 "Abrir módulo" if disponivel else "Em breve",
                 key=f"abrir_{modulo.id}",

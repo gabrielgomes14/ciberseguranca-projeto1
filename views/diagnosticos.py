@@ -15,9 +15,8 @@ from core.state import (
 )
 
 _MODULOS = {
-    "iso27001": ("ISO/IEC 27001:2022", "iso27001_assessment"),
     "iso27002": ("ISO/IEC 27002:2022", "iso27002_assessment"),
-    "iso27701": ("ISO/IEC 27701:2019", "iso27701_assessment"),
+    "iso27701": ("ISO/IEC 27701:2026", "iso27701_assessment"),
 }
 
 
