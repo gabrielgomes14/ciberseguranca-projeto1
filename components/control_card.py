@@ -1,5 +1,6 @@
 import streamlit as st
 
+from components._helpers import _render_header_card
 from core.models import (
     CRITICIDADE_MEDIA,
     CRITICIDADES,
@@ -34,13 +35,7 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
     status_atual = avaliacao.status
     cor = STATUS_COLORS.get(status_atual or RESPOSTA_NAO_AVALIADO, STATUS_COLORS[RESPOSTA_NAO_AVALIADO])
     with st.container(border=True):
-        st.markdown(
-            f"<div style='display:flex;align-items:center;gap:0.6rem;'>"
-            f"<span style='display:inline-block;width:10px;height:10px;border-radius:50%;background:{cor};'></span>"
-            f"<strong style='color:#0f172a;'>{controle.id} — {controle.titulo}</strong>"
-            f"</div>",
-            unsafe_allow_html=True,
-        )
+        _render_header_card(controle.id, controle.titulo, cor)
         st.caption(controle.descricao)
 
         opcoes = ("",) + RESPOSTAS_VALIDAS

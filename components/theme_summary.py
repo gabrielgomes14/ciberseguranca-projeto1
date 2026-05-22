@@ -2,6 +2,7 @@ import html
 
 import streamlit as st
 
+from components._helpers import _COR_INK
 from core.scoring import STATUS_COLORS, clamp_score, status_label
 
 
@@ -23,7 +24,7 @@ def render_theme_summary(tema: str, score: float, n_conf: int, n_total: int) -> 
     with st.container(border=True):
         st.markdown(
             f"<div style='display:flex;justify-content:space-between;align-items:center;'>"
-            f"<strong style='color:#0f172a;'>{tema_safe}</strong>"
+            f"<strong style='color:{_COR_INK};'>{tema_safe}</strong>"
             f"<span style='background:{cor};color:#fff;padding:2px 10px;border-radius:999px;font-size:0.8rem;'>"
             f"{score_safe:.1f}%</span>"
             f"</div>",
