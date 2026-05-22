@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-from core.export import gerar_csv, montar_linhas
 from core.pdf_report import gerar_pdf
 
 from components.score_gauge import render_bar_temas, render_gauge, render_radar
@@ -8,6 +7,7 @@ from components.status_metrics import render_status_metrics
 from components.theme_summary import render_theme_summary
 from core.action_plan import gerar_plano
 from core.db import listar_diagnosticos, salvar_snapshot
+from core.export import gerar_csv, montar_linhas
 from core.scoring import resumo_tema, score_geral, status_label
 from core.state import avaliacoes_do_modulo, diagnostico_ativo, persistir
 from modulos.iso27002.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES
