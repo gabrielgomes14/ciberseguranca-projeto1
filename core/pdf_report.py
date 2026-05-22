@@ -342,3 +342,153 @@ def gerar_pdf_27701(
         ponderado=ponderado,
         data_auditoria=data_auditoria,
     )
+
+
+def gerar_pdf_comparativo(
+    norma: str,
+    titulo_categoria: str,
+    categorias_label: dict[str, str],
+    snap_a: object,
+    snap_b: object,
+    organizacao: str = "Organização",
+) -> bytes:
+    """Gera PDF comparativo entre dois snapshots persistidos (A vs B).
+
+    Os parâmetros `snap_a` e `snap_b` são tipados como `object` para evitar
+    acoplar este módulo a `core.db.Snapshot`. Espera-se que tenham os atributos:
+    `score_geral` (float), `scores_por_categoria` (dict[str, float]),
+    `rotulo` (str), `criado_em` (str) e `avaliados` (int).
+    """
+    score_a = float(getattr(snap_a, "score_geral", 0.0))
+    score_b = float(getattr(snap_b, "score_geral", 0.0))
+    rotulo_a = str(getattr(snap_a, "rotulo", ""))
+    rotulo_b = str(getattr(snap_b, "rotulo", ""))
+    quando_a = str(getattr(snap_a, "criado_em", ""))
+    quando_b = str(getattr(snap_b, "criado_em", ""))
+    scores_a: dict[str, float] = dict(getattr(snap_a, "scores_por_categoria", {}) or {})
+    scores_b: dict[str, float] = dict(getattr(snap_b, "scores_por_categoria", {}) or {})
+    avaliados_a = int(getattr(snap_a, "avaliados", 0))
+    avaliados_b = int(getattr(snap_b, "avaliados", 0))
+    delta_geral = score_b - score_a
+
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(
+        buffer,
+        pagesize=A4,
+        leftMargin=1.8 * cm,
+        rightMargin=1.8 * cm,
+        topMargin=1.6 * cm,
+        bottomMargin=1.6 * cm,
+        title=f"Relatório Comparativo {norma}",
+        author="Diagnóstico de Conformidade",
+    )
+    s = _styles()
+    flow: list[object] = []
+
+    flow.append(Paragraph(f"Relatório Comparativo — {norma}", s["titulo"]))
+    flow.append(
+        Paragraph(
+            f"{organizacao} · A: <b>{rotulo_a}</b> ({quando_a}) → "
+            f"B: <b>{rotulo_b}</b> ({quando_b}) · "
+            f"Gerado em {datetime.now().strftime('%d/%m/%Y %H:%M')}",
+            s["subtitulo"],
+        )
+    )
+
+    # Variação geral
+    flow.append(Paragraph("Variação Geral", s["h2"]))
+    seta = "↑" if delta_geral > 0 else ("↓" if delta_geral < 0 else "→")
+    if delta_geral > 0:
+        cor_delta = colors.HexColor("#16a34a")
+    elif delta_geral < 0:
+        cor_delta = colors.HexColor("#dc2626")
+    else:
+        cor_delta = colors.HexColor("#475569")
+    cabecalho = Table(
+        [
+            [
+                Paragraph(f"<b>A: {score_a:.1f}%</b>", s["body"]),
+                Paragraph(f"<b>B: {score_b:.1f}%</b>", s["body"]),
+                Paragraph(
+                    f'<font color="{cor_delta.hexval()}"><b>{seta} Δ {delta_geral:+.1f} pp</b></font>',
+                    s["body"],
+                ),
+                Paragraph(f"Avaliados A: {avaliados_a}", s["cell_muted"]),
+                Paragraph(f"Avaliados B: {avaliados_b}", s["cell_muted"]),
+            ]
+        ],
+        colWidths=[3.5 * cm, 3.5 * cm, 4.5 * cm, 3.0 * cm, 3.0 * cm],
+    )
+    cabecalho.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
+    flow.append(cabecalho)
+
+    # Variação por categoria
+    flow.append(Paragraph(f"Variação por {titulo_categoria}", s["h2"]))
+    cats = sorted(set(scores_a) | set(scores_b))
+    linhas_cmp: list[list[object]] = [[titulo_categoria, "A (%)", "B (%)", "Δ (pp)", "Tendência"]]
+    melhorou = piorou = estavel = 0
+    for cat in cats:
+        va = scores_a.get(cat, 0.0)
+        vb = scores_b.get(cat, 0.0)
+        delta = vb - va
+        if delta > 0.5:
+            tend = "Melhorou"
+            melhorou += 1
+            cor = colors.HexColor("#16a34a")
+        elif delta < -0.5:
+            tend = "Piorou"
+            piorou += 1
+            cor = colors.HexColor("#dc2626")
+        else:
+            tend = "Estável"
+            estavel += 1
+            cor = colors.HexColor("#475569")
+        linhas_cmp.append(
+            [
+                Paragraph(categorias_label.get(cat, cat), s["cell"]),
+                Paragraph(f"{va:.1f}", s["cell"]),
+                Paragraph(f"{vb:.1f}", s["cell"]),
+                Paragraph(f'<font color="{cor.hexval()}"><b>{delta:+.1f}</b></font>', s["cell"]),
+                Paragraph(f'<font color="{cor.hexval()}"><b>{tend}</b></font>', s["cell"]),
+            ]
+        )
+    tabela_cmp = Table(linhas_cmp, colWidths=[7.0 * cm, 2.2 * cm, 2.2 * cm, 2.4 * cm, 3.2 * cm])
+    tabela_cmp.setStyle(_tabela_estilo())
+    flow.append(tabela_cmp)
+
+    # Síntese
+    flow.append(Spacer(1, 0.4 * cm))
+    flow.append(Paragraph("Síntese", s["h2"]))
+    flow.append(
+        Paragraph(
+            f"📈 <b>{melhorou}</b> categoria(s) melhoraram · ➡️ <b>{estavel}</b> estáveis · 📉 <b>{piorou}</b> pioraram.",
+            s["body"],
+        )
+    )
+    if delta_geral > 0:
+        flow.append(
+            Paragraph(
+                f"O score geral subiu <b>{delta_geral:+.1f} pp</b>, indicando evolução da postura de conformidade.",
+                s["body"],
+            )
+        )
+    elif delta_geral < 0:
+        flow.append(
+            Paragraph(
+                f"O score geral caiu <b>{delta_geral:.1f} pp</b>. Recomenda-se investigar as categorias com maior regressão.",
+                s["body"],
+            )
+        )
+    else:
+        flow.append(Paragraph("O score geral permaneceu estável entre as auditorias.", s["body"]))
+
+    flow.append(Spacer(1, 0.5 * cm))
+    flow.append(
+        Paragraph(
+            "Documento gerado automaticamente a partir dos snapshots persistidos em SQLite.",
+            s["cell_muted"],
+        )
+    )
+
+    doc.build(flow)
+    return buffer.getvalue()

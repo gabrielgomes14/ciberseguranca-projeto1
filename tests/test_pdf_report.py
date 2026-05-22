@@ -1,6 +1,8 @@
+from dataclasses import dataclass
+
 from core.action_plan import AcaoPlano
 from core.models import Avaliacao
-from core.pdf_report import gerar_pdf, gerar_pdf_27001, gerar_pdf_27701
+from core.pdf_report import gerar_pdf, gerar_pdf_27001, gerar_pdf_27701, gerar_pdf_comparativo
 from core.scoring import RESPOSTA_CONFORME, RESPOSTA_NAO_CONFORME
 from core.types import ItemDiagnostico
 from modulos.iso27002.controls import TODOS_CONTROLES
@@ -135,4 +137,66 @@ def test_gerar_pdf_27701_com_avaliacoes() -> None:
 def test_gerar_pdf_27701_sem_plano_de_acao() -> None:
     """27701 não inclui seção de plano de ação no PDF (acoes=None na base)."""
     pdf = gerar_pdf_27701([], {}, {}, {})
+    assert pdf.startswith(b"%PDF-")
+
+
+# --- gerar_pdf_comparativo --------------------------------------------------
+
+
+@dataclass(frozen=True)
+class _SnapshotFake:
+    """Stub mínimo com a 'forma' que `gerar_pdf_comparativo` espera (duck typing)."""
+
+    score_geral: float
+    scores_por_categoria: dict[str, float]
+    rotulo: str
+    criado_em: str
+    avaliados: int
+
+
+def test_gerar_pdf_comparativo_melhoria() -> None:
+    snap_a = _SnapshotFake(
+        score_geral=60.0,
+        scores_por_categoria={"org": 60.0, "tech": 50.0},
+        rotulo="2026-04",
+        criado_em="2026-04-01",
+        avaliados=80,
+    )
+    snap_b = _SnapshotFake(
+        score_geral=75.0,
+        scores_por_categoria={"org": 70.0, "tech": 80.0},
+        rotulo="2026-05",
+        criado_em="2026-05-01",
+        avaliados=85,
+    )
+    pdf = gerar_pdf_comparativo(
+        norma="ISO/IEC 27002:2022",
+        titulo_categoria="Tema",
+        categorias_label={"org": "Organizacionais", "tech": "Tecnológicos"},
+        snap_a=snap_a,
+        snap_b=snap_b,
+    )
+    assert pdf.startswith(b"%PDF-")
+    assert len(pdf) > 1000
+
+
+def test_gerar_pdf_comparativo_regressao() -> None:
+    snap_a = _SnapshotFake(80.0, {"org": 90.0}, "v1", "2026-01-01", 100)
+    snap_b = _SnapshotFake(70.0, {"org": 70.0}, "v2", "2026-02-01", 100)
+    pdf = gerar_pdf_comparativo("ISO/IEC 27001:2022", "Seção", {"org": "Org"}, snap_a, snap_b)
+    assert pdf.startswith(b"%PDF-")
+
+
+def test_gerar_pdf_comparativo_estavel() -> None:
+    snap_a = _SnapshotFake(50.0, {"x": 50.0}, "a", "2026-01-01", 10)
+    snap_b = _SnapshotFake(50.0, {"x": 50.0}, "b", "2026-02-01", 10)
+    pdf = gerar_pdf_comparativo("Norma", "Cat", {"x": "X"}, snap_a, snap_b)
+    assert pdf.startswith(b"%PDF-")
+
+
+def test_gerar_pdf_comparativo_categoria_apenas_em_um_snapshot() -> None:
+    """Categoria em A mas não em B (e vice-versa) cai no default 0.0."""
+    snap_a = _SnapshotFake(40.0, {"org": 40.0}, "a", "2026-01-01", 5)
+    snap_b = _SnapshotFake(60.0, {"tech": 60.0}, "b", "2026-02-01", 5)
+    pdf = gerar_pdf_comparativo("Norma", "Cat", {"org": "Org", "tech": "Tech"}, snap_a, snap_b)
     assert pdf.startswith(b"%PDF-")
