@@ -1,9 +1,11 @@
+from typing import cast
+
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
+from core.pdf_report import gerar_pdf_comparativo
 
 from core.db import Snapshot, excluir_snapshot, listar_diagnosticos, listar_snapshots
-from core.pdf_report import gerar_pdf_comparativo
 from modulos.iso27002.controls import TEMA_LABELS, TEMAS
 
 MODULO_OPCOES = {
@@ -244,10 +246,11 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
     )
 
 
+
 def _secoes(modulo: str) -> dict[str, str]:
     if modulo == "iso27701":
         from modulos.iso27701.controles import CATEGORIAS
-        return CATEGORIAS  # type: ignore[no-any-return]
+        return cast(dict[str, str], CATEGORIAS)
     return {}
 
 
