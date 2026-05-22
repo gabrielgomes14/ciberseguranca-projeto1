@@ -17,10 +17,12 @@ def db_path() -> Iterator[str]:
     os.close(fd)
     os.remove(path)
     os.environ["DIAGNOSTICO_DB_PATH"] = path
+    os.environ["DIAGNOSTICO_SEED_DEMO"] = "0"
     yield path
     if os.path.exists(path):
         os.remove(path)
     os.environ.pop("DIAGNOSTICO_DB_PATH", None)
+    os.environ.pop("DIAGNOSTICO_SEED_DEMO", None)
 
 
 def _inserir_parcial_legado(diag_id: int, item_id: str, criticidade: str = "Média") -> None:
