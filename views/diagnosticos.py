@@ -54,7 +54,7 @@ def render() -> None:
             st.write("")
             st.write("")
             criar_disabled = not nova_org.strip()
-            if st.button("Criar", type="primary", use_container_width=True, disabled=criar_disabled):
+            if st.button("Criar", type="primary", width="stretch", disabled=criar_disabled):
                 novo_id = criar_diagnostico(modulo_id, nova_org.strip(), nova_data.isoformat())
                 definir_diagnostico_ativo(modulo_id, novo_id)
                 st.session_state.page = rota_abrir
@@ -89,14 +89,14 @@ def render() -> None:
                         st.rerun()
                     st.caption(f"📅 Auditoria: {nova.strftime('%d/%m/%Y') if nova else '—'}")
                 with col3:
-                    if st.button("Abrir", key=f"abrir_{d.id}", use_container_width=True):
+                    if st.button("Abrir", key=f"abrir_{d.id}", width="stretch"):
                         if ativo and ativo != d.id:
                             persistir(modulo_id)
                         definir_diagnostico_ativo(modulo_id, d.id)
                         st.session_state.page = rota_abrir
                         st.rerun()
                 with col4:
-                    if st.button("🗑️", key=f"del_{d.id}", use_container_width=True, help="Excluir"):
+                    if st.button("🗑️", key=f"del_{d.id}", width="stretch", help="Excluir"):
                         excluir_diagnostico(d.id)
                         if ativo == d.id:
                             st.session_state.diagnostico_ativo.pop(modulo_id, None)

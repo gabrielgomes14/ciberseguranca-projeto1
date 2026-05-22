@@ -30,14 +30,14 @@ def _barra_diagnostico() -> None:
     with col_d2:
         if st.button(
             "💾 Salvar",
-            use_container_width=True,
+            width="stretch",
             disabled=ativo_id is None,
             key="27701_salvar",
         ):
             if persistir(MODULO_ID):
                 st.toast("Salvo.", icon="💾")
     with col_d3:
-        if st.button("📁 Diagnósticos", use_container_width=True, key="27701_lista"):
+        if st.button("📁 Diagnósticos", width="stretch", key="27701_lista"):
             st.session_state.modulo_alvo = MODULO_ID
             st.session_state.page = "diagnosticos"
             st.rerun()
@@ -47,21 +47,21 @@ def _render_sidebar(respondidos: int) -> None:
     """Sidebar de navegação do módulo. `respondidos` desabilita 'Resultado' quando 0."""
     with st.sidebar:
         st.markdown(f"### {MODULO_NOME}")
-        if st.button("🏠 Início", use_container_width=True, key="27701_nav_home"):
+        if st.button("🏠 Início", width="stretch", key="27701_nav_home"):
             st.session_state.page = "home"
             st.rerun()
-        if st.button("📋 Avaliar", use_container_width=True, key="27701_nav_assess"):
+        if st.button("📋 Avaliar", width="stretch", key="27701_nav_assess"):
             st.session_state.page = "iso27701_assessment"
             st.rerun()
         if st.button(
             "📊 Resultado",
-            use_container_width=True,
+            width="stretch",
             disabled=respondidos == 0,
             key="27701_nav_dash",
         ):
             st.session_state.page = "iso27701_dashboard"
             st.rerun()
-        if st.button("📈 Histórico", use_container_width=True, key="27701_nav_hist"):
+        if st.button("📈 Histórico", width="stretch", key="27701_nav_hist"):
             st.session_state.page = "history"
             st.rerun()
 
@@ -84,7 +84,7 @@ def render_assessment() -> None:
             "Ver Resultado",
             type="primary",
             disabled=respondidos == 0,
-            use_container_width=True,
+            width="stretch",
             key="27701_ver",
         ):
             st.session_state.page = "iso27701_dashboard"
@@ -110,7 +110,7 @@ def render_assessment() -> None:
                     if st.button(
                         "Aplicar",
                         key=f"27701_massa_btn_{cat_id}",
-                        use_container_width=True,
+                        width="stretch",
                     ):
                         for c in controles:
                             a = avaliacoes.get(c.id, Avaliacao())
@@ -192,7 +192,7 @@ def render_dashboard() -> None:
                 "Prazo": a.prazo,
             }
         )
-    st.dataframe(pd.DataFrame(linhas), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(linhas), width="stretch", hide_index=True)
 
     st.divider()
     st.subheader("📥 Exportar")
@@ -214,7 +214,7 @@ def render_dashboard() -> None:
         ),
         file_name="relatorio_iso27701.pdf",
         mime="application/pdf",
-        use_container_width=True,
+        width="stretch",
     )
 
     st.divider()
@@ -227,7 +227,7 @@ def render_dashboard() -> None:
         st.write("")
         if st.button(
             "📈 Salvar snapshot",
-            use_container_width=True,
+            width="stretch",
             disabled=diag_id is None,
             key="27701_snap",
         ):

@@ -29,27 +29,29 @@ def render() -> None:
 
     st.divider()
 
-    df = pd.DataFrame([
-        {
-            "Controle": a.controle_id,
-            "Tema": a.tema,
-            "Título": a.titulo,
-            "Status": a.status,
-            "Criticidade": a.criticidade,
-            "Prioridade": a.prioridade,
-            "Responsável": a.responsavel,
-            "Prazo": a.prazo,
-            "Observação": a.observacao,
-        }
-        for a in acoes
-    ])
+    df = pd.DataFrame(
+        [
+            {
+                "Controle": a.controle_id,
+                "Tema": a.tema,
+                "Título": a.titulo,
+                "Status": a.status,
+                "Criticidade": a.criticidade,
+                "Prioridade": a.prioridade,
+                "Responsável": a.responsavel,
+                "Prazo": a.prazo,
+                "Observação": a.observacao,
+            }
+            for a in acoes
+        ]
+    )
 
     prioridades = st.multiselect("Filtrar por prioridade", sorted(df["Prioridade"].unique()), default=list(df["Prioridade"].unique()))
     df_filt = df[df["Prioridade"].isin(prioridades)]
 
     st.dataframe(
         df_filt,
-        use_container_width=True,
+        width="stretch",
         hide_index=True,
         column_config={
             "Observação": st.column_config.TextColumn(width="large"),
@@ -67,21 +69,21 @@ def render() -> None:
             data=plano_para_csv(acoes),
             file_name="plano_de_acao_iso27002.csv",
             mime="text/csv",
-            use_container_width=True,
+            width="stretch",
         )
     with col_e2:
-        if st.button("← Voltar ao resultado", use_container_width=True):
+        if st.button("← Voltar ao resultado", width="stretch"):
             st.session_state.page = "iso27002_dashboard"
             st.rerun()
 
     with st.sidebar:
         st.markdown("### ISO/IEC 27002:2022")
-        if st.button("🏠 Início", use_container_width=True, key="ap_home"):
+        if st.button("🏠 Início", width="stretch", key="ap_home"):
             st.session_state.page = "home"
             st.rerun()
-        if st.button("📋 Avaliação", use_container_width=True, key="ap_assess"):
+        if st.button("📋 Avaliação", width="stretch", key="ap_assess"):
             st.session_state.page = "iso27002_assessment"
             st.rerun()
-        if st.button("📊 Resultado", use_container_width=True, key="ap_dash"):
+        if st.button("📊 Resultado", width="stretch", key="ap_dash"):
             st.session_state.page = "iso27002_dashboard"
             st.rerun()
