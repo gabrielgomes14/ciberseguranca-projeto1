@@ -1,11 +1,11 @@
 import json
 import os
 import sqlite3
-from collections.abc import Iterator
+from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Protocol, Sequence
+from typing import Protocol
 
 from core.models import Avaliacao, avaliacao_de_dict, avaliacao_para_dict
 
