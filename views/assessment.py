@@ -40,11 +40,11 @@ def _barra_diagnostico() -> None:
         else:
             st.warning("Nenhum diagnóstico ativo. Suas respostas não serão salvas. Selecione/crie um diagnóstico.")
     with col_d2:
-        if st.button("💾 Salvar", use_container_width=True, disabled=ativo_id is None):
+        if st.button("💾 Salvar", width="stretch", disabled=ativo_id is None):
             if persistir("iso27002"):
                 st.toast("Diagnóstico salvo no banco.", icon="💾")
     with col_d3:
-        if st.button("📁 Diagnósticos", use_container_width=True):
+        if st.button("📁 Diagnósticos", width="stretch"):
             st.session_state.modulo_alvo = "iso27002"
             st.session_state.page = "diagnosticos"
             st.rerun()
@@ -62,7 +62,7 @@ def render() -> None:
     with col_a:
         st.progress(respondidos / total, text=f"Progresso: {respondidos}/{total} controles avaliados")
     with col_b:
-        if st.button("Ver Resultado", type="primary", disabled=respondidos == 0, use_container_width=True):
+        if st.button("Ver Resultado", type="primary", disabled=respondidos == 0, width="stretch"):
             st.session_state.page = "iso27002_dashboard"
             st.rerun()
 
@@ -94,7 +94,7 @@ def render() -> None:
                         label_visibility="collapsed",
                     )
                 with col_m2:
-                    if st.button("Aplicar", key=f"massa_btn_{tema_id}", use_container_width=True, disabled=not ids_filtrados):
+                    if st.button("Aplicar", key=f"massa_btn_{tema_id}", width="stretch", disabled=not ids_filtrados):
                         _aplicar_em_massa(avaliacoes, ids_filtrados, status_massa)
                         st.rerun()
 
@@ -113,19 +113,19 @@ def render() -> None:
 
     with st.sidebar:
         st.markdown("### ISO/IEC 27002:2022")
-        if st.button("🏠 Início", use_container_width=True):
+        if st.button("🏠 Início", width="stretch"):
             st.session_state.page = "home"
             st.rerun()
-        if st.button("📊 Resultado", use_container_width=True, disabled=respondidos == 0):
+        if st.button("📊 Resultado", width="stretch", disabled=respondidos == 0):
             st.session_state.page = "iso27002_dashboard"
             st.rerun()
-        if st.button("📌 Plano de ação", use_container_width=True, disabled=respondidos == 0):
+        if st.button("📌 Plano de ação", width="stretch", disabled=respondidos == 0):
             st.session_state.page = "iso27002_action_plan"
             st.rerun()
-        if st.button("📈 Histórico", use_container_width=True):
+        if st.button("📈 Histórico", width="stretch"):
             st.session_state.page = "history"
             st.rerun()
         st.divider()
-        if st.button("Limpar avaliações", use_container_width=True):
+        if st.button("Limpar avaliações", width="stretch"):
             limpar_modulo("iso27002")
             st.rerun()

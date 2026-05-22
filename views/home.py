@@ -53,7 +53,7 @@ def render() -> None:
             if st.button(
                 "Abrir módulo" if disponivel else "Em breve",
                 key=f"abrir_{modulo.id}",
-                use_container_width=True,
+                width="stretch",
                 type="primary" if disponivel else "secondary",
                 disabled=not disponivel,
             ):
@@ -62,7 +62,7 @@ def render() -> None:
     st.divider()
     col_h1, col_h2 = st.columns(2)
     with col_h1:
-        if st.button("📈 Ver histórico", use_container_width=True):
+        if st.button("📈 Ver histórico", width="stretch"):
             st.session_state.page = "history"
             st.rerun()
     with col_h2:

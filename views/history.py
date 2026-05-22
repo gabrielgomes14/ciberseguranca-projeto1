@@ -17,23 +17,27 @@ def _render_grafico(snapshots: list[Snapshot], categorias_label: dict[str, str])
         return
     rotulos = [s.rotulo for s in snapshots]
     fig = go.Figure()
-    fig.add_trace(go.Scatter(
-        x=rotulos,
-        y=[s.score_geral for s in snapshots],
-        mode="lines+markers",
-        name="Geral",
-        line={"color": "#1d4ed8", "width": 3},
-    ))
+    fig.add_trace(
+        go.Scatter(
+            x=rotulos,
+            y=[s.score_geral for s in snapshots],
+            mode="lines+markers",
+            name="Geral",
+            line={"color": "#1d4ed8", "width": 3},
+        )
+    )
     categorias_presentes = sorted({k for s in snapshots for k in s.scores_por_categoria})
     for cat in categorias_presentes:
         valores = [s.scores_por_categoria.get(cat, 0.0) for s in snapshots]
-        fig.add_trace(go.Scatter(
-            x=rotulos,
-            y=valores,
-            mode="lines+markers",
-            name=categorias_label.get(cat, cat),
-            opacity=0.6,
-        ))
+        fig.add_trace(
+            go.Scatter(
+                x=rotulos,
+                y=valores,
+                mode="lines+markers",
+                name=categorias_label.get(cat, cat),
+                opacity=0.6,
+            )
+        )
     fig.update_layout(
         yaxis={"range": [0, 100], "title": "Score"},
         height=420,
@@ -42,7 +46,7 @@ def _render_grafico(snapshots: list[Snapshot], categorias_label: dict[str, str])
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
 
 def render() -> None:
@@ -97,7 +101,7 @@ def render() -> None:
             for cat, label in _secoes(modulo).items():
                 base[f"{cat} {label}"] = round(s.scores_por_categoria.get(cat, 0.0), 1)
         linhas.append(base)
-    st.dataframe(pd.DataFrame(linhas), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(linhas), width="stretch", hide_index=True)
 
     if len(snapshots) >= 2:
         st.divider()
@@ -107,16 +111,20 @@ def render() -> None:
     col_l, col_v = st.columns([3, 1])
     with col_l:
         opcoes_remover = [f"#{s.id} — {s.rotulo} ({s.criado_em})" for s in snapshots]
-        idx = st.selectbox("Selecionar snapshot para remover", options=[None] + list(range(len(opcoes_remover))), format_func=lambda i: "—" if i is None else opcoes_remover[i])
+        idx = st.selectbox(
+            "Selecionar snapshot para remover",
+            options=[None] + list(range(len(opcoes_remover))),
+            format_func=lambda i: "—" if i is None else opcoes_remover[i],
+        )
     with col_v:
-        if st.button("Remover", use_container_width=True, disabled=idx is None):
+        if st.button("Remover", width="stretch", disabled=idx is None):
             if idx is not None:
                 excluir_snapshot(snapshots[idx].id)
                 st.rerun()
 
     with st.sidebar:
         st.markdown("### Navegação")
-        if st.button("🏠 Início", use_container_width=True, key="hist_home"):
+        if st.button("🏠 Início", width="stretch", key="hist_home"):
             st.session_state.page = "home"
             st.rerun()
 
@@ -187,7 +195,7 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
     )
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width="stretch")
 
     linhas_delta: list[dict[str, object]] = []
     for cat in categorias_presentes:
@@ -200,16 +208,18 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
             tendencia = "📉 piorou"
         else:
             tendencia = "➡️ estável"
-        linhas_delta.append({
-            "Categoria": categorias_label.get(cat, cat),
-            f"A — {snap_a.rotulo}": round(va, 1),
-            f"B — {snap_b.rotulo}": round(vb, 1),
-            "Δ (pp)": round(delta, 1),
-            "Tendência": tendencia,
-        })
+        linhas_delta.append(
+            {
+                "Categoria": categorias_label.get(cat, cat),
+                f"A — {snap_a.rotulo}": round(va, 1),
+                f"B — {snap_b.rotulo}": round(vb, 1),
+                "Δ (pp)": round(delta, 1),
+                "Tendência": tendencia,
+            }
+        )
 
     df_delta = pd.DataFrame(linhas_delta).sort_values("Δ (pp)", ascending=False)
-    st.dataframe(df_delta, use_container_width=True, hide_index=True)
+    st.dataframe(df_delta, width="stretch", hide_index=True)
 
     melhorou = sum(1 for linha in linhas_delta if isinstance(linha["Δ (pp)"], (int, float)) and float(linha["Δ (pp)"]) > 0.5)
     piorou = sum(1 for linha in linhas_delta if isinstance(linha["Δ (pp)"], (int, float)) and float(linha["Δ (pp)"]) < -0.5)
@@ -222,10 +232,7 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
     dias = _dias_entre(snap_a.criado_em, snap_b.criado_em)
     if dias is not None and dias != 0:
         delta_dia = delta_geral / max(abs(dias), 1)
-        st.caption(
-            f"⏱️ Intervalo entre snapshots: {dias} dia(s). "
-            f"Variação média: {delta_dia:+.2f} pp/dia."
-        )
+        st.caption(f"⏱️ Intervalo entre snapshots: {dias} dia(s). Variação média: {delta_dia:+.2f} pp/dia.")
 
     norma_nome, titulo_cat = _NORMA_LABELS.get(modulo, (modulo, "Categoria"))
     st.download_button(
@@ -240,20 +247,21 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
         ),
         file_name=f"relatorio_comparativo_{modulo}.pdf",
         mime="application/pdf",
-        use_container_width=True,
+        width="stretch",
     )
-
 
 
 def _secoes(modulo: str) -> dict[str, str]:
     if modulo == "iso27701":
         from modulos.iso27701.controles import CATEGORIAS
+
         return {str(k): str(v) for k, v in CATEGORIAS.items()}
     return {}
 
 
 def _dias_entre(iso_a: str, iso_b: str) -> int | None:
     from datetime import datetime
+
     try:
         da = datetime.fromisoformat(iso_a)
         db = datetime.fromisoformat(iso_b)

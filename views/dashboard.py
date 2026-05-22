@@ -24,7 +24,7 @@ def _barra_diagnostico() -> None:
         else:
             st.warning("Nenhum diagnóstico ativo. Selecione/crie um para persistir.")
     with col_d2:
-        if st.button("💾 Salvar", use_container_width=True, disabled=ativo_id is None, key="dash_salvar"):
+        if st.button("💾 Salvar", width="stretch", disabled=ativo_id is None, key="dash_salvar"):
             if persistir("iso27002"):
                 st.toast("Salvo.", icon="💾")
 
@@ -44,8 +44,7 @@ def render() -> None:
     todos_ids = [c.id for c in TODOS_CONTROLES]
     score_total = score_geral(avaliacoes, todos_ids, ponderado=ponderado)
     resumos = {
-        tema_id: resumo_tema(avaliacoes, tema_id, [c.id for c in controles], ponderado=ponderado)
-        for tema_id, controles in TEMAS.items()
+        tema_id: resumo_tema(avaliacoes, tema_id, [c.id for c in controles], ponderado=ponderado) for tema_id, controles in TEMAS.items()
     }
 
     col1, col2 = st.columns([1, 2])
@@ -79,22 +78,24 @@ def render() -> None:
     st.divider()
     st.subheader("Detalhamento por controle")
     linhas = montar_linhas(TODOS_CONTROLES, avaliacoes)
-    df = pd.DataFrame([
-        {
-            "Controle": linha.controle_id,
-            "Tema": linha.tema,
-            "Título": linha.titulo,
-            "Status": linha.status,
-            "Criticidade": linha.criticidade,
-            "Responsável": linha.responsavel,
-            "Prazo": linha.prazo,
-        }
-        for linha in linhas
-    ])
+    df = pd.DataFrame(
+        [
+            {
+                "Controle": linha.controle_id,
+                "Tema": linha.tema,
+                "Título": linha.titulo,
+                "Status": linha.status,
+                "Criticidade": linha.criticidade,
+                "Responsável": linha.responsavel,
+                "Prazo": linha.prazo,
+            }
+            for linha in linhas
+        ]
+    )
     temas_filtro = st.multiselect("Filtrar por tema", sorted(df["Tema"].unique()), default=list(df["Tema"].unique()))
     status_filtro = st.multiselect("Filtrar por status", sorted(df["Status"].unique()), default=list(df["Status"].unique()))
     df_filtrado = df[df["Tema"].isin(temas_filtro) & df["Status"].isin(status_filtro)]
-    st.dataframe(df_filtrado, use_container_width=True, hide_index=True)
+    st.dataframe(df_filtrado, width="stretch", hide_index=True)
 
     st.divider()
     st.subheader("📥 Exportar")
@@ -112,7 +113,7 @@ def render() -> None:
             data=gerar_csv(TODOS_CONTROLES, avaliacoes),
             file_name="relatorio_iso27002.csv",
             mime="text/csv",
-            use_container_width=True,
+            width="stretch",
         )
     with col_d2:
         st.download_button(
@@ -120,7 +121,7 @@ def render() -> None:
             data=gerar_pdf(TODOS_CONTROLES, avaliacoes, acoes, organizacao=organizacao, ponderado=ponderado, data_auditoria=data_aud),
             file_name="relatorio_iso27002.pdf",
             mime="application/pdf",
-            use_container_width=True,
+            width="stretch",
         )
 
     st.divider()
@@ -131,7 +132,7 @@ def render() -> None:
         st.write("")
         st.write("")
         diag_id = diagnostico_ativo("iso27002")
-        if st.button("📈 Salvar snapshot", use_container_width=True, disabled=diag_id is None):
+        if st.button("📈 Salvar snapshot", width="stretch", disabled=diag_id is None):
             if diag_id is not None:
                 persistir("iso27002")
                 avaliados_n = sum(1 for c in TODOS_CONTROLES if avaliacoes.get(c.id))
@@ -146,15 +147,15 @@ def render() -> None:
 
     with st.sidebar:
         st.markdown("### ISO/IEC 27002:2022")
-        if st.button("🏠 Início", use_container_width=True, key="nav_home"):
+        if st.button("🏠 Início", width="stretch", key="nav_home"):
             st.session_state.page = "home"
             st.rerun()
-        if st.button("← Avaliação", use_container_width=True, key="nav_assess"):
+        if st.button("← Avaliação", width="stretch", key="nav_assess"):
             st.session_state.page = "iso27002_assessment"
             st.rerun()
-        if st.button("📌 Plano de ação", use_container_width=True, key="nav_action"):
+        if st.button("📌 Plano de ação", width="stretch", key="nav_action"):
             st.session_state.page = "iso27002_action_plan"
             st.rerun()
-        if st.button("📈 Histórico", use_container_width=True, key="nav_hist"):
+        if st.button("📈 Histórico", width="stretch", key="nav_hist"):
             st.session_state.page = "history"
             st.rerun()

@@ -66,7 +66,7 @@ def render_gauge(score: float, label: str, *, key: str | None = None) -> None:
         margin={"t": 30, "b": 10, "l": 20, "r": 20},
         paper_bgcolor=_LAYOUT_TRANSPARENT_BG,
     )
-    st.plotly_chart(fig, use_container_width=True, key=key)
+    st.plotly_chart(fig, width="stretch", key=key)
 
 
 def render_radar(temas: list[str], scores: list[float], *, key: str | None = None) -> None:
@@ -96,7 +96,7 @@ def render_radar(temas: list[str], scores: list[float], *, key: str | None = Non
         margin={"t": 20, "b": 20, "l": 40, "r": 40},
         paper_bgcolor=_LAYOUT_TRANSPARENT_BG,
     )
-    st.plotly_chart(fig, use_container_width=True, key=key)
+    st.plotly_chart(fig, width="stretch", key=key)
 
 
 def render_bar_temas(temas: list[str], scores: list[float], *, key: str | None = None) -> None:
@@ -125,4 +125,4 @@ def render_bar_temas(temas: list[str], scores: list[float], *, key: str | None =
         paper_bgcolor=_LAYOUT_TRANSPARENT_BG,
         plot_bgcolor=_LAYOUT_TRANSPARENT_BG,
     )
-    st.plotly_chart(fig, use_container_width=True, key=key)
+    st.plotly_chart(fig, width="stretch", key=key)
