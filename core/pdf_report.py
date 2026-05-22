@@ -16,6 +16,12 @@ from reportlab.platypus import (
 
 from core.action_plan import AcaoPlano
 from core.models import Avaliacao
+from core.pdf_charts import (
+    chart_barras_categoria,
+    chart_donut_status,
+    chart_prioridades,
+    chart_radar,
+)
 from core.scoring import (
     RESPOSTA_NAO_AVALIADO,
     STATUS_COLORS,
@@ -107,6 +113,10 @@ def _gerar_pdf_base(
     Permite reuso entre 27001 (requisitos por seção), 27002 (controles por tema)
     e 27701 (controles por categoria). O parâmetro `acoes` é opcional: se `None`,
     a seção "Plano de Ação" é omitida (útil para normas que não modelam plano).
+
+    Layout: cabeçalho, sumário executivo, gráficos vetoriais (donut, radar,
+    barras), tabela tabular por categoria, plano de ação opcional (com gráfico
+    de prioridades) e detalhamento completo dos itens.
     """
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -171,6 +181,19 @@ def _gerar_pdf_base(
         for cat_id in categorias
     }
 
+    # Distribuição dos status (donut)
+    flow.append(Paragraph("Distribuição dos Status", s["h2"]))
+    flow.append(chart_donut_status(resumos))
+
+    # Radar de aderência por categoria (apenas se houver ≥ 3 categorias)
+    if len(categorias) >= 3:
+        flow.append(Paragraph(f"Aderência por {titulo_categoria} (Radar)", s["h2"]))
+        flow.append(chart_radar(categorias, resumos))
+
+    # Barras de score por categoria
+    flow.append(Paragraph(f"Score por {titulo_categoria}", s["h2"]))
+    flow.append(chart_barras_categoria(categorias, resumos))
+
     # Resultado tabular por categoria
     flow.append(Paragraph(f"Resultado Tabular por {titulo_categoria}", s["h2"]))
     linhas_cat: list[list[object]] = [[titulo_categoria, "Score", "Status", "Conformes", "Parciais", "Não Conf.", "N/A"]]
@@ -198,6 +221,12 @@ def _gerar_pdf_base(
         if not acoes:
             flow.append(Paragraph("Nenhuma ação pendente.", s["body"]))
         else:
+            qtds: dict[str, int] = {}
+            for ac in acoes:
+                qtds[ac.prioridade] = qtds.get(ac.prioridade, 0) + 1
+            flow.append(Paragraph("Distribuição por Prioridade", s["body"]))
+            flow.append(chart_prioridades(qtds))
+            flow.append(Spacer(1, 0.3 * cm))
             flow.append(Paragraph("Ações Prioritárias", s["body"]))
             linhas_acoes: list[list[object]] = [[label_item, "Título", "Prioridade", "Remediação em andamento", "Prazo"]]
             for a in acoes[:40]:
