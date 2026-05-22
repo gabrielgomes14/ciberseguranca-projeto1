@@ -3,36 +3,33 @@ from dataclasses import dataclass
 from core.models import PESOS, REMEDIACAO_SIM, Avaliacao
 
 RESPOSTA_CONFORME = "Conforme"
-RESPOSTA_PARCIAL = "Parcial"
 RESPOSTA_NAO_CONFORME = "Não Conforme"
 RESPOSTA_NA = "N/A"
 RESPOSTA_NAO_AVALIADO = "Não avaliado"
 RESPOSTA_EM_ADEQUACAO = "Em Adequação"
 
+# Status legado, presente apenas em DBs anteriores à migração que substitui
+# "Parcial" por (Não Conforme + remediacao=Sim). Não exposto na UI nem em
+# `RESPOSTAS_VALIDAS`; usado apenas para tolerância de leitura até `_migrar` rodar.
+_STATUS_LEGADO_PARCIAL = "Parcial"
+
 # Thresholds de score (0-100) usados por status_label e por componentes de visualização.
 SCORE_THRESHOLD_EM_ADEQUACAO = 40.0
-SCORE_THRESHOLD_PARCIAL = SCORE_THRESHOLD_EM_ADEQUACAO  # Alias retrocompatível durante a transição.
 SCORE_THRESHOLD_CONFORME = 80.0
 
 RESPOSTAS_VALIDAS: tuple[str, ...] = (
     RESPOSTA_CONFORME,
-    RESPOSTA_PARCIAL,
     RESPOSTA_NAO_CONFORME,
     RESPOSTA_NA,
 )
 
-RESPOSTAS_SELECIONAVEIS: tuple[str, ...] = (
-    RESPOSTA_CONFORME,
-    RESPOSTA_NAO_CONFORME,
-    RESPOSTA_NA,
-)
+RESPOSTAS_SELECIONAVEIS: tuple[str, ...] = RESPOSTAS_VALIDAS
 
-# Status que entram no cálculo de score (excluídos: N/A, vazio, Em Adequação como rótulo derivado).
-_STATUS_PONTUAVEIS: frozenset[str] = frozenset({RESPOSTA_CONFORME, RESPOSTA_PARCIAL, RESPOSTA_NAO_CONFORME})
+# Status que entram no cálculo de score (excluídos: N/A, vazio).
+_STATUS_PONTUAVEIS: frozenset[str] = frozenset({RESPOSTA_CONFORME, RESPOSTA_NAO_CONFORME, _STATUS_LEGADO_PARCIAL})
 
 STATUS_COLORS: dict[str, str] = {
     RESPOSTA_CONFORME: "#16a34a",
-    RESPOSTA_PARCIAL: "#d97706",
     RESPOSTA_EM_ADEQUACAO: "#d97706",
     RESPOSTA_NAO_CONFORME: "#dc2626",
     RESPOSTA_NA: "#6b7280",
@@ -57,16 +54,16 @@ def score_controle(avaliacao: Avaliacao) -> float:
 
     Regras:
     - Conforme → 100.
-    - Não Conforme + remediação "Sim" → 50 (substitui o antigo "Parcial").
+    - Não Conforme + remediação "Sim" → 50.
     - Não Conforme sem remediação ou negativa → 0.
+    - Status legado "Parcial" → 50 (compatibilidade até a migração do DB rodar).
     - Outros (N/A, vazio) → 0 (não devem ser passados; chamadores filtram via `_STATUS_PONTUAVEIS`).
-    - "Parcial" legado: tratado como 50 para compatibilidade até a migração do DB rodar.
     """
     if avaliacao.status == RESPOSTA_CONFORME:
         return 100.0
     if avaliacao.status == RESPOSTA_NAO_CONFORME:
         return 50.0 if avaliacao.remediacao == REMEDIACAO_SIM else 0.0
-    if avaliacao.status == RESPOSTA_PARCIAL:
+    if avaliacao.status == _STATUS_LEGADO_PARCIAL:
         return 50.0
     return 0.0
 
@@ -112,7 +109,7 @@ def _eh_em_adequacao(av: Avaliacao) -> bool:
     Casos: status legado "Parcial" (até a migração rodar), ou "Não Conforme" com
     remediação em andamento.
     """
-    if av.status == RESPOSTA_PARCIAL:
+    if av.status == _STATUS_LEGADO_PARCIAL:
         return True
     return av.status == RESPOSTA_NAO_CONFORME and av.remediacao == REMEDIACAO_SIM
 

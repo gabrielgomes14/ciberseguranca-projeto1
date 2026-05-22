@@ -12,7 +12,6 @@ from core.scoring import (
     RESPOSTA_NA,
     RESPOSTA_NAO_AVALIADO,
     RESPOSTA_NAO_CONFORME,
-    RESPOSTA_PARCIAL,
     resumo_tema,
     score_controle,
     score_geral,
@@ -20,6 +19,9 @@ from core.scoring import (
     status_individual,
     status_label,
 )
+
+# Status legado mantido por tolerância de leitura até a migração rodar.
+_PARCIAL_LEGADO = "Parcial"
 
 
 def _av(status: str, criticidade: str = CRITICIDADE_MEDIA, remediacao: str = "") -> Avaliacao:
@@ -42,7 +44,7 @@ def test_score_controle_nao_conforme_sem_remediacao_eh_zero() -> None:
 
 def test_score_controle_parcial_legado_eh_50_durante_transicao() -> None:
     """Status 'Parcial' ainda em DBs migrados: pontuado como 50 até a migração do DB rodar."""
-    assert score_controle(_av(RESPOSTA_PARCIAL)) == 50.0
+    assert score_controle(_av(_PARCIAL_LEGADO)) == 50.0
 
 
 def test_score_tema_na_excluido_do_denominador() -> None:
@@ -88,7 +90,7 @@ def test_resumo_tema_contagens() -> None:
     avaliacoes = {
         "a": _av(RESPOSTA_CONFORME),
         "b": _av(RESPOSTA_CONFORME),
-        "c": _av(RESPOSTA_PARCIAL),
+        "c": _av(_PARCIAL_LEGADO),
         "d": _av(RESPOSTA_NAO_CONFORME),
         "e": _av(RESPOSTA_NA),
     }
