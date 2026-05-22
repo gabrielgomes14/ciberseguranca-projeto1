@@ -8,10 +8,10 @@ from reportlab.lib.units import cm
 
 from core.scoring import (
     RESPOSTA_CONFORME,
+    RESPOSTA_EM_ADEQUACAO,
     RESPOSTA_NA,
     RESPOSTA_NAO_AVALIADO,
     RESPOSTA_NAO_CONFORME,
-    RESPOSTA_PARCIAL,
     STATUS_COLORS,
     ResultadoTema,
     status_label,
@@ -28,22 +28,22 @@ def chart_donut_status(
     largura_cm: float = 16.0,
     altura_cm: float = 5.5,
 ) -> Drawing:
-    """Gera um pie/donut com a distribuição de status (Conforme/Parcial/Não Conforme/N/A/Não avaliado).
+    """Gera um pie/donut com a distribuição de status (Conforme/Em Adequação/Não Conforme/N/A/Não avaliado).
 
     Agrega contagens vindas de `ResultadoTema` por categoria e desenha apenas as
     fatias com `qtd > 0`. Se não houver dados, retorna um Drawing com a mensagem
     "Sem dados".
     """
     total_conf = sum(r.conformes for r in resumos.values())
-    total_parc = sum(r.parciais for r in resumos.values())
+    total_em_adequacao = sum(r.em_adequacao for r in resumos.values())
     total_nc = sum(r.nao_conformes for r in resumos.values())
     total_na = sum(r.na for r in resumos.values())
     total_itens = sum(r.total for r in resumos.values())
-    nao_aval = total_itens - (total_conf + total_parc + total_nc + total_na)
+    nao_aval = total_itens - (total_conf + total_em_adequacao + total_nc + total_na)
 
     pares = [
         (RESPOSTA_CONFORME, total_conf),
-        (RESPOSTA_PARCIAL, total_parc),
+        (RESPOSTA_EM_ADEQUACAO, total_em_adequacao),
         (RESPOSTA_NAO_CONFORME, total_nc),
         (RESPOSTA_NA, total_na),
         (RESPOSTA_NAO_AVALIADO, nao_aval),

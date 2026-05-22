@@ -94,7 +94,7 @@ def test_resumo_tema_contagens() -> None:
     }
     r = resumo_tema(avaliacoes, "org", ["a", "b", "c", "d", "e", "f"])
     assert r.conformes == 2
-    assert r.parciais == 1
+    assert r.em_adequacao == 1
     assert r.nao_conformes == 1
     assert r.na == 1
     assert r.avaliados == 4

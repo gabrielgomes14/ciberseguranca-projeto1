@@ -3,10 +3,10 @@ import streamlit as st
 
 from core.scoring import (
     RESPOSTA_CONFORME,
+    RESPOSTA_EM_ADEQUACAO,
     RESPOSTA_NAO_CONFORME,
-    RESPOSTA_PARCIAL,
     SCORE_THRESHOLD_CONFORME,
-    SCORE_THRESHOLD_PARCIAL,
+    SCORE_THRESHOLD_EM_ADEQUACAO,
     STATUS_COLORS,
     clamp_score,
     status_label,
@@ -46,12 +46,12 @@ def render_gauge(score: float, label: str, *, key: str | None = None) -> None:
                 "borderwidth": 0,
                 "steps": [
                     {
-                        "range": [0, SCORE_THRESHOLD_PARCIAL],
+                        "range": [0, SCORE_THRESHOLD_EM_ADEQUACAO],
                         "color": _hex_to_rgba(STATUS_COLORS[RESPOSTA_NAO_CONFORME], 0.15),
                     },
                     {
-                        "range": [SCORE_THRESHOLD_PARCIAL, SCORE_THRESHOLD_CONFORME],
-                        "color": _hex_to_rgba(STATUS_COLORS[RESPOSTA_PARCIAL], 0.15),
+                        "range": [SCORE_THRESHOLD_EM_ADEQUACAO, SCORE_THRESHOLD_CONFORME],
+                        "color": _hex_to_rgba(STATUS_COLORS[RESPOSTA_EM_ADEQUACAO], 0.15),
                     },
                     {
                         "range": [SCORE_THRESHOLD_CONFORME, 100],

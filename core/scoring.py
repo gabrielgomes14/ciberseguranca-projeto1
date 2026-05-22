@@ -47,7 +47,7 @@ class ResultadoTema:
     total: int
     avaliados: int
     conformes: int
-    parciais: int
+    em_adequacao: int
     nao_conformes: int
     na: int
 
@@ -106,6 +106,17 @@ def status_label(score: float) -> str:
     return RESPOSTA_NAO_CONFORME
 
 
+def _eh_em_adequacao(av: Avaliacao) -> bool:
+    """Predicado: avaliação está "Em Adequação".
+
+    Casos: status legado "Parcial" (até a migração rodar), ou "Não Conforme" com
+    remediação em andamento.
+    """
+    if av.status == RESPOSTA_PARCIAL:
+        return True
+    return av.status == RESPOSTA_NAO_CONFORME and av.remediacao == REMEDIACAO_SIM
+
+
 def resumo_tema(
     avaliacoes: dict[str, Avaliacao],
     tema_id: str,
@@ -114,17 +125,23 @@ def resumo_tema(
     ponderado: bool = True,
 ) -> ResultadoTema:
     conformes = sum(1 for c in ids if avaliacoes.get(c, Avaliacao()).status == RESPOSTA_CONFORME)
-    parciais = sum(1 for c in ids if avaliacoes.get(c, Avaliacao()).status == RESPOSTA_PARCIAL)
-    nao_conformes = sum(1 for c in ids if avaliacoes.get(c, Avaliacao()).status == RESPOSTA_NAO_CONFORME)
+    em_adequacao = sum(1 for c in ids if _eh_em_adequacao(avaliacoes.get(c, Avaliacao())))
+    nao_conformes_total = sum(1 for c in ids if avaliacoes.get(c, Avaliacao()).status == RESPOSTA_NAO_CONFORME)
+    # Os "Em Adequação" derivados de Não Conforme não devem ser contados duas vezes.
+    nao_conformes = nao_conformes_total - sum(
+        1
+        for c in ids
+        if avaliacoes.get(c, Avaliacao()).status == RESPOSTA_NAO_CONFORME and avaliacoes.get(c, Avaliacao()).remediacao == REMEDIACAO_SIM
+    )
     na = sum(1 for c in ids if avaliacoes.get(c, Avaliacao()).status == RESPOSTA_NA)
-    avaliados = conformes + parciais + nao_conformes
+    avaliados = conformes + em_adequacao + nao_conformes
     return ResultadoTema(
         tema_id=tema_id,
         score=score_tema(avaliacoes, ids, ponderado=ponderado),
         total=len(ids),
         avaliados=avaliados,
         conformes=conformes,
-        parciais=parciais,
+        em_adequacao=em_adequacao,
         nao_conformes=nao_conformes,
         na=na,
     )

@@ -196,7 +196,7 @@ def _gerar_pdf_base(
 
     # Resultado tabular por categoria
     flow.append(Paragraph(f"Resultado Tabular por {titulo_categoria}", s["h2"]))
-    linhas_cat: list[list[object]] = [[titulo_categoria, "Score", "Status", "Conformes", "Parciais", "Não Conf.", "N/A"]]
+    linhas_cat: list[list[object]] = [[titulo_categoria, "Score", "Status", "Conformes", "Em Adequação", "Não Conf.", "N/A"]]
     for cat_id, cat_label in categorias.items():
         r = resumos[cat_id]
         linhas_cat.append(
@@ -205,7 +205,7 @@ def _gerar_pdf_base(
                 Paragraph(f"{r.score:.1f}%", s["cell"]),
                 _badge_status(status_label(r.score), s),
                 Paragraph(str(r.conformes), s["cell"]),
-                Paragraph(str(r.parciais), s["cell"]),
+                Paragraph(str(r.em_adequacao), s["cell"]),
                 Paragraph(str(r.nao_conformes), s["cell"]),
                 Paragraph(str(r.na), s["cell"]),
             ]
