@@ -1,6 +1,6 @@
 from reportlab.graphics.shapes import Drawing
 
-from core.pdf_charts import chart_donut_status, chart_radar
+from core.pdf_charts import chart_barras_categoria, chart_donut_status, chart_radar
 from core.scoring import ResultadoTema
 
 
@@ -115,3 +115,45 @@ def test_chart_radar_dimensoes_customizadas() -> None:
     d = chart_radar(categorias, resumos, largura_cm=14.0, altura_cm=12.0)
     assert isinstance(d, Drawing)
     assert len(d.contents) == 1
+
+
+# --- chart_barras_categoria -------------------------------------------------
+
+
+def test_chart_barras_categoria_caminho_feliz() -> None:
+    categorias = {"a": "A", "b": "B", "c": "C"}
+    resumos = {
+        "a": _resumo("a", total=10, conformes=9, score=90.0),
+        "b": _resumo("b", total=10, parciais=5, score=50.0),
+        "c": _resumo("c", total=10, nao_conformes=8, score=10.0),
+    }
+    d = chart_barras_categoria(categorias, resumos)
+    assert isinstance(d, Drawing)
+    assert len(d.contents) == 1
+
+
+def test_chart_barras_categoria_uma_categoria() -> None:
+    categorias = {"a": "Apenas uma"}
+    resumos = {"a": _resumo("a", total=1, conformes=1, score=100.0)}
+    d = chart_barras_categoria(categorias, resumos)
+    # Diferente do radar, barras horizontais funcionam com 1 categoria.
+    assert isinstance(d, Drawing)
+    assert len(d.contents) == 1
+
+
+def test_chart_barras_categoria_altura_calculada_automaticamente() -> None:
+    """Sem altura_cm, ela é derivada do número de categorias."""
+    categorias = {f"k{i}": f"Cat {i}" for i in range(8)}
+    resumos = {k: _resumo(k, total=1, score=50.0) for k in categorias}
+    d = chart_barras_categoria(categorias, resumos)
+    # Altura esperada: max(4.0, 0.7 * 8 + 1.5) = 7.1 cm.
+    altura_esperada_pts = 7.1 * 28.3464567  # 1 cm ≈ 28.35 pt
+    assert abs(d.height - altura_esperada_pts) < 1.0
+
+
+def test_chart_barras_categoria_altura_explicita_respeitada() -> None:
+    categorias = {"a": "A", "b": "B"}
+    resumos = {k: _resumo(k, total=1, score=50.0) for k in categorias}
+    d = chart_barras_categoria(categorias, resumos, altura_cm=5.0)
+    altura_esperada_pts = 5.0 * 28.3464567
+    assert abs(d.height - altura_esperada_pts) < 1.0

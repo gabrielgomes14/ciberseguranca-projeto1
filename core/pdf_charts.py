@@ -1,3 +1,4 @@
+from reportlab.graphics.charts.barcharts import HorizontalBarChart
 from reportlab.graphics.charts.legends import Legend
 from reportlab.graphics.charts.piecharts import Pie
 from reportlab.graphics.charts.spider import SpiderChart
@@ -13,6 +14,7 @@ from core.scoring import (
     RESPOSTA_PARCIAL,
     STATUS_COLORS,
     ResultadoTema,
+    status_label,
 )
 
 
@@ -133,4 +135,52 @@ def chart_radar(
     spider.spokeLabels.fontName = "Helvetica"
     spider.spokeLabels.fontSize = 8
     d.add(spider)
+    return d
+
+
+def chart_barras_categoria(
+    categorias: dict[str, str],
+    resumos: dict[str, ResultadoTema],
+    largura_cm: float = 16.0,
+    altura_cm: float | None = None,
+) -> Drawing:
+    """Renderiza barras horizontais com o score por categoria.
+
+    Cada barra é colorida conforme `status_label(score)` (verde/laranja/vermelho).
+    A altura é calculada automaticamente em função do número de categorias se
+    `altura_cm` não for informado.
+    """
+    labels = [categorias[c] for c in categorias]
+    valores = [resumos[c].score for c in categorias]
+    if altura_cm is None:
+        altura_cm = max(4.0, 0.7 * len(labels) + 1.5)
+
+    d = Drawing(largura_cm * cm, altura_cm * cm)
+
+    chart = HorizontalBarChart()
+    chart.x = 110
+    chart.y = 25
+    chart.width = largura_cm * cm - 130
+    chart.height = altura_cm * cm - 40
+    chart.data = [valores]
+    chart.categoryAxis.categoryNames = labels
+    chart.categoryAxis.labels.fontName = "Helvetica"
+    chart.categoryAxis.labels.fontSize = 9
+    chart.categoryAxis.labels.boxAnchor = "e"
+    chart.categoryAxis.labels.dx = -4
+    chart.valueAxis.valueMin = 0
+    chart.valueAxis.valueMax = 100
+    chart.valueAxis.valueStep = 20
+    chart.valueAxis.labels.fontSize = 8
+    chart.valueAxis.gridStrokeColor = _hx("#e2e8f0")
+    chart.valueAxis.visibleGrid = True
+    chart.bars.strokeWidth = 0
+    for i, valor in enumerate(valores):
+        chart.bars[(0, i)].fillColor = _hx(STATUS_COLORS[status_label(valor)])
+    chart.barLabels.fontName = "Helvetica-Bold"
+    chart.barLabels.fontSize = 8
+    chart.barLabels.nudge = 8
+    chart.barLabelFormat = "%.1f%%"
+    chart.barLabels.dx = 0
+    d.add(chart)
     return d
