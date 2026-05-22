@@ -311,3 +311,34 @@ def gerar_pdf_27001(
         ponderado=ponderado,
         data_auditoria=data_auditoria,
     )
+
+
+def gerar_pdf_27701(
+    controles: list[ItemDiagnostico],
+    categorias: dict[str, str],
+    controles_por_categoria: dict[str, list[ItemDiagnostico]],
+    avaliacoes: dict[str, Avaliacao],
+    organizacao: str = "Organização",
+    ponderado: bool = True,
+    data_auditoria: str = "",
+) -> bytes:
+    """Gera o PDF executivo de conformidade ISO/IEC 27701:2019 (SGPI).
+
+    A 27701 organiza os itens em "categorias" (privacidade) e, como a 27001,
+    não inclui plano de ação no relatório. Os parâmetros de catálogo vêm do
+    chamador (definidos em `modulos/iso27701/...`), mantendo este módulo
+    desacoplado do módulo da norma.
+    """
+    return _gerar_pdf_base(
+        norma="ISO/IEC 27701:2019 — SGPI",
+        titulo_categoria="Categoria",
+        label_item="Controle",
+        itens=controles,
+        categorias=categorias,
+        itens_por_categoria=controles_por_categoria,
+        avaliacoes=avaliacoes,
+        acoes=None,
+        organizacao=organizacao,
+        ponderado=ponderado,
+        data_auditoria=data_auditoria,
+    )

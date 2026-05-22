@@ -1,6 +1,6 @@
 from core.action_plan import AcaoPlano
 from core.models import Avaliacao
-from core.pdf_report import gerar_pdf, gerar_pdf_27001
+from core.pdf_report import gerar_pdf, gerar_pdf_27001, gerar_pdf_27701
 from core.scoring import RESPOSTA_CONFORME, RESPOSTA_NAO_CONFORME
 from core.types import ItemDiagnostico
 from modulos.iso27002.controls import TODOS_CONTROLES
@@ -75,4 +75,64 @@ def test_gerar_pdf_27001_sem_plano_de_acao() -> None:
     """27001 não inclui seção de plano de ação no PDF (acoes=None na base)."""
     pdf = gerar_pdf_27001([], {}, {}, {})
     # Sem itens, gera só cabeçalho e tabelas vazias — ainda assim é um PDF válido.
+    assert pdf.startswith(b"%PDF-")
+
+
+# --- gerar_pdf_27701 --------------------------------------------------------
+
+
+def test_gerar_pdf_27701_retorna_bytes_pdf() -> None:
+    controles = [
+        ItemDiagnostico(
+            id="A.7.2.1",
+            titulo="Identificação e documentação de propósito",
+            descricao="d",
+            categoria_id="A.7.2",
+            modulo="iso27701",
+        ),
+        ItemDiagnostico(
+            id="A.7.4.1",
+            titulo="Limitação de coleta",
+            descricao="d",
+            categoria_id="A.7.4",
+            modulo="iso27701",
+        ),
+    ]
+    categorias = {"A.7.2": "Condições para coleta", "A.7.4": "Privacy by design"}
+    por_categoria = {
+        "A.7.2": [controles[0]],
+        "A.7.4": [controles[1]],
+    }
+    pdf = gerar_pdf_27701(controles, categorias, por_categoria, avaliacoes={})
+    assert pdf.startswith(b"%PDF-")
+    assert len(pdf) > 1000
+
+
+def test_gerar_pdf_27701_com_avaliacoes() -> None:
+    controles = [
+        ItemDiagnostico(
+            id="A.7.2.1",
+            titulo="Identificação de propósito",
+            descricao="d",
+            categoria_id="A.7.2",
+            modulo="iso27701",
+        ),
+    ]
+    categorias = {"A.7.2": "Condições para coleta"}
+    por_categoria = {"A.7.2": controles}
+    avaliacoes = {"A.7.2.1": Avaliacao(status=RESPOSTA_CONFORME, responsavel="DPO")}
+    pdf = gerar_pdf_27701(
+        controles,
+        categorias,
+        por_categoria,
+        avaliacoes,
+        organizacao="Acme Ltda.",
+        data_auditoria="2026-05-21",
+    )
+    assert pdf.startswith(b"%PDF-")
+
+
+def test_gerar_pdf_27701_sem_plano_de_acao() -> None:
+    """27701 não inclui seção de plano de ação no PDF (acoes=None na base)."""
+    pdf = gerar_pdf_27701([], {}, {}, {})
     assert pdf.startswith(b"%PDF-")
