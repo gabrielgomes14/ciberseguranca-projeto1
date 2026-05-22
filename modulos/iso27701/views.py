@@ -8,7 +8,7 @@ from components.theme_summary import render_theme_summary
 from core.db import listar_diagnosticos, salvar_snapshot
 from core.models import Avaliacao
 from core.pdf_report import gerar_pdf_27701
-from core.scoring import RESPOSTAS_VALIDAS, resumo_tema, score_geral, status_label
+from core.scoring import RESPOSTAS_SELECIONAVEIS, resumo_tema, score_geral, status_label
 from core.state import avaliacoes_do_modulo, diagnostico_ativo, persistir
 from modulos.iso27701.controles import CATEGORIAS, CONTROLES, CONTROLES_POR_CATEGORIA
 
@@ -102,7 +102,7 @@ def render_assessment() -> None:
                 with col_m1:
                     status_massa = st.selectbox(
                         "Status",
-                        options=RESPOSTAS_VALIDAS,
+                        options=RESPOSTAS_SELECIONAVEIS,
                         key=f"27701_massa_{cat_id}",
                         label_visibility="collapsed",
                     )

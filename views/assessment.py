@@ -3,7 +3,7 @@ import streamlit as st
 from components.control_card import render_control_card
 from core.db import listar_diagnosticos
 from core.models import Avaliacao
-from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTAS_VALIDAS
+from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTAS_SELECIONAVEIS
 from core.state import avaliacoes_do_modulo, diagnostico_ativo, limpar_modulo, persistir
 from modulos.iso27002.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES, Controle
 
@@ -71,7 +71,7 @@ def render() -> None:
         with col_b1:
             busca = st.text_input("Busca por ID, título ou descrição", value=st.session_state.get("busca", ""), key="busca")
         with col_b2:
-            opcoes_status = list(RESPOSTAS_VALIDAS) + [RESPOSTA_NAO_AVALIADO]
+            opcoes_status = list(RESPOSTAS_SELECIONAVEIS) + [RESPOSTA_NAO_AVALIADO]
             status_filtros = st.multiselect("Filtrar por status atual", opcoes_status, default=[])
 
     st.divider()
@@ -89,7 +89,7 @@ def render() -> None:
                 with col_m1:
                     status_massa = st.selectbox(
                         "Status",
-                        options=RESPOSTAS_VALIDAS,
+                        options=RESPOSTAS_SELECIONAVEIS,
                         key=f"massa_status_{tema_id}",
                         label_visibility="collapsed",
                     )
