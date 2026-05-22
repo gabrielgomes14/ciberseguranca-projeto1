@@ -1,6 +1,11 @@
 from reportlab.graphics.shapes import Drawing
 
-from core.pdf_charts import chart_barras_categoria, chart_donut_status, chart_radar
+from core.pdf_charts import (
+    chart_barras_categoria,
+    chart_donut_status,
+    chart_prioridades,
+    chart_radar,
+)
 from core.scoring import ResultadoTema
 
 
@@ -157,3 +162,49 @@ def test_chart_barras_categoria_altura_explicita_respeitada() -> None:
     d = chart_barras_categoria(categorias, resumos, altura_cm=5.0)
     altura_esperada_pts = 5.0 * 28.3464567
     assert abs(d.height - altura_esperada_pts) < 1.0
+
+
+# --- chart_prioridades ------------------------------------------------------
+
+
+def test_chart_prioridades_caminho_feliz() -> None:
+    qtds = {"Crítica": 2, "Alta": 5, "Média": 3, "Baixa": 1}
+    d = chart_prioridades(qtds)
+    assert isinstance(d, Drawing)
+    assert len(d.contents) == 1
+
+
+def test_chart_prioridades_sem_acoes_retorna_aviso() -> None:
+    d = chart_prioridades({})
+    assert isinstance(d, Drawing)
+    # Apenas a String "Sem ações pendentes".
+    assert len(d.contents) == 1
+
+
+def test_chart_prioridades_todas_zero_retorna_aviso() -> None:
+    qtds = {"Crítica": 0, "Alta": 0, "Média": 0, "Baixa": 0}
+    d = chart_prioridades(qtds)
+    assert len(d.contents) == 1
+
+
+def test_chart_prioridades_chave_ausente_conta_zero() -> None:
+    """Chaves não fornecidas em qtds são tratadas como 0."""
+    qtds = {"Alta": 3}
+    d = chart_prioridades(qtds)
+    # Há ações (Alta=3), então renderiza o gráfico (não a mensagem).
+    assert len(d.contents) == 1
+
+
+def test_chart_prioridades_chave_desconhecida_e_ignorada() -> None:
+    """Chave fora de {Crítica, Alta, Média, Baixa} não aparece no gráfico."""
+    qtds = {"Alta": 2, "Inventada": 99}
+    d = chart_prioridades(qtds)
+    assert isinstance(d, Drawing)
+    # Continua sendo um gráfico válido (não vira "Sem ações").
+    assert len(d.contents) == 1
+
+
+def test_chart_prioridades_dimensoes_customizadas() -> None:
+    qtds = {"Alta": 1}
+    d = chart_prioridades(qtds, largura_cm=20.0, altura_cm=6.0)
+    assert isinstance(d, Drawing)

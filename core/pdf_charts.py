@@ -184,3 +184,60 @@ def chart_barras_categoria(
     chart.barLabels.dx = 0
     d.add(chart)
     return d
+
+
+def chart_prioridades(
+    qtds: dict[str, int],
+    largura_cm: float = 16.0,
+    altura_cm: float = 4.5,
+) -> Drawing:
+    """Renderiza barras horizontais com a contagem de ações por prioridade.
+
+    Espera as chaves "Crítica", "Alta", "Média", "Baixa" (mesmas geradas por
+    `core.action_plan`). Chaves ausentes contam 0. Se não houver ações
+    pendentes, retorna um Drawing com a mensagem "Sem ações pendentes".
+    """
+    ordem = ["Crítica", "Alta", "Média", "Baixa"]
+    cores = {
+        "Crítica": "#7f1d1d",
+        "Alta": "#dc2626",
+        "Média": "#d97706",
+        "Baixa": "#16a34a",
+    }
+    valores = [qtds.get(p, 0) for p in ordem]
+    d = Drawing(largura_cm * cm, altura_cm * cm)
+    if sum(valores) == 0:
+        d.add(
+            String(
+                largura_cm * cm / 2,
+                altura_cm * cm / 2,
+                "Sem ações pendentes",
+                textAnchor="middle",
+                fontSize=10,
+            )
+        )
+        return d
+
+    chart = HorizontalBarChart()
+    chart.x = 90
+    chart.y = 25
+    chart.width = largura_cm * cm - 110
+    chart.height = altura_cm * cm - 40
+    chart.data = [valores]
+    chart.categoryAxis.categoryNames = ordem
+    chart.categoryAxis.labels.fontName = "Helvetica-Bold"
+    chart.categoryAxis.labels.fontSize = 9
+    chart.categoryAxis.labels.boxAnchor = "e"
+    chart.categoryAxis.labels.dx = -4
+    chart.valueAxis.valueMin = 0
+    chart.valueAxis.valueMax = max(valores) + max(1, max(valores) // 5)
+    chart.valueAxis.labels.fontSize = 8
+    chart.bars.strokeWidth = 0
+    for i, prioridade in enumerate(ordem):
+        chart.bars[(0, i)].fillColor = _hx(cores[prioridade])
+    chart.barLabels.fontName = "Helvetica-Bold"
+    chart.barLabels.fontSize = 8
+    chart.barLabels.nudge = 6
+    chart.barLabelFormat = "%d"
+    d.add(chart)
+    return d
