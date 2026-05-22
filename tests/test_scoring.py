@@ -2,10 +2,13 @@ from core.models import (
     CRITICIDADE_ALTA,
     CRITICIDADE_BAIXA,
     CRITICIDADE_MEDIA,
+    REMEDIACAO_NAO,
+    REMEDIACAO_SIM,
     Avaliacao,
 )
 from core.scoring import (
     RESPOSTA_CONFORME,
+    RESPOSTA_EM_ADEQUACAO,
     RESPOSTA_NA,
     RESPOSTA_NAO_AVALIADO,
     RESPOSTA_NAO_CONFORME,
@@ -19,20 +22,27 @@ from core.scoring import (
 )
 
 
-def _av(status: str, criticidade: str = CRITICIDADE_MEDIA) -> Avaliacao:
-    return Avaliacao(status=status, criticidade=criticidade)
+def _av(status: str, criticidade: str = CRITICIDADE_MEDIA, remediacao: str = "") -> Avaliacao:
+    return Avaliacao(status=status, criticidade=criticidade, remediacao=remediacao)
 
 
 def test_score_controle_conforme_eh_100() -> None:
-    assert score_controle(RESPOSTA_CONFORME) == 100.0
+    assert score_controle(_av(RESPOSTA_CONFORME)) == 100.0
 
 
-def test_score_controle_parcial_eh_50() -> None:
-    assert score_controle(RESPOSTA_PARCIAL) == 50.0
+def test_score_controle_nao_conforme_com_remediacao_sim_eh_50() -> None:
+    """Substitui o antigo Parcial: NC com remediação em andamento conta como meio caminho."""
+    assert score_controle(_av(RESPOSTA_NAO_CONFORME, remediacao=REMEDIACAO_SIM)) == 50.0
 
 
-def test_score_controle_nao_conforme_eh_zero() -> None:
-    assert score_controle(RESPOSTA_NAO_CONFORME) == 0.0
+def test_score_controle_nao_conforme_sem_remediacao_eh_zero() -> None:
+    assert score_controle(_av(RESPOSTA_NAO_CONFORME)) == 0.0
+    assert score_controle(_av(RESPOSTA_NAO_CONFORME, remediacao=REMEDIACAO_NAO)) == 0.0
+
+
+def test_score_controle_parcial_legado_eh_50_durante_transicao() -> None:
+    """Status 'Parcial' ainda em DBs migrados: pontuado como 50 até a migração do DB rodar."""
+    assert score_controle(_av(RESPOSTA_PARCIAL)) == 50.0
 
 
 def test_score_tema_na_excluido_do_denominador() -> None:
@@ -43,7 +53,7 @@ def test_score_tema_na_excluido_do_denominador() -> None:
 def test_score_tema_mix_sem_peso() -> None:
     avaliacoes = {
         "5.1": _av(RESPOSTA_CONFORME),
-        "5.2": _av(RESPOSTA_PARCIAL),
+        "5.2": _av(RESPOSTA_NAO_CONFORME, remediacao=REMEDIACAO_SIM),
         "5.3": _av(RESPOSTA_NAO_CONFORME),
         "5.4": _av(RESPOSTA_NA),
     }
@@ -65,7 +75,7 @@ def test_score_geral_tema_sem_respostas_retorna_zero() -> None:
 
 def test_status_label_faixas() -> None:
     assert status_label(95.0) == RESPOSTA_CONFORME
-    assert status_label(60.0) == RESPOSTA_PARCIAL
+    assert status_label(60.0) == RESPOSTA_EM_ADEQUACAO
     assert status_label(10.0) == RESPOSTA_NAO_CONFORME
 
 
