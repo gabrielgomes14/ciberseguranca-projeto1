@@ -498,3 +498,24 @@ CONTROLES_POR_CATEGORIA: dict[str, list[ItemDiagnostico]] = {cat: [c for c in CO
 
 
 assert len(CONTROLES) == sum(len(v) for v in CONTROLES_POR_CATEGORIA.values()), "Controles fora de categoria"
+
+try:
+    from core.db import listar_categorias_iso27701, listar_controles_iso27701
+
+    _cats_db = listar_categorias_iso27701()
+    _controles_db = listar_controles_iso27701()
+    if _cats_db and _controles_db:
+        CATEGORIAS = _cats_db
+        CONTROLES = [
+            ItemDiagnostico(
+                id=c.id,
+                titulo=c.titulo,
+                descricao=c.descricao,
+                categoria_id=c.categoria_id,
+                modulo=MODULO_ID,
+            )
+            for c in _controles_db
+        ]
+        CONTROLES_POR_CATEGORIA = {cat: [c for c in CONTROLES if c.categoria_id == cat] for cat in CATEGORIAS}
+except Exception:
+    pass

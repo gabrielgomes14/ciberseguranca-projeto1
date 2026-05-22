@@ -1,10 +1,11 @@
 import json
 import os
 import sqlite3
-from collections.abc import Iterator
+from collections.abc import Iterator, Sequence
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import date, datetime
+from typing import Protocol
 
 from core.models import Avaliacao, avaliacao_de_dict, avaliacao_para_dict
 
@@ -32,6 +33,36 @@ class Snapshot:
     score_geral: float
     scores_por_categoria: dict[str, float]
     avaliados: int
+
+
+@dataclass(frozen=True)
+class Controle27002Row:
+    id: str
+    titulo: str
+    descricao: str
+    tema_id: str
+
+
+@dataclass(frozen=True)
+class Controle27701Row:
+    id: str
+    titulo: str
+    descricao: str
+    categoria_id: str
+
+
+class Controle27002Like(Protocol):
+    id: str
+    titulo: str
+    descricao: str
+    tema_id: str
+
+
+class Controle27701Like(Protocol):
+    id: str
+    titulo: str
+    descricao: str
+    categoria_id: str
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS diagnostico (
@@ -68,8 +99,36 @@ CREATE TABLE IF NOT EXISTS snapshot (
     FOREIGN KEY (diagnostico_id) REFERENCES diagnostico(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS iso27002_tema (
+    id TEXT PRIMARY KEY,
+    label TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS iso27002_controle (
+    id TEXT PRIMARY KEY,
+    titulo TEXT NOT NULL,
+    descricao TEXT NOT NULL,
+    tema_id TEXT NOT NULL,
+    FOREIGN KEY (tema_id) REFERENCES iso27002_tema(id)
+);
+
+CREATE TABLE IF NOT EXISTS iso27701_categoria (
+    id TEXT PRIMARY KEY,
+    label TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS iso27701_controle (
+    id TEXT PRIMARY KEY,
+    titulo TEXT NOT NULL,
+    descricao TEXT NOT NULL,
+    categoria_id TEXT NOT NULL,
+    FOREIGN KEY (categoria_id) REFERENCES iso27701_categoria(id)
+);
+
 CREATE INDEX IF NOT EXISTS idx_diag_modulo ON diagnostico(modulo);
 CREATE INDEX IF NOT EXISTS idx_snap_diag ON snapshot(diagnostico_id);
+CREATE INDEX IF NOT EXISTS idx_iso27002_controle_tema ON iso27002_controle(tema_id);
+CREATE INDEX IF NOT EXISTS idx_iso27701_controle_categoria ON iso27701_controle(categoria_id);
 """
 
 
@@ -100,6 +159,100 @@ def init_db() -> None:
     with conexao() as con:
         con.executescript(_SCHEMA)
         _migrar(con)
+
+
+def listar_temas_iso27002() -> dict[str, str]:
+    init_db()
+    with conexao() as con:
+        rows = con.execute("SELECT id, label FROM iso27002_tema ORDER BY id").fetchall()
+    return {str(r["id"]): str(r["label"]) for r in rows}
+
+
+def listar_controles_iso27002() -> list[Controle27002Row]:
+    init_db()
+    with conexao() as con:
+        rows = con.execute(
+            "SELECT id, titulo, descricao, tema_id FROM iso27002_controle ORDER BY id",
+        ).fetchall()
+    return [
+        Controle27002Row(
+            id=str(r["id"]),
+            titulo=str(r["titulo"]),
+            descricao=str(r["descricao"]),
+            tema_id=str(r["tema_id"]),
+        )
+        for r in rows
+    ]
+
+
+def listar_categorias_iso27701() -> dict[str, str]:
+    init_db()
+    with conexao() as con:
+        rows = con.execute("SELECT id, label FROM iso27701_categoria ORDER BY id").fetchall()
+    return {str(r["id"]): str(r["label"]) for r in rows}
+
+
+def listar_controles_iso27701() -> list[Controle27701Row]:
+    init_db()
+    with conexao() as con:
+        rows = con.execute(
+            "SELECT id, titulo, descricao, categoria_id FROM iso27701_controle ORDER BY id",
+        ).fetchall()
+    return [
+        Controle27701Row(
+            id=str(r["id"]),
+            titulo=str(r["titulo"]),
+            descricao=str(r["descricao"]),
+            categoria_id=str(r["categoria_id"]),
+        )
+        for r in rows
+    ]
+
+
+def salvar_temas_iso27002(temas: dict[str, str]) -> None:
+    init_db()
+    with conexao() as con:
+        con.execute("DELETE FROM iso27002_tema")
+        con.executemany(
+            "INSERT INTO iso27002_tema (id, label) VALUES (?, ?)",
+            [(k, v) for k, v in temas.items()],
+        )
+
+
+def salvar_controles_iso27002(controles: Sequence[Controle27002Like]) -> None:
+    init_db()
+    with conexao() as con:
+        con.execute("DELETE FROM iso27002_controle")
+        con.executemany(
+            "INSERT INTO iso27002_controle (id, titulo, descricao, tema_id) VALUES (?, ?, ?, ?)",
+            [
+                (str(c.id), str(c.titulo), str(c.descricao), str(c.tema_id))
+                for c in controles
+            ],
+        )
+
+
+def salvar_categorias_iso27701(categorias: dict[str, str]) -> None:
+    init_db()
+    with conexao() as con:
+        con.execute("DELETE FROM iso27701_categoria")
+        con.executemany(
+            "INSERT INTO iso27701_categoria (id, label) VALUES (?, ?)",
+            [(k, v) for k, v in categorias.items()],
+        )
+
+
+def salvar_controles_iso27701(controles: Sequence[Controle27701Like]) -> None:
+    init_db()
+    with conexao() as con:
+        con.execute("DELETE FROM iso27701_controle")
+        con.executemany(
+            "INSERT INTO iso27701_controle (id, titulo, descricao, categoria_id) VALUES (?, ?, ?, ?)",
+            [
+                (str(c.id), str(c.titulo), str(c.descricao), str(c.categoria_id))
+                for c in controles
+            ],
+        )
 
 
 def _agora() -> str:

@@ -137,3 +137,18 @@ TEMAS: dict[str, list[Controle]] = {
 TODOS_CONTROLES: list[Controle] = [c for grupo in TEMAS.values() for c in grupo]
 
 assert len(TODOS_CONTROLES) == 93, f"Esperado 93 controles, encontrado {len(TODOS_CONTROLES)}"
+
+try:
+    from core.db import listar_controles_iso27002, listar_temas_iso27002
+
+    _temas_db = listar_temas_iso27002()
+    _controles_db = listar_controles_iso27002()
+    if _temas_db and _controles_db:
+        TEMA_LABELS = _temas_db
+        TODOS_CONTROLES = [
+            Controle(c.id, c.titulo, c.descricao, c.tema_id)
+            for c in _controles_db
+        ]
+        TEMAS = {tema_id: [c for c in TODOS_CONTROLES if c.tema_id == tema_id] for tema_id in TEMA_LABELS}
+except Exception:
+    pass
