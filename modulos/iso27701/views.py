@@ -1,9 +1,13 @@
+import pandas as pd
 import streamlit as st
 
 from components.generic_item_card import render_item_card
+from components.score_gauge import render_bar_temas, render_gauge, render_radar
+from components.status_metrics import render_status_metrics
+from components.theme_summary import render_theme_summary
 from core.db import listar_diagnosticos
 from core.models import Avaliacao
-from core.scoring import RESPOSTAS_VALIDAS
+from core.scoring import RESPOSTAS_VALIDAS, resumo_tema, score_geral, status_label
 from core.state import avaliacoes_do_modulo, diagnostico_ativo, persistir
 from modulos.iso27701.controles import CATEGORIAS, CONTROLES, CONTROLES_POR_CATEGORIA
 
@@ -126,7 +130,68 @@ def render_assessment() -> None:
 
 
 def render_dashboard() -> None:
-    """Stub temporário — implementação real no commit seguinte."""
+    """Tela de resultado do módulo: gauge geral, radar, métricas, resumo por categoria e tabela.
+
+    As seções de export PDF e snapshot serão adicionadas em commit posterior.
+    """
     st.title(f"📊 {MODULO_NOME} — Resultado")
-    st.info("Dashboard em construção. Volte em breve.")
-    _render_sidebar(0)
+    _barra_diagnostico()
+    avaliacoes = avaliacoes_do_modulo(MODULO_ID)
+
+    ponderado = st.toggle(
+        "Pontuação ponderada por criticidade",
+        value=st.session_state.get("27701_ponderado", True),
+        key="27701_ponderado",
+    )
+
+    todos_ids = [c.id for c in CONTROLES]
+    score_total = score_geral(avaliacoes, todos_ids, ponderado=ponderado)
+    resumos = {
+        cat: resumo_tema(avaliacoes, cat, [c.id for c in controles], ponderado=ponderado)
+        for cat, controles in CONTROLES_POR_CATEGORIA.items()
+    }
+
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        render_gauge(score_total, "Score Geral SGPI")
+        st.markdown(f"**Classificação:** {status_label(score_total)}")
+    with col2:
+        labels = list(CATEGORIAS.keys())
+        scores = [resumos[c].score for c in CATEGORIAS]
+        render_radar(labels, scores)
+
+    st.divider()
+    st.subheader("Distribuição dos status")
+    render_status_metrics(resumos, "controles")
+
+    st.divider()
+    st.subheader("Resumo por categoria")
+    cols = st.columns(min(len(CATEGORIAS), 4))
+    for idx, cat_id in enumerate(CATEGORIAS):
+        with cols[idx % len(cols)]:
+            r = resumos[cat_id]
+            render_theme_summary(f"{cat_id}", r.score, r.conformes, r.total)
+
+    st.divider()
+    render_bar_temas(
+        list(CATEGORIAS.keys()),
+        [resumos[c].score for c in CATEGORIAS],
+    )
+
+    st.divider()
+    linhas: list[dict[str, object]] = []
+    for c in CONTROLES:
+        a = avaliacoes.get(c.id, Avaliacao())
+        linhas.append(
+            {
+                "Controle": c.id,
+                "Categoria": c.categoria_id,
+                "Título": c.titulo,
+                "Status": a.status or "Não avaliado",
+                "Responsável": a.responsavel,
+                "Prazo": a.prazo,
+            }
+        )
+    st.dataframe(pd.DataFrame(linhas), use_container_width=True, hide_index=True)
+
+    _render_sidebar(sum(1 for c in CONTROLES if avaliacoes.get(c.id, Avaliacao()).status))
