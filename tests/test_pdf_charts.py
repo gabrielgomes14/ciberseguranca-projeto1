@@ -1,6 +1,6 @@
 from reportlab.graphics.shapes import Drawing
 
-from core.pdf_charts import chart_donut_status
+from core.pdf_charts import chart_donut_status, chart_radar
 from core.scoring import ResultadoTema
 
 
@@ -73,3 +73,45 @@ def test_chart_donut_status_dimensoes_customizadas() -> None:
     resumos = {"x": _resumo("x", total=4, conformes=4)}
     d = chart_donut_status(resumos, largura_cm=20.0, altura_cm=8.0)
     assert isinstance(d, Drawing)
+
+
+# --- chart_radar ------------------------------------------------------------
+
+
+def test_chart_radar_com_tres_categorias() -> None:
+    categorias = {"a": "A", "b": "B", "c": "C"}
+    resumos = {
+        "a": _resumo("a", total=1, conformes=1, score=100.0),
+        "b": _resumo("b", total=1, parciais=1, score=50.0),
+        "c": _resumo("c", total=1, nao_conformes=1, score=0.0),
+    }
+    d = chart_radar(categorias, resumos)
+    assert isinstance(d, Drawing)
+    # Espera-se o spider chart como único elemento.
+    assert len(d.contents) == 1
+
+
+def test_chart_radar_menos_de_tres_categorias_retorna_aviso() -> None:
+    categorias = {"a": "A", "b": "B"}
+    resumos = {
+        "a": _resumo("a", total=1, score=80.0),
+        "b": _resumo("b", total=1, score=60.0),
+    }
+    d = chart_radar(categorias, resumos)
+    assert isinstance(d, Drawing)
+    # Apenas a mensagem de aviso (String).
+    assert len(d.contents) == 1
+
+
+def test_chart_radar_sem_categorias() -> None:
+    d = chart_radar({}, {})
+    assert isinstance(d, Drawing)
+    assert len(d.contents) == 1
+
+
+def test_chart_radar_dimensoes_customizadas() -> None:
+    categorias = {"a": "A", "b": "B", "c": "C", "d": "D"}
+    resumos = {k: _resumo(k, total=1, score=50.0) for k in categorias}
+    d = chart_radar(categorias, resumos, largura_cm=14.0, altura_cm=12.0)
+    assert isinstance(d, Drawing)
+    assert len(d.contents) == 1
