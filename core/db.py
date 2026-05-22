@@ -144,6 +144,10 @@ def _migrar(con: sqlite3.Connection) -> None:
     if "remediacao" not in cols_av:
         con.execute("ALTER TABLE avaliacao ADD COLUMN remediacao TEXT NOT NULL DEFAULT ''")
 
+    # Migração do status legado "Parcial": passa a ser "Não Conforme" + remediacao="Sim".
+    # Idempotente: após a primeira execução, não há mais linhas com status="Parcial".
+    con.execute("UPDATE avaliacao SET status = 'Não Conforme', remediacao = 'Sim' WHERE status = 'Parcial'")
+
 
 def _seed_catalogo(con: sqlite3.Connection) -> None:
     """Popula as tabelas de catálogo a partir dos JSONs em `data/` quando vazias.
