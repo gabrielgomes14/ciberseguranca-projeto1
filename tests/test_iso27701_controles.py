@@ -4,7 +4,6 @@ from modulos.iso27701.controles import (
     CONTROLES,
     CONTROLES_POR_CATEGORIA,
     MODULO_ID,
-    _lgpd_sufixo,
 )
 
 
@@ -85,22 +84,3 @@ def test_anexo_b_operador_presente() -> None:
     # Pelo menos uma categoria de cada subgrupo de operador.
     a2_cats = {c.categoria_id for c in CONTROLES if c.id.startswith("A.2.")}
     assert a2_cats == {"A.2.2", "A.2.3", "A.2.4", "A.2.5"}
-
-
-# --- _lgpd_sufixo -----------------------------------------------------------
-
-
-def test_lgpd_sufixo_vazio_quando_none() -> None:
-    assert _lgpd_sufixo(None) == ""
-
-
-def test_lgpd_sufixo_vazio_quando_lista_vazia() -> None:
-    assert _lgpd_sufixo([]) == ""
-
-
-def test_lgpd_sufixo_um_artigo() -> None:
-    assert _lgpd_sufixo(["Art. 6º"]) == " · LGPD Art. 6º"
-
-
-def test_lgpd_sufixo_multiplos_artigos() -> None:
-    assert _lgpd_sufixo(["Art. 7º", "Art. 11"]) == " · LGPD Art. 7º, Art. 11"

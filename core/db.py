@@ -1,19 +1,21 @@
 import json
 import os
 import sqlite3
-from collections.abc import Iterator, Sequence
+from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Protocol
+from pathlib import Path
 
 from core.models import Avaliacao, avaliacao_de_dict, avaliacao_para_dict
 
 _DEFAULT_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "diagnosticos.db")
+_DATA_DIR = Path(__file__).resolve().parent.parent / "data"
 
 
 def _db_path() -> str:
     return os.environ.get("DIAGNOSTICO_DB_PATH", _DEFAULT_PATH)
+
 
 @dataclass(frozen=True)
 class Diagnostico:
@@ -23,6 +25,7 @@ class Diagnostico:
     data_auditoria: str
     criado_em: str
     atualizado_em: str
+
 
 @dataclass(frozen=True)
 class Snapshot:
@@ -50,19 +53,6 @@ class Controle27701Row:
     descricao: str
     categoria_id: str
 
-
-class Controle27002Like(Protocol):
-    id: str
-    titulo: str
-    descricao: str
-    tema_id: str
-
-
-class Controle27701Like(Protocol):
-    id: str
-    titulo: str
-    descricao: str
-    categoria_id: str
 
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS diagnostico (
@@ -155,10 +145,52 @@ def _migrar(con: sqlite3.Connection) -> None:
         con.execute("ALTER TABLE avaliacao ADD COLUMN remediacao TEXT NOT NULL DEFAULT ''")
 
 
+def _seed_catalogo(con: sqlite3.Connection) -> None:
+    """Popula as tabelas de catálogo a partir dos JSONs em `data/` quando vazias.
+
+    Idempotente: usa `INSERT OR IGNORE` para que execuções repetidas não dupliquem
+    nem sobrescrevam edições eventuais. Se um arquivo de seed estiver ausente,
+    levanta `FileNotFoundError` em vez de silenciar — o catálogo é dado obrigatório.
+    """
+    n_temas = con.execute("SELECT COUNT(*) FROM iso27002_tema").fetchone()[0]
+    n_27002 = con.execute("SELECT COUNT(*) FROM iso27002_controle").fetchone()[0]
+    n_cats = con.execute("SELECT COUNT(*) FROM iso27701_categoria").fetchone()[0]
+    n_27701 = con.execute("SELECT COUNT(*) FROM iso27701_controle").fetchone()[0]
+
+    if all(n > 0 for n in (n_temas, n_27002, n_cats, n_27701)):
+        return
+
+    iso27002_json = _DATA_DIR / "iso27002.json"
+    iso27701_json = _DATA_DIR / "iso27701.json"
+    if not iso27002_json.exists() or not iso27701_json.exists():
+        raise FileNotFoundError(f"Arquivos de seed do catálogo não encontrados em {_DATA_DIR}. Esperado: iso27002.json, iso27701.json.")
+
+    iso27002 = json.loads(iso27002_json.read_text(encoding="utf-8"))
+    iso27701 = json.loads(iso27701_json.read_text(encoding="utf-8"))
+
+    con.executemany(
+        "INSERT OR IGNORE INTO iso27002_tema (id, label) VALUES (?, ?)",
+        list(iso27002["temas"].items()),
+    )
+    con.executemany(
+        "INSERT OR IGNORE INTO iso27002_controle (id, titulo, descricao, tema_id) VALUES (?, ?, ?, ?)",
+        [(c["id"], c["titulo"], c["descricao"], c["tema_id"]) for c in iso27002["controles"]],
+    )
+    con.executemany(
+        "INSERT OR IGNORE INTO iso27701_categoria (id, label) VALUES (?, ?)",
+        list(iso27701["categorias"].items()),
+    )
+    con.executemany(
+        "INSERT OR IGNORE INTO iso27701_controle (id, titulo, descricao, categoria_id) VALUES (?, ?, ?, ?)",
+        [(c["id"], c["titulo"], c["descricao"], c["categoria_id"]) for c in iso27701["controles"]],
+    )
+
+
 def init_db() -> None:
     with conexao() as con:
         con.executescript(_SCHEMA)
         _migrar(con)
+        _seed_catalogo(con)
 
 
 def listar_temas_iso27002() -> dict[str, str]:
@@ -209,52 +241,6 @@ def listar_controles_iso27701() -> list[Controle27701Row]:
     ]
 
 
-def salvar_temas_iso27002(temas: dict[str, str]) -> None:
-    init_db()
-    with conexao() as con:
-        con.execute("DELETE FROM iso27002_tema")
-        con.executemany(
-            "INSERT INTO iso27002_tema (id, label) VALUES (?, ?)",
-            [(k, v) for k, v in temas.items()],
-        )
-
-
-def salvar_controles_iso27002(controles: Sequence[Controle27002Like]) -> None:
-    init_db()
-    with conexao() as con:
-        con.execute("DELETE FROM iso27002_controle")
-        con.executemany(
-            "INSERT INTO iso27002_controle (id, titulo, descricao, tema_id) VALUES (?, ?, ?, ?)",
-            [
-                (str(c.id), str(c.titulo), str(c.descricao), str(c.tema_id))
-                for c in controles
-            ],
-        )
-
-
-def salvar_categorias_iso27701(categorias: dict[str, str]) -> None:
-    init_db()
-    with conexao() as con:
-        con.execute("DELETE FROM iso27701_categoria")
-        con.executemany(
-            "INSERT INTO iso27701_categoria (id, label) VALUES (?, ?)",
-            [(k, v) for k, v in categorias.items()],
-        )
-
-
-def salvar_controles_iso27701(controles: Sequence[Controle27701Like]) -> None:
-    init_db()
-    with conexao() as con:
-        con.execute("DELETE FROM iso27701_controle")
-        con.executemany(
-            "INSERT INTO iso27701_controle (id, titulo, descricao, categoria_id) VALUES (?, ?, ?, ?)",
-            [
-                (str(c.id), str(c.titulo), str(c.descricao), str(c.categoria_id))
-                for c in controles
-            ],
-        )
-
-
 def _agora() -> str:
     return datetime.now().isoformat(timespec="seconds")
 
@@ -268,8 +254,7 @@ def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None 
     data_aud = (data_auditoria or "").strip() or _hoje_iso()
     with conexao() as con:
         cur = con.execute(
-            "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em) "
-            "VALUES (?, ?, ?, ?, ?)",
+            "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?)",
             (modulo, organizacao, data_aud, agora, agora),
         )
         return int(cur.lastrowid or 0)
