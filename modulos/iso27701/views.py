@@ -5,8 +5,9 @@ from components.generic_item_card import render_item_card
 from components.score_gauge import render_bar_temas, render_gauge, render_radar
 from components.status_metrics import render_status_metrics
 from components.theme_summary import render_theme_summary
-from core.db import listar_diagnosticos
+from core.db import listar_diagnosticos, salvar_snapshot
 from core.models import Avaliacao
+from core.pdf_report import gerar_pdf_27701
 from core.scoring import RESPOSTAS_VALIDAS, resumo_tema, score_geral, status_label
 from core.state import avaliacoes_do_modulo, diagnostico_ativo, persistir
 from modulos.iso27701.controles import CATEGORIAS, CONTROLES, CONTROLES_POR_CATEGORIA
@@ -130,9 +131,8 @@ def render_assessment() -> None:
 
 
 def render_dashboard() -> None:
-    """Tela de resultado do módulo: gauge geral, radar, métricas, resumo por categoria e tabela.
-
-    As seções de export PDF e snapshot serão adicionadas em commit posterior.
+    """Tela de resultado do módulo: gauge geral, radar, métricas, resumo por categoria,
+    tabela de controles, export PDF e captura de snapshot.
     """
     st.title(f"📊 {MODULO_NOME} — Resultado")
     _barra_diagnostico()
@@ -193,5 +193,54 @@ def render_dashboard() -> None:
             }
         )
     st.dataframe(pd.DataFrame(linhas), use_container_width=True, hide_index=True)
+
+    st.divider()
+    st.subheader("📥 Exportar")
+    diag_id_atual = diagnostico_ativo(MODULO_ID)
+    diags_27701 = listar_diagnosticos(MODULO_ID)
+    diag_obj = next((d for d in diags_27701 if d.id == diag_id_atual), None)
+    organizacao = diag_obj.organizacao if diag_obj else "Organização"
+    data_aud = diag_obj.data_auditoria if diag_obj else ""
+    st.download_button(
+        "📄 PDF completo (27701)",
+        data=gerar_pdf_27701(
+            CONTROLES,
+            CATEGORIAS,
+            CONTROLES_POR_CATEGORIA,
+            avaliacoes,
+            organizacao=organizacao,
+            ponderado=ponderado,
+            data_auditoria=data_aud,
+        ),
+        file_name="relatorio_iso27701.pdf",
+        mime="application/pdf",
+        use_container_width=True,
+    )
+
+    st.divider()
+    diag_id = diagnostico_ativo(MODULO_ID)
+    col_s1, col_s2 = st.columns([3, 1])
+    with col_s1:
+        rotulo = st.text_input("Rótulo do snapshot", value="", key="27701_rotulo")
+    with col_s2:
+        st.write("")
+        st.write("")
+        if st.button(
+            "📈 Salvar snapshot",
+            use_container_width=True,
+            disabled=diag_id is None,
+            key="27701_snap",
+        ):
+            if diag_id is not None:
+                persistir(MODULO_ID)
+                avaliados_n = sum(1 for c in CONTROLES if avaliacoes.get(c.id, Avaliacao()).status)
+                salvar_snapshot(
+                    diag_id,
+                    rotulo,
+                    score_total,
+                    {cat: resumos[cat].score for cat in CATEGORIAS},
+                    avaliados_n,
+                )
+                st.toast("Snapshot salvo.", icon="📈")
 
     _render_sidebar(sum(1 for c in CONTROLES if avaliacoes.get(c.id, Avaliacao()).status))
