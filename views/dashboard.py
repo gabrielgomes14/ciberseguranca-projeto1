@@ -1,6 +1,5 @@
 import pandas as pd
 import streamlit as st
-from core.pdf_report import gerar_pdf
 
 from components.score_gauge import render_bar_temas, render_gauge, render_radar
 from components.status_metrics import render_status_metrics
