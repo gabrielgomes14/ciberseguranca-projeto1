@@ -7,7 +7,7 @@ from core.models import (
     REMEDIACAO_OPCOES,
     Avaliacao,
 )
-from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTA_NAO_CONFORME, RESPOSTAS_VALIDAS, STATUS_COLORS
+from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTA_NAO_CONFORME, RESPOSTAS_SELECIONAVEIS, STATUS_COLORS
 from modulos.iso27002.controls import Controle
 from modulos.iso27002.guidance import GUIDANCE
 from modulos.iso27002.mappings import MAPEAMENTOS
@@ -38,7 +38,7 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
         _render_header_card(controle.id, controle.titulo, cor)
         st.caption(controle.descricao)
 
-        opcoes = ("",) + RESPOSTAS_VALIDAS
+        opcoes = ("",) + RESPOSTAS_SELECIONAVEIS
         try:
             index = opcoes.index(status_atual)
         except ValueError:
@@ -52,6 +52,21 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
             format_func=lambda v: "— selecione —" if v == "" else v,
             label_visibility="collapsed",
         )
+
+        nova_remediacao = avaliacao.remediacao
+        if novo_status == RESPOSTA_NAO_CONFORME:
+            st.markdown("**Há remediação em andamento?**")
+            opcoes_rem = ("",) + REMEDIACAO_OPCOES
+            idx_rem = opcoes_rem.index(avaliacao.remediacao) if avaliacao.remediacao in opcoes_rem else 0
+            nova_remediacao = st.radio(
+                "Remediação em andamento",
+                options=opcoes_rem,
+                index=idx_rem,
+                horizontal=True,
+                key=f"rem_{controle.id}",
+                format_func=lambda v: "— selecione —" if v == "" else v,
+                label_visibility="collapsed",
+            )
 
         with st.expander("Detalhes, orientação e plano"):
             st.markdown("**Orientação da norma**")
@@ -82,12 +97,6 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
                     key=f"prazo_{controle.id}",
                     placeholder="AAAA-MM-DD",
                 )
-                evid_input = st.text_input(
-                    "Evidências (separe por ;)",
-                    value="; ".join(avaliacao.evidencias),
-                    key=f"evid_{controle.id}",
-                    placeholder="Ex.: politica.pdf; relatorio_audit.docx",
-                )
             nova_observacao = st.text_area(
                 "Observações / Justificativa",
                 value=avaliacao.observacao,
@@ -96,22 +105,6 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
                 placeholder="Notas, lacunas identificadas, decisões.",
             )
 
-            nova_remediacao = avaliacao.remediacao
-            if novo_status == RESPOSTA_NAO_CONFORME:
-                st.markdown("**🔧 Há remediação em andamento?**")
-                opcoes_rem = ("",) + REMEDIACAO_OPCOES
-                idx_rem = opcoes_rem.index(avaliacao.remediacao) if avaliacao.remediacao in opcoes_rem else 0
-                nova_remediacao = st.radio(
-                    "Remediação em andamento",
-                    options=opcoes_rem,
-                    index=idx_rem,
-                    horizontal=True,
-                    key=f"rem_{controle.id}",
-                    format_func=lambda v: "— selecione —" if v == "" else v,
-                    label_visibility="collapsed",
-                )
-
-    evidencias = [e.strip() for e in evid_input.split(";") if e.strip()]
     return Avaliacao(
         status=novo_status,
         observacao=nova_observacao,
@@ -119,5 +112,5 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
         responsavel=novo_responsavel,
         prazo=novo_prazo,
         remediacao=nova_remediacao if novo_status == RESPOSTA_NAO_CONFORME else "",
-        evidencias=evidencias,
+        evidencias=list(avaliacao.evidencias),
     )
