@@ -8,6 +8,10 @@ CATEGORIAS: dict[str, str] = {
     "A.1.3": "A.1.3 Obrigações com os titulares de DP (Controlador)",
     "A.1.4": "A.1.4 Privacidade por design e por default (Controlador)",
     "A.1.5": "A.1.5 Compartilhamento, transferência e divulgação (Controlador)",
+    "A.2.2": "A.2.2 Condições para coleta e tratamento (Operador)",
+    "A.2.3": "A.2.3 Obrigações com os titulares de DP (Operador)",
+    "A.2.4": "A.2.4 Privacidade por design e por default (Operador)",
+    "A.2.5": "A.2.5 Compartilhamento, transferência e divulgação (Operador)",
     "A.3": "A.3 Segurança da informação para tratamento de DP (Controlador + Operador)",
 }
 
@@ -211,6 +215,114 @@ CONTROLES: list[ItemDiagnostico] = [
         "Registros de divulgação de DP a terceiros",
         "A organização deve registrar as divulgações de DP para terceiros, incluindo quais DP foram divulgados, para quem e em que momento.",
         ["Art. 37"],
+    ),
+    # A.2.2 — Operador — Condições para coleta e tratamento
+    _c(
+        "A.2.2.2",
+        "Acordo com o cliente",
+        "A organização deve assegurar, onde pertinente, que o contrato para tratar os DP aborde o papel da organização em prestar assistência nas obrigações do cliente.",
+        ["Art. 39"],
+    ),
+    _c(
+        "A.2.2.3",
+        "Propósitos da organização",
+        "A organização deve assegurar que os DP tratados em nome de um cliente sejam tratados apenas para os propósitos expressos nas instruções documentadas do cliente.",
+        ["Art. 39"],
+    ),
+    _c(
+        "A.2.2.4",
+        "Uso para marketing e propaganda",
+        "A organização não pode usar os DP tratados sob um contrato para finalidades de marketing e propaganda sem estabelecer que o consentimento prévio foi obtido do respectivo titular de DP.",
+        ["Art. 8º", "Art. 39"],
+    ),
+    _c(
+        "A.2.2.5",
+        "Instruções infratoras",
+        "A organização deve informar ao cliente se, em sua opinião, uma instrução de tratamento infringe requisitos legais aplicáveis.",
+        ["Art. 39"],
+    ),
+    _c(
+        "A.2.2.6",
+        "Obrigações do cliente",
+        "A organização deve fornecer ao cliente informações apropriadas para que o cliente possa demonstrar compliance com suas obrigações.",
+    ),
+    _c(
+        "A.2.2.7",
+        "Registros relativos ao tratamento de DP",
+        "A organização deve determinar e manter os registros necessários em apoio à demonstração de compliance com suas obrigações para o tratamento de DP conduzido em nome de um cliente.",
+        ["Art. 37"],
+    ),
+    # A.2.3 — Operador — Obrigações com titulares
+    _c(
+        "A.2.3.2",
+        "Compliance com obrigações com os titulares de DP",
+        "A organização deve fornecer ao cliente os meios para estar em compliance com suas obrigações com os titulares de DP.",
+        ["Art. 18"],
+    ),
+    # A.2.4 — Operador — Privacidade por design
+    _c(
+        "A.2.4.2",
+        "Arquivos temporários",
+        "A organização deve assegurar que arquivos temporários criados como resultado do tratamento de DP sejam descartados seguindo procedimentos documentados dentro de um período de tempo especificado.",
+        ["Art. 16"],
+    ),
+    _c(
+        "A.2.4.3",
+        "Devolução, transferência ou descarte de DP",
+        "A organização deve ser capaz de devolver, transferir ou descartar DP de forma segura. Ela deve também tornar sua política disponível para o cliente.",
+        ["Art. 16", "Art. 39"],
+    ),
+    _c(
+        "A.2.4.4",
+        "Controles de transmissão de DP",
+        "A organização deve submeter os DP transmitidos por meio de rede aos controles apropriados, projetados para assegurar que os dados cheguem ao seu destino pretendido.",
+        ["Art. 46"],
+    ),
+    # A.2.5 — Operador — Compartilhamento, transferência e divulgação
+    _c(
+        "A.2.5.2",
+        "Fundamentação para a transferência de DP entre as jurisdições",
+        "A organização deve informar ao cliente de forma oportuna a fundamentação para as transferências de DP entre jurisdições e quaisquer alterações pretendidas.",
+        ["Art. 33"],
+    ),
+    _c(
+        "A.2.5.3",
+        "Países e organizações internacionais para os quais os DP podem ser transferidos",
+        "A organização deve especificar e documentar os países e organizações internacionais para os quais os DP podem ser transferidos.",
+    ),
+    _c(
+        "A.2.5.4",
+        "Registros de divulgações de DP a terceiros",
+        "A organização deve registrar divulgações de DP para terceiros, incluindo quais DP foram divulgados, para quem e em que momento.",
+        ["Art. 37"],
+    ),
+    _c(
+        "A.2.5.5",
+        "Notificação de solicitações de divulgação de DP",
+        "A organização deve notificar o cliente de quaisquer solicitações legalmente obrigatórias de divulgação de DP.",
+    ),
+    _c(
+        "A.2.5.6",
+        "Divulgações de DP legalmente obrigatórias",
+        "A organização deve rejeitar quaisquer solicitações de divulgação de DP que não sejam legalmente obrigatórias, consultar o cliente correspondente antes de realizar qualquer divulgação.",
+    ),
+    _c(
+        "A.2.5.7",
+        "Divulgação de subcontratados utilizados para tratar DP",
+        "Antes da utilização, a organização deve informar ao cliente se algum subcontratado é utilizado para tratar DP.",
+        ["Art. 39"],
+    ),
+    _c(
+        "A.2.5.8",
+        "Envolvimento de subcontratado para tratar os DP",
+        "A organização somente deve envolver um subcontratado para tratar os DP conforme previsto no contrato com o cliente.",
+        ["Art. 39"],
+    ),
+    _c(
+        "A.2.5.9",
+        "Troca de subcontratado para tratar os DP",
+        "A organização deve, no caso de haver autorização geral por escrito, informar o cliente sobre quaisquer alterações pretendidas relativas à inclusão ou substituição de subcontratados.",
+        ["Art. 39"],
     ),
     # A.3 — Considerações de segurança para controladores e operadores
     _c(
