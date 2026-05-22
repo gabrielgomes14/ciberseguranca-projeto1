@@ -279,3 +279,35 @@ def gerar_pdf(
         ponderado=ponderado,
         data_auditoria=data_auditoria,
     )
+
+
+def gerar_pdf_27001(
+    requisitos: list[ItemDiagnostico],
+    secoes: dict[str, str],
+    requisitos_por_secao: dict[str, list[ItemDiagnostico]],
+    avaliacoes: dict[str, Avaliacao],
+    organizacao: str = "Organização",
+    ponderado: bool = True,
+    data_auditoria: str = "",
+) -> bytes:
+    """Gera o PDF executivo de conformidade ISO/IEC 27001:2022 (SGSI).
+
+    Diferente do 27002, a 27001 organiza os itens em "seções/cláusulas" e não
+    possui plano de ação no relatório (por isso `acoes=None` em `_gerar_pdf_base`).
+    Os parâmetros `secoes` e `requisitos_por_secao` vêm do catálogo da norma
+    (definido em `modulos/iso27001/clausulas.py`), mantendo `core/pdf_report.py`
+    desacoplado do módulo.
+    """
+    return _gerar_pdf_base(
+        norma="ISO/IEC 27001:2022 — SGSI",
+        titulo_categoria="Seção",
+        label_item="Requisito",
+        itens=requisitos,
+        categorias=secoes,
+        itens_por_categoria=requisitos_por_secao,
+        avaliacoes=avaliacoes,
+        acoes=None,
+        organizacao=organizacao,
+        ponderado=ponderado,
+        data_auditoria=data_auditoria,
+    )
