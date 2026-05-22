@@ -12,10 +12,12 @@ def db_path() -> object:
     os.close(fd)
     os.remove(path)
     os.environ["DIAGNOSTICO_DB_PATH"] = path
+    os.environ["DIAGNOSTICO_SEED_DEMO"] = "0"
     yield path
     if os.path.exists(path):
         os.remove(path)
     os.environ.pop("DIAGNOSTICO_DB_PATH", None)
+    os.environ.pop("DIAGNOSTICO_SEED_DEMO", None)
 
 
 def test_criar_e_carregar_diagnostico(db_path: str) -> None:

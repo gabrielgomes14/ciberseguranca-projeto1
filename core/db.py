@@ -190,11 +190,85 @@ def _seed_catalogo(con: sqlite3.Connection) -> None:
     )
 
 
+def _seed_demo(con: sqlite3.Connection) -> None:
+    """Popula um diagnóstico demo por norma se não houver nenhum diagnóstico real.
+
+    Lê `data/diagnostico_demo.json` e insere 2 diagnósticos (27002 e 27701) com
+    suas avaliações e 3 snapshots cada. Pula completamente se o banco já tem
+    qualquer diagnóstico — protegendo o usuário de re-seed após criar dados reais.
+
+    Diferente do seed de catálogo, o JSON do demo é opcional: se o arquivo não
+    existir (ex.: instalação minimalista), apenas pula sem erro.
+
+    Pode ser desabilitado via env `DIAGNOSTICO_SEED_DEMO=0` (útil em testes que
+    contam diagnósticos e não querem o ruído do demo).
+    """
+    if os.environ.get("DIAGNOSTICO_SEED_DEMO", "1") == "0":
+        return
+
+    n_diag = con.execute("SELECT COUNT(*) FROM diagnostico").fetchone()[0]
+    if n_diag > 0:
+        return
+
+    demo_json = _DATA_DIR / "diagnostico_demo.json"
+    if not demo_json.exists():
+        return
+
+    payload = json.loads(demo_json.read_text(encoding="utf-8"))
+    for d in payload.get("diagnosticos", []):
+        cur = con.execute(
+            "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?)",
+            (d["modulo"], d["organizacao"], d["data_auditoria"], d["criado_em"], d["atualizado_em"]),
+        )
+        diag_id = cur.lastrowid
+        if diag_id is None:
+            continue
+
+        con.executemany(
+            """INSERT INTO avaliacao
+               (diagnostico_id, item_id, status, criticidade, responsavel, prazo,
+                observacao, remediacao, evidencias)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            [
+                (
+                    diag_id,
+                    av["item_id"],
+                    av["status"],
+                    av["criticidade"],
+                    av["responsavel"],
+                    av["prazo"],
+                    av["observacao"],
+                    av["remediacao"],
+                    json.dumps(av["evidencias"], ensure_ascii=False),
+                )
+                for av in d["avaliacoes"]
+            ],
+        )
+
+        con.executemany(
+            """INSERT INTO snapshot
+               (diagnostico_id, rotulo, criado_em, score_geral, scores_por_categoria, avaliados)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            [
+                (
+                    diag_id,
+                    snap["rotulo"],
+                    snap["criado_em"],
+                    snap["score_geral"],
+                    json.dumps(snap["scores_por_categoria"], ensure_ascii=False),
+                    snap["avaliados"],
+                )
+                for snap in d["snapshots"]
+            ],
+        )
+
+
 def init_db() -> None:
     with conexao() as con:
         con.executescript(_SCHEMA)
         _migrar(con)
         _seed_catalogo(con)
+        _seed_demo(con)
 
 
 def listar_temas_iso27002() -> dict[str, str]:

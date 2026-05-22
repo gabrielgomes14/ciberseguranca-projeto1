@@ -18,10 +18,12 @@ def db_path() -> Iterator[str]:
     os.close(fd)
     os.remove(path)
     os.environ["DIAGNOSTICO_DB_PATH"] = path
+    os.environ["DIAGNOSTICO_SEED_DEMO"] = "0"
     yield path
     if os.path.exists(path):
         os.remove(path)
     os.environ.pop("DIAGNOSTICO_DB_PATH", None)
+    os.environ.pop("DIAGNOSTICO_SEED_DEMO", None)
 
 
 def _contagens() -> dict[str, int]:

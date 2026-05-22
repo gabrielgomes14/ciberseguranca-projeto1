@@ -1,0 +1,1823 @@
+{
+  "diagnosticos": [
+    {
+      "modulo": "iso27002",
+      "organizacao": "Empresa Demo Ltda. (exemplo)",
+      "data_auditoria": "2026-05-15",
+      "criado_em": "2025-11-01T08:00:00",
+      "atualizado_em": "2026-05-15T17:30:00",
+      "avaliacoes": [
+        {
+          "item_id": "5.1",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Sim",
+          "responsavel": "Time DevSecOps",
+          "prazo": "2026-08-10",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.10",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.11",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.12",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.13",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.14",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.15",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.16",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.17",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.18",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "Equipe SecOps",
+          "prazo": "2026-09-08",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.19",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.2",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.20",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.21",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.22",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.23",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.24",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.25",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Sim",
+          "responsavel": "Equipe SecOps",
+          "prazo": "2026-08-27",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.26",
+          "status": "Não Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.27",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.28",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.29",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.3",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "Time DevSecOps",
+          "prazo": "2026-07-27",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.30",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.31",
+          "status": "N/A",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.32",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.33",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.34",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.35",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.36",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.37",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.4",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.5",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.6",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.7",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.8",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "5.9",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "6.1",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "6.2",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "6.3",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "2026-06-30",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "6.4",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "6.5",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "6.6",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "6.7",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "Compliance Officer",
+          "prazo": "2026-08-21",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "6.8",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.1",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.10",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.11",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.12",
+          "status": "Não Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.13",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.14",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.2",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.3",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.4",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.5",
+          "status": "Não Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.6",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.7",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.8",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "7.9",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.1",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "Time DevSecOps",
+          "prazo": "2026-10-13",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.10",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.11",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.12",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.13",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.14",
+          "status": "N/A",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.15",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.16",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.17",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.18",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.19",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.2",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.20",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.21",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.22",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.23",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.24",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.25",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.26",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.27",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.28",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.29",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.3",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.30",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.31",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.32",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.33",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.34",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.4",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.5",
+          "status": "Não Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.6",
+          "status": "Não Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.7",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.8",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "8.9",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        }
+      ],
+      "snapshots": [
+        {
+          "rotulo": "Baseline 2025-Q4",
+          "criado_em": "2025-11-15T09:00:00",
+          "score_geral": 50.0,
+          "scores_por_categoria": {
+            "org": 47.8,
+            "people": 53.7,
+            "physical": 43.5,
+            "tech": 54.3
+          },
+          "avaliados": 65
+        },
+        {
+          "rotulo": "Q1 2026",
+          "criado_em": "2026-02-15T09:00:00",
+          "score_geral": 62.0,
+          "scores_por_categoria": {
+            "org": 59.2,
+            "people": 66.6,
+            "physical": 53.9,
+            "tech": 67.3
+          },
+          "avaliados": 79
+        },
+        {
+          "rotulo": "Q2 2026",
+          "criado_em": "2026-05-15T09:00:00",
+          "score_geral": 69.8,
+          "scores_por_categoria": {
+            "org": 66.7,
+            "people": 75.0,
+            "physical": 60.7,
+            "tech": 75.8
+          },
+          "avaliados": 93
+        }
+      ]
+    },
+    {
+      "modulo": "iso27701",
+      "organizacao": "Empresa Demo Ltda. (exemplo)",
+      "data_auditoria": "2026-05-13",
+      "criado_em": "2025-11-03T10:00:00",
+      "atualizado_em": "2026-05-14T16:00:00",
+      "avaliacoes": [
+        {
+          "item_id": "A.1.2.2",
+          "status": "N/A",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.2.3",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "2026-11-03",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.2.4",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.2.5",
+          "status": "N/A",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.2.6",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.2.7",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.2.8",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.2.9",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.10",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.11",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.2",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.3",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.4",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.5",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.6",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.7",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.8",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.3.9",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Sim",
+          "responsavel": "Equipe SecOps",
+          "prazo": "2026-07-02",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.10",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.2",
+          "status": "N/A",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.3",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.4",
+          "status": "Não Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.5",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.6",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.7",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.8",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.4.9",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.5.2",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.5.3",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.5.4",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.1.5.5",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "2026-08-20",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.2.2",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.2.3",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.2.4",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.2.5",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.2.6",
+          "status": "N/A",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.2.7",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.3.2",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.4.2",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.4.3",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.4.4",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.5.2",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.5.3",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.5.4",
+          "status": "N/A",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.5.5",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.5.6",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "Time DevSecOps",
+          "prazo": "2026-09-26",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.5.7",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.5.8",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.2.5.9",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.10",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.11",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.12",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "2026-07-11",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.13",
+          "status": "Não Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "Não",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.14",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.15",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.16",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "2026-08-02",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.17",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.18",
+          "status": "N/A",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.19",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.20",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.21",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.22",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.23",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.24",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.25",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.26",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.27",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.28",
+          "status": "Não Conforme",
+          "criticidade": "Alta",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.29",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.3",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "Compliance Officer",
+          "prazo": "2026-07-01",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.30",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "Compliance Officer",
+          "prazo": "2026-08-29",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.31",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.4",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.5",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.6",
+          "status": "Conforme",
+          "criticidade": "Média",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.7",
+          "status": "Conforme",
+          "criticidade": "Baixa",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.8",
+          "status": "Conforme",
+          "criticidade": "Alta",
+          "remediacao": "",
+          "responsavel": "",
+          "prazo": "",
+          "observacao": "",
+          "evidencias": []
+        },
+        {
+          "item_id": "A.3.9",
+          "status": "Não Conforme",
+          "criticidade": "Média",
+          "remediacao": "Sim",
+          "responsavel": "",
+          "prazo": "2026-10-05",
+          "observacao": "",
+          "evidencias": []
+        }
+      ],
+      "snapshots": [
+        {
+          "rotulo": "Baseline 2025-Q4",
+          "criado_em": "2025-11-15T09:00:00",
+          "score_geral": 50.0,
+          "scores_por_categoria": {
+            "A.1.2": 58.9,
+            "A.1.3": 54.6,
+            "A.1.4": 40.2,
+            "A.1.5": 40.2,
+            "A.2.2": 51.4,
+            "A.2.3": 64.3,
+            "A.2.4": 42.9,
+            "A.2.5": 50.5,
+            "A.3": 50.5
+          },
+          "avaliados": 54
+        },
+        {
+          "rotulo": "Q1 2026",
+          "criado_em": "2026-02-15T09:00:00",
+          "score_geral": 62.0,
+          "scores_por_categoria": {
+            "A.1.2": 73.1,
+            "A.1.3": 67.7,
+            "A.1.4": 49.8,
+            "A.1.5": 49.8,
+            "A.2.2": 63.8,
+            "A.2.3": 79.7,
+            "A.2.4": 53.2,
+            "A.2.5": 62.6,
+            "A.3": 62.6
+          },
+          "avaliados": 66
+        },
+        {
+          "rotulo": "Q2 2026",
+          "criado_em": "2026-05-15T09:00:00",
+          "score_geral": 77.8,
+          "scores_por_categoria": {
+            "A.1.2": 91.7,
+            "A.1.3": 85.0,
+            "A.1.4": 62.5,
+            "A.1.5": 62.5,
+            "A.2.2": 80.0,
+            "A.2.3": 100.0,
+            "A.2.4": 66.7,
+            "A.2.5": 78.6,
+            "A.3": 78.6
+          },
+          "avaliados": 78
+        }
+      ]
+    }
+  ]
+}
