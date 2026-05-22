@@ -102,11 +102,11 @@ def _gerar_pdf_base(
     ponderado: bool,
     data_auditoria: str = "",
 ) -> bytes:
-    """Gera o PDF executivo. Layout independente da norma: cabeçalho, sumário,
-    tabela de score por categoria, plano de ação opcional e detalhamento por item.
+    """Gera um PDF executivo de conformidade independente da norma.
 
-    Os gráficos vetoriais (donut/radar/barras/prioridades) serão adicionados em
-    fase posterior, junto com `core.pdf_charts`.
+    Permite reuso entre 27001 (requisitos por seção), 27002 (controles por tema)
+    e 27701 (controles por categoria). O parâmetro `acoes` é opcional: se `None`,
+    a seção "Plano de Ação" é omitida (útil para normas que não modelam plano).
     """
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
@@ -134,6 +134,7 @@ def _gerar_pdf_base(
     todos_ids = [it.id for it in itens]
     score_total = score_geral(avaliacoes, todos_ids, ponderado=ponderado)
     avaliados = sum(1 for it in itens if avaliacoes.get(it.id, Avaliacao()).status)
+    total_na = sum(1 for it in itens if avaliacoes.get(it.id, Avaliacao()).status == "N/A")
 
     flow.append(Paragraph("Sumário Executivo", s["h2"]))
     cabecalho = Table(
@@ -149,7 +150,6 @@ def _gerar_pdf_base(
     cabecalho.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
     flow.append(cabecalho)
     flow.append(Spacer(1, 0.3 * cm))
-    total_na = sum(1 for it in itens if avaliacoes.get(it.id, Avaliacao()).status == "N/A")
     flow.append(
         Paragraph(
             f"Foram avaliados <b>{avaliados}</b> de <b>{len(itens)}</b> {label_item.lower()}s. "
@@ -174,11 +174,11 @@ def _gerar_pdf_base(
     # Resultado tabular por categoria
     flow.append(Paragraph(f"Resultado Tabular por {titulo_categoria}", s["h2"]))
     linhas_cat: list[list[object]] = [[titulo_categoria, "Score", "Status", "Conformes", "Parciais", "Não Conf.", "N/A"]]
-    for cat_id in categorias:
+    for cat_id, cat_label in categorias.items():
         r = resumos[cat_id]
         linhas_cat.append(
             [
-                Paragraph(categorias[cat_id], s["cell"]),
+                Paragraph(cat_label, s["cell"]),
                 Paragraph(f"{r.score:.1f}%", s["cell"]),
                 _badge_status(status_label(r.score), s),
                 Paragraph(str(r.conformes), s["cell"]),
