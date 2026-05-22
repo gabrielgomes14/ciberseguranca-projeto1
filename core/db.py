@@ -5,6 +5,7 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import date, datetime
+from typing import Protocol, Sequence
 
 from core.models import Avaliacao, avaliacao_de_dict, avaliacao_para_dict
 
@@ -44,6 +45,20 @@ class Controle27002Row:
 
 @dataclass(frozen=True)
 class Controle27701Row:
+    id: str
+    titulo: str
+    descricao: str
+    categoria_id: str
+
+
+class Controle27002Like(Protocol):
+    id: str
+    titulo: str
+    descricao: str
+    tema_id: str
+
+
+class Controle27701Like(Protocol):
     id: str
     titulo: str
     descricao: str
@@ -204,7 +219,7 @@ def salvar_temas_iso27002(temas: dict[str, str]) -> None:
         )
 
 
-def salvar_controles_iso27002(controles: list[object]) -> None:
+def salvar_controles_iso27002(controles: Sequence[Controle27002Like]) -> None:
     init_db()
     with conexao() as con:
         con.execute("DELETE FROM iso27002_controle")
@@ -227,7 +242,7 @@ def salvar_categorias_iso27701(categorias: dict[str, str]) -> None:
         )
 
 
-def salvar_controles_iso27701(controles: list[object]) -> None:
+def salvar_controles_iso27701(controles: Sequence[Controle27701Like]) -> None:
     init_db()
     with conexao() as con:
         con.execute("DELETE FROM iso27701_controle")
