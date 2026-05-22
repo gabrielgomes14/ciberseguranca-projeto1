@@ -14,19 +14,19 @@ def _resumo(
     *,
     total: int = 0,
     conformes: int = 0,
-    parciais: int = 0,
+    em_adequacao: int = 0,
     nao_conformes: int = 0,
     na: int = 0,
     score: float = 0.0,
 ) -> ResultadoTema:
-    avaliados = conformes + parciais + nao_conformes
+    avaliados = conformes + em_adequacao + nao_conformes
     return ResultadoTema(
         tema_id=tema_id,
         score=score,
         total=total,
         avaliados=avaliados,
         conformes=conformes,
-        parciais=parciais,
+        em_adequacao=em_adequacao,
         nao_conformes=nao_conformes,
         na=na,
     )
@@ -37,7 +37,7 @@ def _resumo(
 
 def test_chart_donut_status_retorna_drawing() -> None:
     resumos = {
-        "org": _resumo("org", total=10, conformes=6, parciais=2, nao_conformes=1, na=1),
+        "org": _resumo("org", total=10, conformes=6, em_adequacao=2, nao_conformes=1, na=1),
     }
     d = chart_donut_status(resumos)
     assert isinstance(d, Drawing)
@@ -87,7 +87,7 @@ def test_chart_radar_com_tres_categorias() -> None:
     categorias = {"a": "A", "b": "B", "c": "C"}
     resumos = {
         "a": _resumo("a", total=1, conformes=1, score=100.0),
-        "b": _resumo("b", total=1, parciais=1, score=50.0),
+        "b": _resumo("b", total=1, em_adequacao=1, score=50.0),
         "c": _resumo("c", total=1, nao_conformes=1, score=0.0),
     }
     d = chart_radar(categorias, resumos)
@@ -129,7 +129,7 @@ def test_chart_barras_categoria_caminho_feliz() -> None:
     categorias = {"a": "A", "b": "B", "c": "C"}
     resumos = {
         "a": _resumo("a", total=10, conformes=9, score=90.0),
-        "b": _resumo("b", total=10, parciais=5, score=50.0),
+        "b": _resumo("b", total=10, em_adequacao=5, score=50.0),
         "c": _resumo("c", total=10, nao_conformes=8, score=10.0),
     }
     d = chart_barras_categoria(categorias, resumos)
