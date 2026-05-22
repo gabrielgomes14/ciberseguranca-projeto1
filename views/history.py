@@ -1,16 +1,16 @@
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from core.pdf_report import gerar_pdf_comparativo
 
 from core.db import Snapshot, excluir_snapshot, listar_diagnosticos, listar_snapshots
+from core.pdf_report import gerar_pdf_comparativo
 from modulos.iso27002.controls import TEMA_LABELS, TEMAS
 
 MODULO_OPCOES = {
-    "iso27001": "ISO/IEC 27001:2022",
     "iso27002": "ISO/IEC 27002:2022",
-    "iso27701": "ISO/IEC 27701:2019",
+    "iso27701": "ISO/IEC 27701:2026",
 }
+
 
 def _render_grafico(snapshots: list[Snapshot], categorias_label: dict[str, str]) -> None:
     if not snapshots:
@@ -43,6 +43,7 @@ def _render_grafico(snapshots: list[Snapshot], categorias_label: dict[str, str])
         plot_bgcolor="rgba(0,0,0,0)",
     )
     st.plotly_chart(fig, use_container_width=True)
+
 
 def render() -> None:
     st.title("📈 Histórico de Diagnósticos")
@@ -119,11 +120,12 @@ def render() -> None:
             st.session_state.page = "home"
             st.rerun()
 
+
 _NORMA_LABELS = {
-    "iso27001": ("ISO/IEC 27001:2022 — SGSI", "Seção"),
     "iso27002": ("ISO/IEC 27002:2022", "Tema"),
-    "iso27701": ("ISO/IEC 27701:2019 — SGPI", "Categoria"),
+    "iso27701": ("ISO/IEC 27701:2026 — SGPI", "Grupo"),
 }
+
 
 def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, str], modulo: str, organizacao: str) -> None:
     st.subheader("🔍 Comparar auditorias")
@@ -241,14 +243,13 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
         use_container_width=True,
     )
 
+
 def _secoes(modulo: str) -> dict[str, str]:
-    if modulo == "iso27001":
-        from modulos.iso27001.clausulas import SECOES
-        return dict(SECOES)
     if modulo == "iso27701":
         from modulos.iso27701.controles import CATEGORIAS
-        return dict(CATEGORIAS)
+        return CATEGORIAS
     return {}
+
 
 def _dias_entre(iso_a: str, iso_b: str) -> int | None:
     from datetime import datetime
