@@ -12,6 +12,7 @@ from core.scoring import resumo_tema, score_geral, status_label
 from core.state import avaliacoes_do_modulo, diagnostico_ativo, persistir
 from modulos.iso27002.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES
 
+
 def _barra_diagnostico() -> None:
     ativo_id = diagnostico_ativo("iso27002")
     diags = listar_diagnosticos("iso27002")
