@@ -12,7 +12,6 @@ from core.scoring import resumo_tema, score_geral, status_label
 from core.state import avaliacoes_do_modulo, diagnostico_ativo, persistir
 from modulos.iso27002.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES
 
-
 def _barra_diagnostico() -> None:
     ativo_id = diagnostico_ativo("iso27002")
     diags = listar_diagnosticos("iso27002")
@@ -27,7 +26,6 @@ def _barra_diagnostico() -> None:
         if st.button("💾 Salvar", width="stretch", disabled=ativo_id is None, key="dash_salvar"):
             if persistir("iso27002"):
                 st.toast("Salvo.", icon="💾")
-
 
 def render() -> None:
     st.title("📊 ISO/IEC 27002 — Resultado")
