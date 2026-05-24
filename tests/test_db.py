@@ -28,7 +28,7 @@ def test_criar_e_carregar_diagnostico(db_path: str) -> None:
 
     salvar_avaliacoes(did, {
         "5.1": Avaliacao(status="Conforme", criticidade="Alta", observacao="ok"),
-        "5.2": Avaliacao(status="Parcial", responsavel="João"),
+        "5.2": Avaliacao(status="Não Conforme", responsavel="João"),
         "5.3": Avaliacao(status="Não Conforme", remediacao="Sim"),
     })
     av = carregar_avaliacoes(did)

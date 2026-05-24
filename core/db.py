@@ -45,7 +45,6 @@ class Controle27001Row:
     descricao: str
     tema_id: str
     controle_texto: str = ""
-    proposito: str = ""
     orientacao: str = ""
 
 
@@ -56,7 +55,6 @@ class Controle27701Row:
     descricao: str
     categoria_id: str
     controle_texto: str = ""
-    proposito: str = ""
     orientacao: str = ""
 
 
@@ -106,7 +104,6 @@ CREATE TABLE IF NOT EXISTS iso27001_controle (
     descricao TEXT NOT NULL,
     tema_id TEXT NOT NULL,
     controle_texto TEXT NOT NULL DEFAULT '',
-    proposito TEXT NOT NULL DEFAULT '',
     orientacao TEXT NOT NULL DEFAULT '',
     FOREIGN KEY (tema_id) REFERENCES iso27001_tema(id)
 );
@@ -122,7 +119,6 @@ CREATE TABLE IF NOT EXISTS iso27701_controle (
     descricao TEXT NOT NULL,
     categoria_id TEXT NOT NULL,
     controle_texto TEXT NOT NULL DEFAULT '',
-    proposito TEXT NOT NULL DEFAULT '',
     orientacao TEXT NOT NULL DEFAULT '',
     FOREIGN KEY (categoria_id) REFERENCES iso27701_categoria(id)
 );
@@ -144,33 +140,6 @@ def conexao() -> Iterator[sqlite3.Connection]:
         con.commit()
     finally:
         con.close()
-
-
-def _migrar(con: sqlite3.Connection) -> None:
-    cols_diag = {r["name"] for r in con.execute("PRAGMA table_info(diagnostico)")}
-    if "data_auditoria" not in cols_diag:
-        con.execute("ALTER TABLE diagnostico ADD COLUMN data_auditoria TEXT NOT NULL DEFAULT ''")
-        con.execute("UPDATE diagnostico SET data_auditoria = substr(criado_em, 1, 10) WHERE data_auditoria = ''")
-
-    cols_av = {r["name"] for r in con.execute("PRAGMA table_info(avaliacao)")}
-    if "remediacao" not in cols_av:
-        con.execute("ALTER TABLE avaliacao ADD COLUMN remediacao TEXT NOT NULL DEFAULT ''")
-
-    # Migração do status legado "Parcial": passa a ser "Não Conforme" + remediacao="Sim".
-    # Idempotente: após a primeira execução, não há mais linhas com status="Parcial".
-    con.execute("UPDATE avaliacao SET status = 'Não Conforme', remediacao = 'Sim' WHERE status = 'Parcial'")
-
-    # Adiciona colunas de detalhamento ao catálogo ISO 27001 (controle_texto, proposito, orientacao).
-    cols_27001 = {r["name"] for r in con.execute("PRAGMA table_info(iso27001_controle)")}
-    for col in ("controle_texto", "proposito", "orientacao"):
-        if col not in cols_27001:
-            con.execute(f"ALTER TABLE iso27001_controle ADD COLUMN {col} TEXT NOT NULL DEFAULT ''")
-
-    # Adiciona colunas de detalhamento ao catálogo ISO 27701.
-    cols_27701 = {r["name"] for r in con.execute("PRAGMA table_info(iso27701_controle)")}
-    for col in ("controle_texto", "proposito", "orientacao"):
-        if col not in cols_27701:
-            con.execute(f"ALTER TABLE iso27701_controle ADD COLUMN {col} TEXT NOT NULL DEFAULT ''")
 
 
 def _seed_catalogo(con: sqlite3.Connection) -> None:
@@ -201,7 +170,7 @@ def _seed_catalogo(con: sqlite3.Connection) -> None:
         list(iso27001["temas"].items()),
     )
     con.executemany(
-        "INSERT OR IGNORE INTO iso27001_controle (id, titulo, descricao, tema_id, controle_texto, proposito, orientacao) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT OR IGNORE INTO iso27001_controle (id, titulo, descricao, tema_id, controle_texto, orientacao) VALUES (?, ?, ?, ?, ?, ?)",
         [
             (
                 c["id"],
@@ -209,7 +178,6 @@ def _seed_catalogo(con: sqlite3.Connection) -> None:
                 c["descricao"],
                 c["tema_id"],
                 c.get("controle_texto", ""),
-                c.get("proposito", ""),
                 c.get("orientacao", ""),
             )
             for c in iso27001["controles"]
@@ -220,7 +188,7 @@ def _seed_catalogo(con: sqlite3.Connection) -> None:
         list(iso27701["categorias"].items()),
     )
     con.executemany(
-        "INSERT OR IGNORE INTO iso27701_controle (id, titulo, descricao, categoria_id, controle_texto, proposito, orientacao) VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "INSERT OR IGNORE INTO iso27701_controle (id, titulo, descricao, categoria_id, controle_texto, orientacao) VALUES (?, ?, ?, ?, ?, ?)",
         [
             (
                 c["id"],
@@ -228,7 +196,6 @@ def _seed_catalogo(con: sqlite3.Connection) -> None:
                 c["descricao"],
                 c["categoria_id"],
                 c.get("controle_texto", ""),
-                c.get("proposito", ""),
                 c.get("orientacao", ""),
             )
             for c in iso27701["controles"]
@@ -312,7 +279,6 @@ def _seed_demo(con: sqlite3.Connection) -> None:
 def init_db() -> None:
     with conexao() as con:
         con.executescript(_SCHEMA)
-        _migrar(con)
         _seed_catalogo(con)
         _seed_demo(con)
 
@@ -328,7 +294,7 @@ def listar_controles_iso27001() -> list[Controle27001Row]:
     init_db()
     with conexao() as con:
         rows = con.execute(
-            "SELECT id, titulo, descricao, tema_id, controle_texto, proposito, orientacao FROM iso27001_controle ORDER BY CAST(SUBSTR(id, 1, INSTR(id, '.') - 1) AS INTEGER), CAST(SUBSTR(id, INSTR(id, '.') + 1) AS INTEGER)",
+            "SELECT id, titulo, descricao, tema_id, controle_texto, orientacao FROM iso27001_controle ORDER BY CAST(SUBSTR(id, 1, INSTR(id, '.') - 1) AS INTEGER), CAST(SUBSTR(id, INSTR(id, '.') + 1) AS INTEGER)",
         ).fetchall()
     return [
         Controle27001Row(
@@ -337,7 +303,6 @@ def listar_controles_iso27001() -> list[Controle27001Row]:
             descricao=str(r["descricao"]),
             tema_id=str(r["tema_id"]),
             controle_texto=str(r["controle_texto"]),
-            proposito=str(r["proposito"]),
             orientacao=str(r["orientacao"]),
         )
         for r in rows
@@ -355,7 +320,7 @@ def listar_controles_iso27701() -> list[Controle27701Row]:
     init_db()
     with conexao() as con:
         rows = con.execute(
-            "SELECT id, titulo, descricao, categoria_id, controle_texto, proposito, orientacao FROM iso27701_controle ORDER BY id",
+            "SELECT id, titulo, descricao, categoria_id, controle_texto, orientacao FROM iso27701_controle ORDER BY id",
         ).fetchall()
     return [
         Controle27701Row(
@@ -364,7 +329,6 @@ def listar_controles_iso27701() -> list[Controle27701Row]:
             descricao=str(r["descricao"]),
             categoria_id=str(r["categoria_id"]),
             controle_texto=str(r["controle_texto"]),
-            proposito=str(r["proposito"]),
             orientacao=str(r["orientacao"]),
         )
         for r in rows

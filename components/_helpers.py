@@ -1,11 +1,20 @@
 """Helpers internos compartilhados entre os componentes de cards."""
 
 import html
+from datetime import date
 
 import streamlit as st
 
 # Cor de texto principal (slate-900). Reusada por _render_header_card e theme_summary.
 _COR_INK = "#0f172a"
+
+
+def _parse_prazo(s: str) -> date | None:
+    """Converte string ISO (YYYY-MM-DD) em date, ou None se vazia/inválida."""
+    try:
+        return date.fromisoformat(s) if s else None
+    except ValueError:
+        return None
 
 
 def _render_header_card(item_id: str, titulo: str, cor: str) -> None:

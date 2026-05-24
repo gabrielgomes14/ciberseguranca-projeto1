@@ -10,7 +10,6 @@ class Controle:
     descricao: str
     tema_id: str
     controle_texto: str = ""
-    proposito: str = ""
     orientacao: str = ""
 
 
@@ -24,7 +23,7 @@ def _carregar() -> tuple[dict[str, str], list[Controle], dict[str, list[Controle
     init_db()
     temas = listar_temas_iso27001()
     rows = listar_controles_iso27001()
-    todos = [Controle(r.id, r.titulo, r.descricao, r.tema_id, r.controle_texto, r.proposito, r.orientacao) for r in rows]
+    todos = [Controle(r.id, r.titulo, r.descricao, r.tema_id, r.controle_texto, r.orientacao) for r in rows]
     por_tema = {tema_id: [c for c in todos if c.tema_id == tema_id] for tema_id in temas}
     return temas, todos, por_tema
 

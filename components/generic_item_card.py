@@ -1,6 +1,6 @@
 import streamlit as st
 
-from components._helpers import _render_header_card
+from components._helpers import _parse_prazo, _render_header_card
 from core.models import (
     CRITICIDADE_MEDIA,
     CRITICIDADES,
@@ -70,17 +70,9 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
                     key=f"resp_{item.modulo}_{item.id}",
                 )
             with col2:
-                prazo_valor = None
-                if avaliacao.prazo:
-                    try:
-                        from datetime import date as _date
-
-                        prazo_valor = _date.fromisoformat(avaliacao.prazo)
-                    except ValueError:
-                        prazo_valor = None
                 novo_prazo_date = st.date_input(
                     "Prazo",
-                    value=prazo_valor,
+                    value=_parse_prazo(avaliacao.prazo),
                     key=f"prazo_{item.modulo}_{item.id}",
                     format="DD/MM/YYYY",
                 )
