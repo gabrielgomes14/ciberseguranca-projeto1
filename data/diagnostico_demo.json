@@ -1,7 +1,7 @@
 {
   "diagnosticos": [
     {
-      "modulo": "iso27002",
+      "modulo": "iso27001",
       "organizacao": "Empresa Demo Ltda. (exemplo)",
       "data_auditoria": "2026-05-15",
       "criado_em": "2025-11-01T08:00:00",

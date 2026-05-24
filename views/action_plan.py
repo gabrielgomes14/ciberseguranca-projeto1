@@ -4,14 +4,14 @@ import streamlit as st
 from core.action_plan import gerar_plano, plano_para_csv
 from core.models import Avaliacao
 from core.state import avaliacoes_do_modulo
-from modulos.iso27002.controls import TODOS_CONTROLES
+from modulos.iso27001.controls import TODOS_CONTROLES
 
 
 def render() -> None:
-    st.title("📌 Plano de Ação")
+    st.title("Plano de Ação")
     st.caption("Gerado a partir dos controles avaliados como Não Conforme ou Parcial.")
 
-    avaliacoes: dict[str, Avaliacao] = avaliacoes_do_modulo("iso27002")
+    avaliacoes: dict[str, Avaliacao] = avaliacoes_do_modulo("iso27001")
     acoes = gerar_plano(TODOS_CONTROLES, avaliacoes)
 
     if not acoes:
@@ -59,7 +59,7 @@ def render() -> None:
         },
     )
 
-    st.info("💡 Para editar **Responsável**, **Prazo** ou **Observação** de cada ação, volte à página de Avaliação e expanda o controle.")
+    st.info("Para editar **Responsável**, **Prazo** ou **Observação** de cada ação, volte à página de Avaliação e expanda o controle.")
 
     st.divider()
     col_e1, col_e2 = st.columns(2)
@@ -67,23 +67,23 @@ def render() -> None:
         st.download_button(
             "⬇️ Exportar plano CSV",
             data=plano_para_csv(acoes),
-            file_name="plano_de_acao_iso27002.csv",
+            file_name="plano_de_acao_iso27001.csv",
             mime="text/csv",
             width="stretch",
         )
     with col_e2:
         if st.button("← Voltar ao resultado", width="stretch"):
-            st.session_state.page = "iso27002_dashboard"
+            st.session_state.page = "iso27001_dashboard"
             st.rerun()
 
     with st.sidebar:
-        st.markdown("### ISO/IEC 27002:2022")
-        if st.button("🏠 Início", width="stretch", key="ap_home"):
+        st.markdown("### ISO/IEC 27001:2022")
+        if st.button("Início", width="stretch", key="ap_home"):
             st.session_state.page = "home"
             st.rerun()
-        if st.button("📋 Avaliação", width="stretch", key="ap_assess"):
-            st.session_state.page = "iso27002_assessment"
+        if st.button("Avaliação", width="stretch", key="ap_assess"):
+            st.session_state.page = "iso27001_assessment"
             st.rerun()
-        if st.button("📊 Resultado", width="stretch", key="ap_dash"):
-            st.session_state.page = "iso27002_dashboard"
+        if st.button("Resultado", width="stretch", key="ap_dash"):
+            st.session_state.page = "iso27001_dashboard"
             st.rerun()

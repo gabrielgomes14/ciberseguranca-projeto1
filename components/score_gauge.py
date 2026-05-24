@@ -51,7 +51,7 @@ def _hex_to_rgba(hex_color: str, alpha: float) -> str:
 
 
 def render_gauge(score: float, label: str, *, key: str | None = None) -> None:
-    """Renderiza um gauge 0–100 colorido conforme `status_label(score)`."""
+    """Renderiza um gauge 0-100 colorido conforme `status_label(score)`."""
     score_safe = clamp_score(score)
     cor = STATUS_COLORS[status_label(score_safe)]
     palette = _theme_palette()

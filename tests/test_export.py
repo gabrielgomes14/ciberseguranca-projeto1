@@ -4,7 +4,7 @@ import io
 from core.export import _HEADERS, _safe_cell, gerar_csv, montar_linhas
 from core.models import Avaliacao
 from core.scoring import RESPOSTA_CONFORME, RESPOSTA_NAO_AVALIADO
-from modulos.iso27002.controls import Controle
+from modulos.iso27001.controls import Controle
 
 
 def _decode_csv(blob: bytes) -> list[list[str]]:

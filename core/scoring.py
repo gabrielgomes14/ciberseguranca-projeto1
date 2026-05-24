@@ -8,11 +8,6 @@ RESPOSTA_NA = "N/A"
 RESPOSTA_NAO_AVALIADO = "Não avaliado"
 RESPOSTA_EM_ADEQUACAO = "Em Adequação"
 
-# Status legado, presente apenas em DBs anteriores à migração que substitui
-# "Parcial" por (Não Conforme + remediacao=Sim). Não exposto na UI nem em
-# `RESPOSTAS_VALIDAS`; usado apenas para tolerância de leitura até `_migrar` rodar.
-_STATUS_LEGADO_PARCIAL = "Parcial"
-
 # Thresholds de score (0-100) usados por status_label e por componentes de visualização.
 SCORE_THRESHOLD_EM_ADEQUACAO = 40.0
 SCORE_THRESHOLD_CONFORME = 80.0
@@ -26,7 +21,7 @@ RESPOSTAS_VALIDAS: tuple[str, ...] = (
 RESPOSTAS_SELECIONAVEIS: tuple[str, ...] = RESPOSTAS_VALIDAS
 
 # Status que entram no cálculo de score (excluídos: N/A, vazio).
-_STATUS_PONTUAVEIS: frozenset[str] = frozenset({RESPOSTA_CONFORME, RESPOSTA_NAO_CONFORME, _STATUS_LEGADO_PARCIAL})
+_STATUS_PONTUAVEIS: frozenset[str] = frozenset({RESPOSTA_CONFORME, RESPOSTA_NAO_CONFORME})
 
 STATUS_COLORS: dict[str, str] = {
     RESPOSTA_CONFORME: "#16a34a",
@@ -56,15 +51,12 @@ def score_controle(avaliacao: Avaliacao) -> float:
     - Conforme → 100.
     - Não Conforme + remediação "Sim" → 50.
     - Não Conforme sem remediação ou negativa → 0.
-    - Status legado "Parcial" → 50 (compatibilidade até a migração do DB rodar).
     - Outros (N/A, vazio) → 0 (não devem ser passados; chamadores filtram via `_STATUS_PONTUAVEIS`).
     """
     if avaliacao.status == RESPOSTA_CONFORME:
         return 100.0
     if avaliacao.status == RESPOSTA_NAO_CONFORME:
         return 50.0 if avaliacao.remediacao == REMEDIACAO_SIM else 0.0
-    if avaliacao.status == _STATUS_LEGADO_PARCIAL:
-        return 50.0
     return 0.0
 
 
@@ -104,13 +96,7 @@ def status_label(score: float) -> str:
 
 
 def _eh_em_adequacao(av: Avaliacao) -> bool:
-    """Predicado: avaliação está "Em Adequação".
-
-    Casos: status legado "Parcial" (até a migração rodar), ou "Não Conforme" com
-    remediação em andamento.
-    """
-    if av.status == _STATUS_LEGADO_PARCIAL:
-        return True
+    """Predicado: avaliação está "Em Adequação" - Não Conforme com remediação em andamento."""
     return av.status == RESPOSTA_NAO_CONFORME and av.remediacao == REMEDIACAO_SIM
 
 

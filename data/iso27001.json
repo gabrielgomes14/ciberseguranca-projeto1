@@ -1,0 +1,754 @@
+{
+  "temas": {
+    "org": "Organizacionais",
+    "people": "Pessoas",
+    "physical": "Físicos",
+    "tech": "Tecnológicos"
+  },
+  "controles": [
+    {
+      "id": "5.1",
+      "titulo": "Políticas de segurança da informação",
+      "descricao": "Assegurar a adequação contínua, suficiência, efetividade da direção de gestão e suporte à segurança da informação de acordo com os requisitos comerciais, legais, estatutários, regulamentares e contratuais.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a política de segurança da informação e as políticas específicas por tema sejam definidas, aprovadas pela direção, publicadas, comunicadas e reconhecidas pelo pessoal pertinente e partes interessadas pertinentes, e analisadas criticamente em intervalos planejados e se ocorrer mudanças significativas.",
+      "orientacao": "No mais alto nível, convém que a organização defina uma \"política de segurança da informação\" aprovada pela Alta Direção e que estabeleça a abordagem da organização para gerenciar sua segurança da informação."
+    },
+    {
+      "id": "5.2",
+      "titulo": "Papéis e responsabilidades pela segurança da informação",
+      "descricao": "Estabelecer uma estrutura definida, aprovada e compreendida para a implementação, operação e gestão da segurança da informação dentro da organização.",
+      "tema_id": "org",
+      "controle_texto": "Convém que os papéis e responsabilidades pela segurança da informação sejam definidos e alocados de acordo com as necessidades da organização.",
+      "orientacao": "Convém que a alocação de papéis e responsabilidades pela segurança da informação seja feita de acordo com a política de segurança da informação e as políticas específicas por tema (ver 5.1). Convém que a organização defina e gerencie as responsabilidades."
+    },
+    {
+      "id": "5.3",
+      "titulo": "Segregação de funções",
+      "descricao": "Reduzir o risco de fraude, erro e desvio de controles de segurança da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que funções conflitantes e áreas de responsabilidade sejam segregados.",
+      "orientacao": "A segregação de funções e áreas de responsabilidade visa separar as funções conflitantes entre diferentes indivíduos, a fim de evitar que um indivíduo execute potenciais funções conflitantes por conta própria."
+    },
+    {
+      "id": "5.4",
+      "titulo": "Responsabilidades da direção",
+      "descricao": "Assegurar que a direção entenda seu papel na segurança da informação e realize ações com o objetivo de assegurar que todo o pessoal esteja ciente e cumpra suas responsabilidades pela segurança da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a direção requeira que todo o pessoal aplique a segurança da informação de acordo com a política de segurança da informação estabelecida, com as políticas específicas por tema e com os procedimentos da organização.",
+      "orientacao": "Convém que a direção demonstre apoio à política de segurança da informação, políticas específicas por tema, procedimentos e controles de segurança da informação."
+    },
+    {
+      "id": "5.5",
+      "titulo": "Contato com autoridades",
+      "descricao": "Assegurar o fluxo adequado de informações referentes à segurança da informação entre a organização e as autoridades legais, regulatórias e fiscalizadoras relevantes.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização estabeleça e mantenha contato com as autoridades relevantes.",
+      "orientacao": "Convém que a organização especifique quando e por quem é recomendado que as autoridades (por exemplo, os representantes da lei, os órgãos reguladores, as autoridades de supervisão) sejam contatadas e como é recomendado que os incidentes identificados de segurança da informação sejam relatados em tempo hábil."
+    },
+    {
+      "id": "5.6",
+      "titulo": "Contato com grupos de interesse especial",
+      "descricao": "Assegurar que ocorra o fluxo adequado de informações relacionadas à segurança da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização estabeleça e mantenha contato com grupos de interesse especial ou outros fóruns de especialistas em segurança e associações profissionais.",
+      "orientacao": "Convém que a adesão a grupos ou fóruns de interesse especial seja considerada como um meio para melhorar o conhecimento sobre as melhores práticas, manter-se atualizado com informações relevantes e receber avisos antecipados sobre ataques e vulnerabilidades."
+    },
+    {
+      "id": "5.7",
+      "titulo": "Inteligência de ameaças",
+      "descricao": "Conscientizar sobre o ambiente de ameaças da organização para que as ações de mitigação adequadas possam ser tomadas.",
+      "tema_id": "org",
+      "controle_texto": "Convém que as informações relacionadas a ameaças à segurança da informação sejam coletadas e analisadas para produzir inteligência de ameaças.",
+      "orientacao": "Informações sobre ameaças existentes ou emergentes são coletadas e analisadas com objetivo de: a) facilitar ações informadas para evitar que as ameaças causem danos à organização; b) reduzir o impacto dessas ameaças."
+    },
+    {
+      "id": "5.8",
+      "titulo": "Segurança da informação no gerenciamento de projetos",
+      "descricao": "Assegurar que os riscos de segurança da informação relacionados a projetos e entregas sejam efetivamente abordados no gerenciamento de projetos durante todo o ciclo de vida do projeto.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a segurança da informação seja integrada ao gerenciamento de projetos.",
+      "orientacao": "Convém que a segurança da informação seja integrada ao gerenciamento de projetos para assegurar que os riscos de segurança da informação sejam abordados como parte do gerenciamento do projeto, independentemente de sua complexidade, tamanho, duração, disciplina ou área de aplicação."
+    },
+    {
+      "id": "5.9",
+      "titulo": "Inventário de informações e outros ativos associados",
+      "descricao": "Identificar as informações da organização e outros ativos associados, a fim de preservar a sua segurança da informação e atribuir a propriedade adequada.",
+      "tema_id": "org",
+      "controle_texto": "Convém que um inventário de informações e outros ativos associados, incluindo proprietários, seja desenvolvido e mantido.",
+      "orientacao": "Convém que a organização identifique suas informações e outros ativos associados e determine sua importância em termos de segurança da informação. Convém que a documentação seja mantida em inventários dedicados ou existentes, conforme apropriado."
+    },
+    {
+      "id": "5.10",
+      "titulo": "Uso aceitável de informações e outros ativos associados",
+      "descricao": "Assegurar que as informações e outros ativos associados sejam devidamente protegidos, usados e manuseados.",
+      "tema_id": "org",
+      "controle_texto": "Convém que regras para o uso aceitável e procedimentos para o manuseio de informações e outros ativos associados sejam identificados, documentados e implementados.",
+      "orientacao": "Convém que pessoas e usuários externos que usem ou tenham acesso às informações da organização e outros ativos associados estejam conscientes dos requisitos de segurança da informação para proteger e lidar com as informações, sendo responsáveis pelo uso de qualquer recurso de tratamento."
+    },
+    {
+      "id": "5.11",
+      "titulo": "Devolução de ativos",
+      "descricao": "Proteger os ativos da organização como parte do processo de mudança ou encerramento da contratação ou acordo.",
+      "tema_id": "org",
+      "controle_texto": "Convém que o pessoal e outras partes interessadas, conforme apropriado, devolvam todos os ativos da organização em sua posse após a mudança ou encerramento da contratação ou acordo.",
+      "orientacao": "Convém que o processo de alteração ou rescisão seja formalizado para incluir a devolução de todos os ativos físicos e eletrônicos previamente emitidos, de propriedade ou confiados à organização."
+    },
+    {
+      "id": "5.12",
+      "titulo": "Classificação das informações",
+      "descricao": "Assegurar a identificação e o entendimento das necessidades de proteção das informações de acordo com a sua importância para a organização.",
+      "tema_id": "org",
+      "controle_texto": "Convém que as informações sejam classificadas de acordo com as necessidades de segurança da informação da organização com base na confidencialidade, integridade, disponibilidade e requisitos relevantes das partes interessadas.",
+      "orientacao": "Convém que a organização estabeleça uma política específica por tema sobre classificação e comunicação de informações para todas as partes interessadas pertinentes, considerando os requisitos de confidencialidade, integridade e disponibilidade."
+    },
+    {
+      "id": "5.13",
+      "titulo": "Rotulagem de informações",
+      "descricao": "Facilitar a comunicação da classificação das informações e apoio à automação da gestão e tratamento das informações.",
+      "tema_id": "org",
+      "controle_texto": "Convém que um conjunto adequado de procedimentos para rotulagem de informações seja desenvolvido e implementado de acordo com o esquema de classificação de informações adotado pela organização.",
+      "orientacao": "Convém que os procedimentos para rotulagem de informações abranjam informações e outros ativos associados em todos os formatos, refletindo o regime de classificação estabelecido. Convém que os rótulos sejam facilmente reconhecíveis e as etiquetas anexadas de acordo com o meio de armazenamento."
+    },
+    {
+      "id": "5.14",
+      "titulo": "Transferência de informações",
+      "descricao": "Manter a segurança das informações transferidas dentro de uma organização e com qualquer parte interessada externa.",
+      "tema_id": "org",
+      "controle_texto": "Convém que regras, procedimentos ou acordos de transferência de informações sejam implementados para todos os tipos de recursos de transferência dentro da organização e entre a organização e outras partes.",
+      "orientacao": "Convém que a organização estabeleça e comunique uma política específica por tema sobre transferência de informações. Convém que regras, procedimentos e acordos para proteger informações em trânsito reflitam a classificação das informações envolvidas, aplicando-se também nas transferências com terceiros."
+    },
+    {
+      "id": "5.15",
+      "titulo": "Controle de acesso",
+      "descricao": "Assegurar o acesso autorizado e evitar o acesso não autorizado a informações e outros ativos associados.",
+      "tema_id": "org",
+      "controle_texto": "Convém que as regras para controlar o acesso físico e lógico às informações e outros ativos associados sejam estabelecidas e implementadas com base nos requisitos de segurança da informação e de negócios.",
+      "orientacao": "Convém que os proprietários de informações e outros ativos associados determinem os requisitos de segurança da informação e de negócios relacionados ao controle de acesso. Convém que uma política específica por tema seja definida e comunicada a todas as partes."
+    },
+    {
+      "id": "5.16",
+      "titulo": "Gestão de identidade",
+      "descricao": "Permitir a identificação única de indivíduos e sistemas que acessam as informações da organização e outros ativos associados e para permitir a cessão adequada de direitos de acesso.",
+      "tema_id": "org",
+      "controle_texto": "Convém que o ciclo de vida completo das identidades seja gerenciado.",
+      "orientacao": "Convém que os processos assegurem que uma identidade específica seja vinculada apenas a uma única pessoa para ser capaz de responsabilizá-la por ações realizadas. Identidades compartilhadas ou de terceiros devem possuir controles, documentação rigorosa e nível de confiança assegurado."
+    },
+    {
+      "id": "5.17",
+      "titulo": "Informações de autenticação",
+      "descricao": "Assegurar a autenticação adequada da entidade e evitar falhas nos processos de autenticação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a alocação e a gestão de informações de autenticação sejam controladas por uma gestão de processo, incluindo aconselhar o pessoal sobre o manuseio adequado de informações de autenticação.",
+      "orientacao": "Convém que o processo de alocação e gestão assegure que senhas ou PINs temporários gerados não sejam fáceis de adivinhar e sejam únicos. Os usuários devem ser obrigados a alterá-los após o primeiro uso e a identidade do usuário deve ser verificada antes do fornecimento da credencial."
+    },
+    {
+      "id": "5.18",
+      "titulo": "Direitos de acesso",
+      "descricao": "Assegurar que o acesso às informações e outros ativos associados esteja definido e autorizado de acordo com os requisitos do negócio.",
+      "tema_id": "org",
+      "controle_texto": "Convém que os direitos de acesso às informações e outros ativos associados sejam provisionados, analisados criticamente, modificados e removidos de acordo com a política de tema específico e regras da organização para o controle de acesso.",
+      "orientacao": "Convém que o processo de provisionamento inclua a obtenção de autorização do proprietário da informação, considere os requisitos de negócio e a segregação de funções, garantindo que os acessos sejam removidos de forma tempestiva quando não forem mais necessários."
+    },
+    {
+      "id": "5.19",
+      "titulo": "Segurança da informação nas relações com fornecedores",
+      "descricao": "Manter um nível acordado de segurança da informação nas relações com fornecedores.",
+      "tema_id": "org",
+      "controle_texto": "Convém que processos e procedimentos sejam definidos e implementados para gerenciar a segurança da informação e os riscos associados com o uso dos produtos ou serviços dos fornecedores.",
+      "orientacao": "Convém que a organização estabeleça e comunique uma política específica por tema sobre relacionamentos com fornecedores a todas as partes interessadas pertinentes, definindo processos para avaliar, selecionar e monitorar o acesso e os serviços fornecidos."
+    },
+    {
+      "id": "5.20",
+      "titulo": "Abordagem da segurança da informação nos contratos de fornecedores",
+      "descricao": "Manter um nível acordado de segurança da informação nas relações com fornecedores.",
+      "tema_id": "org",
+      "controle_texto": "Convém que requisitos relevantes de segurança da informação sejam estabelecidos e acordados com cada fornecedor com base no tipo de relacionamento com o fornecedor.",
+      "orientacao": "Convém que os acordos com fornecedores sejam estabelecidos e documentados para assegurar que haja um entendimento claro entre a organização e o fornecedor sobre as obrigações de ambas as partes de cumprir com os requisitos relevantes de segurança da informação."
+    },
+    {
+      "id": "5.21",
+      "titulo": "Gestão da segurança da informação na cadeia de fornecimento de TIC",
+      "descricao": "Manter um nível acordado de segurança da informação nas relações com fornecedores.",
+      "tema_id": "org",
+      "controle_texto": "Convém que processos e procedimentos sejam definidos e implementados para gerenciar riscos de segurança da informação associados à cadeia de fornecimento de produtos e serviços de TIC.",
+      "orientacao": "Convém que a organização defina requisitos de segurança para aplicar a aquisição de produtos/serviços de TIC e exija que os fornecedores propaguem essas práticas por toda a cadeia de fornecimento, caso subcontratem partes do serviço para a organização."
+    },
+    {
+      "id": "5.22",
+      "titulo": "Monitoramento, análise crítica e gestão de mudanças dos serviços de fornecedores",
+      "descricao": "Manter um nível acordado de segurança da informação e prestação de serviços em linha com os acordos com os fornecedores.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização monitore, analise criticamente, avalie e gerencie regularmente a mudança nas práticas de segurança da informação dos fornecedores e na prestação de serviços.",
+      "orientacao": "Convém que o monitoramento, a análise crítica e a gestão de mudanças dos serviços assegurem que os termos e condições de segurança da informação dos acordos estejam conformes, incidentes sejam tratados e alterações nos serviços não afetem a prestação final."
+    },
+    {
+      "id": "5.23",
+      "titulo": "Segurança da informação para uso de serviços em nuvem",
+      "descricao": "Especificar e gerenciar a segurança da informação para o uso de serviços em nuvem.",
+      "tema_id": "org",
+      "controle_texto": "Convém que os processos de aquisição, uso, gestão e saída de serviços em nuvem sejam estabelecidos de acordo com os requisitos de segurança da informação da organização.",
+      "orientacao": "Convém que a organização estabeleça e comunique políticas específicas por tema sobre o uso de serviços em nuvem, definindo claramente as responsabilidades compartilhadas entre o provedor e a organização (como cliente), desde a seleção até as estratégias de saída."
+    },
+    {
+      "id": "5.24",
+      "titulo": "Planejamento e preparação da gestão de incidentes de segurança da informação",
+      "descricao": "Assegurar uma resposta rápida, eficaz, consistente e ordenada aos incidentes de segurança da informação, incluindo a comunicação sobre eventos de segurança da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização planeje e se prepare para gerenciar incidentes de segurança da informação definindo, estabelecendo e comunicando processos, papéis e responsabilidades de gestão de incidentes de segurança da informação.",
+      "orientacao": "Convém que a organização estabeleça processos adequados de gestão de incidentes de segurança da informação. Convém que os papéis e responsabilidades para a realização dos procedimentos de gestão sejam determinados e efetivamente comunicados às partes interessadas internas e externas relevantes."
+    },
+    {
+      "id": "5.25",
+      "titulo": "Avaliação e decisão sobre eventos de segurança da informação",
+      "descricao": "Assegurar a efetiva categorização e priorização de eventos de segurança da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização avalie os eventos de segurança da informação e decida se categoriza como incidentes de segurança da informação.",
+      "orientacao": "Convém que um esquema de categorização e priorização de incidentes de segurança da informação seja acordado para a identificação das consequências e prioridade de um incidente. Convém que o esquema inclua os critérios para categorizar os eventos como incidentes de segurança da informação. Convém que o ponto de contato avalie cada evento de segurança da informação usando o esquema acordado."
+    },
+    {
+      "id": "5.26",
+      "titulo": "Resposta a incidentes de segurança da informação",
+      "descricao": "Assegurar uma resposta eficiente e eficaz aos incidentes de segurança da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que os incidentes de segurança da informação sejam respondidos de acordo com os procedimentos documentados.",
+      "orientacao": "Convém que a organização estabeleça e comunique os procedimentos de resposta aos incidentes de segurança da informação para todas as partes interessadas pertinentes."
+    },
+    {
+      "id": "5.27",
+      "titulo": "Aprendizado com incidentes de segurança da informação",
+      "descricao": "Reduzir a probabilidade ou as consequências de futuros incidentes.",
+      "tema_id": "org",
+      "controle_texto": "Convém que o conhecimento adquirido com incidentes de segurança da informação seja usado para fortalecer e melhorar os controles de segurança da informação.",
+      "orientacao": "Convém que a organização estabeleça procedimentos para quantificar e monitorar os tipos, volumes e custos dos incidentes de segurança da informação."
+    },
+    {
+      "id": "5.28",
+      "titulo": "Coleta de evidências",
+      "descricao": "Assegurar uma gestão consistente e eficaz das evidências relacionadas a incidentes de segurança da informação para fins de ações disciplinares e legais.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização estabeleça e implemente procedimentos para identificação, coleta, aquisição e preservação de evidências relacionadas a eventos de segurança da informação.",
+      "orientacao": "Convém que os procedimentos internos sejam desenvolvidos e seguidos ao tratar de evidências relacionadas a eventos de segurança da informação para fins de ações disciplinares e legais. Convém que os requisitos de diferentes jurisdições sejam considerados para maximizar as chances de admissão em todas as jurisdições relevantes."
+    },
+    {
+      "id": "5.29",
+      "titulo": "Segurança da informação durante a disrupção",
+      "descricao": "Proteger as informações e outros ativos associados durante a disrupção.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização planeje como manter a segurança da informação em um nível apropriado durante a disrupção.",
+      "orientacao": "Convém que a organização determine seus requisitos para adaptar os controles de segurança da informação durante a disrupção. Convém que os requisitos de segurança da informação sejam incluídos nos processos de gestão de continuidade de negócios."
+    },
+    {
+      "id": "5.30",
+      "titulo": "Prontidão de TIC para continuidade de negócios",
+      "descricao": "Assegurar a disponibilidade das informações da organização e outros ativos associados durante a disrupção.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a prontidão da TIC seja planejada, implementada, mantida e testada com base nos objetivos de continuidade de negócios e nos requisitos de continuidade da TIC.",
+      "orientacao": "A prontidão de TIC para a continuidade dos negócios é um componente importante na gestão da continuidade de negócios e na gestão da segurança da informação para assegurar que os objetivos da organização possam continuar a ser cumpridos durante a disrupção."
+    },
+    {
+      "id": "5.31",
+      "titulo": "Requisitos legais, estatutários, regulamentares e contratuais",
+      "descricao": "Assegurar o compliance dos requisitos legais, estatutários, regulamentares e contratuais relacionados à segurança da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que os requisitos legais, estatutários, regulamentares e contratuais pertinentes à segurança da informação e à abordagem da organização para atender a esses requisitos sejam identificados, documentados e atualizados.",
+      "orientacao": "Convém que os requisitos externos, incluindo requisitos legais, estatutários, regulamentares ou contratuais sejam considerados quando ocorrer o desenvolvimento de políticas, projeto de controles, classificação de informações e avaliações de risco."
+    },
+    {
+      "id": "5.32",
+      "titulo": "Direitos de propriedade intelectual",
+      "descricao": "Assegurar o compliance dos requisitos legais, estatutários, regulamentares e contratuais relacionados aos direitos de propriedade intelectual e ao uso de produtos proprietários.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização implemente procedimentos adequados para proteger os direitos de propriedade intelectual.",
+      "orientacao": "Convém que diretrizes como definir políticas específicas, publicar procedimentos para compliance, adquirir software apenas de fontes confiáveis e manter registros apropriados de ativos sejam consideradas para proteger qualquer material considerado propriedade intelectual."
+    },
+    {
+      "id": "5.33",
+      "titulo": "Proteção de registros",
+      "descricao": "Assegurar o compliance dos requisitos legais, estatutários, regulamentares e contratuais, bem como expectativas comunitárias ou sociais relacionadas à proteção e disponibilidade de registros.",
+      "tema_id": "org",
+      "controle_texto": "Convém que os registros sejam protegidos contra perdas, destruição, falsificação, acesso não autorizado e liberação não autorizada.",
+      "orientacao": "Convém que a organização emita diretrizes sobre o armazenamento e manuseio da cadeia de custódia, além de elaborar um cronograma de retenção definindo o tempo pelo qual os registros devem ser retidos."
+    },
+    {
+      "id": "5.34",
+      "titulo": "Privacidade e proteção de DP",
+      "descricao": "Assegurar o compliance dos requisitos legais, estatutários, regulamentares e contratuais relacionados aos aspectos de segurança da informação da proteção de DP.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a organização identifique e atenda aos requisitos relativos à preservação da privacidade e proteção de DP de acordo com as leis e regulamentos aplicáveis e requisitos contratuais.",
+      "orientacao": "Convém que a organização estabeleça e comunique uma política específica por tema sobre privacidade e proteção de DP para todas as partes interessadas relevantes."
+    },
+    {
+      "id": "5.35",
+      "titulo": "Análise crítica independente da segurança da informação",
+      "descricao": "Assegurar a contínua adequação, suficiência e eficácia da abordagem da organização para a gestão da segurança da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que a abordagem da organização para gerenciar a segurança da informação e sua implementação, incluindo pessoas, processos e tecnologias, seja analisada criticamente de forma independente a intervalos planejados ou quando ocorrem mudanças significativas.",
+      "orientacao": "Convém que a organização tenha processos para realizar análises críticas independentes. Convém que a direção planeje e inicie análises críticas periódicas que incluam a avaliação de oportunidades de melhoria."
+    },
+    {
+      "id": "5.36",
+      "titulo": "Conformidade com políticas, regras e normas para segurança da informação",
+      "descricao": "Assegurar que a segurança da informação seja implementada e operada de acordo com a política de segurança da informação da organização, políticas, regras e normas específicas por tema.",
+      "tema_id": "org",
+      "controle_texto": "Convém que o compliance da política de segurança da informação da organização, políticas, regras e normas de temas específicos seja analisado criticamente a intervalos regulares.",
+      "orientacao": "Convém que gestores, proprietários de serviços, produtos ou informações identifiquem como analisar criticamente os requisitos de segurança da informação definidos. Convém que ferramentas automáticas de medição e emissão de relatórios sejam consideradas."
+    },
+    {
+      "id": "5.37",
+      "titulo": "Documentação dos procedimentos de operação",
+      "descricao": "Assegurar a operação correta e segura dos recursos de tratamento da informação.",
+      "tema_id": "org",
+      "controle_texto": "Convém que os procedimentos de operação dos recursos de tratamento da informação sejam documentados e disponibilizados para o pessoal que necessite deles.",
+      "orientacao": "Convém que procedimentos documentados sejam preparados para as atividades operacionais da organização associadas com segurança da informação, especialmente quando a atividade precisa ser realizada da mesma forma por muitas pessoas ou apresenta risco se não for feita corretamente."
+    },
+    {
+      "id": "6.1",
+      "titulo": "Seleção",
+      "descricao": "Assegurar que todo o pessoal seja elegível e adequado para os papéis para os quais são considerados e permaneça elegível e adequado durante sua contratação.",
+      "tema_id": "people",
+      "controle_texto": "Convém que verificações de antecedentes de todos os candidatos a serem contratados sejam realizadas antes de ingressarem na organização e de modo contínuo, de acordo com as leis, regulamentos e ética aplicáveis e que sejam proporcionais aos requisitos do negócio.",
+      "orientacao": "Convém que um processo de seleção seja realizado para todo o pessoal, incluindo pessoas em tempo integral, meio período e temporários. Convém que quando esses indivíduos forem contratados por meio de fornecedores de serviços, os requisitos de validação sejam incluídos nos acordos contratuais."
+    },
+    {
+      "id": "6.2",
+      "titulo": "Termos e condições de contratação",
+      "descricao": "Assegurar que o pessoal entenda suas responsabilidades de segurança da informação para os papéis para os quais eles são considerados.",
+      "tema_id": "people",
+      "controle_texto": "Convém que os contratos trabalhistas declarem as responsabilidades do pessoal e da organização para a segurança da informação.",
+      "orientacao": "Convém que as cláusulas contratuais para o pessoal considerem a política de segurança da informação da organização e políticas de temas específicos relevantes, incluindo acordos de confidencialidade e direitos legais."
+    },
+    {
+      "id": "6.3",
+      "titulo": "Conscientização, educação e treinamento em segurança da informação",
+      "descricao": "Assegurar que o pessoal e as partes interessadas pertinentes estejam cientes e cumpram suas responsabilidades de segurança da informação.",
+      "tema_id": "people",
+      "controle_texto": "Convém que o pessoal da organização e partes interessadas relevantes recebam treinamento, educação e conscientização em segurança da informação apropriados e atualizações regulares da política de segurança da informação da organização.",
+      "orientacao": "Convém que um programa de conscientização, educação e treinamento em segurança da informação seja estabelecido de acordo com a política de segurança da informação da organização, levando em consideração os controles implementados para proteger as informações."
+    },
+    {
+      "id": "6.4",
+      "titulo": "Processo disciplinar",
+      "descricao": "Assegurar que o pessoal e outras partes interessadas pertinentes entendam as consequências da violação da política de segurança da informação, para dissuadir e lidar adequadamente com as pessoas que cometeram a violação.",
+      "tema_id": "people",
+      "controle_texto": "Convém que um processo disciplinar seja formalizado e comunicado, para tomar ações contra pessoal e outras partes interessadas relevantes que tenham cometido uma violação da política de segurança da informação.",
+      "orientacao": "Convém que o processo disciplinar não seja iniciado sem a confirmação prévia de que ocorreu uma violação da política de segurança da informação."
+    },
+    {
+      "id": "6.5",
+      "titulo": "Responsabilidades após encerramento ou mudança da contratação",
+      "descricao": "Proteger os interesses da organização como parte do processo de mudança ou encerramento da contratação ou de um contrato.",
+      "tema_id": "people",
+      "controle_texto": "Convém que as responsabilidades e funções de segurança da informação que permaneçam válidos após o encerramento ou mudança da contratação sejam definidos, aplicados e comunicados ao pessoal e outras partes interessadas pertinentes.",
+      "orientacao": "Convém que processo de gestão da mudança ou encerramento da contratação defina quais responsabilidades e funções de segurança da informação convém permanecer válidos após a mudança ou encerramento (ex: confidencialidade de informações e propriedade intelectual)."
+    },
+    {
+      "id": "6.6",
+      "titulo": "Acordos de confidencialidade ou não divulgação",
+      "descricao": "Manter a confidencialidade das informações acessíveis pelo pessoal ou por partes externas.",
+      "tema_id": "people",
+      "controle_texto": "Convém que acordos de confidencialidade ou não divulgação que reflitam as necessidades da organização para a proteção das informações sejam identificados, documentados, analisados criticamente em intervalos regulares e assinados por pessoal e outras partes interessadas pertinentes.",
+      "orientacao": "Convém que acordos de confidencialidade ou não divulgação abordem a exigência de proteger informações confidenciais usando termos legalmente aplicáveis. Com base nos requisitos de segurança, convém que os termos levem em consideração o tipo de informação manuseada e seu uso."
+    },
+    {
+      "id": "6.7",
+      "titulo": "Trabalho remoto",
+      "descricao": "Assegurar a segurança das informações quando o pessoal estiver trabalhando remotamente.",
+      "tema_id": "people",
+      "controle_texto": "Convém que medidas de segurança sejam implementadas quando as pessoas estiverem trabalhando remotamente para proteger as informações acessadas, tratadas ou armazenadas fora das instalações da organização.",
+      "orientacao": "O trabalho remoto ocorre sempre que o pessoal da organização trabalha em um local fora das instalações da organização, acessando informações seja em cópias impressas ou eletronicamente. Convém que as organizações que permitem atividades remotas emitam uma política específica definindo as condições e restrições."
+    },
+    {
+      "id": "6.8",
+      "titulo": "Relato de eventos de segurança da informação",
+      "descricao": "Oferecer apoio em tempo hábil a relatos, consistentes e eficazes de eventos de segurança da informação que podem ser identificados pelo pessoal.",
+      "tema_id": "people",
+      "controle_texto": "Convém que a organização forneça um mecanismo para que as pessoas relatem eventos de segurança da informação observados ou suspeitos através de canais apropriados em tempo hábil.",
+      "orientacao": "Convém que todo o pessoal e os usuários estejam conscientes de suas responsabilidades de relatar eventos de segurança da informação o mais rápido possível, a fim de prevenir ou minimizar o efeito dos incidentes."
+    },
+    {
+      "id": "7.1",
+      "titulo": "Perímetros de segurança física",
+      "descricao": "Evitar acesso físico não autorizado, danos e interferências nas informações da organização e outros ativos associados.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que perímetros de segurança sejam definidos e usados para proteger áreas que contenham informações e outros ativos associados.",
+      "orientacao": "Convém que diretrizes como definir a localização e resistência de cada perímetro, ter perímetros fisicamente sólidos e portas/janelas externas adequadamente protegidas e alarmadas sejam consideradas e implementadas."
+    },
+    {
+      "id": "7.2",
+      "titulo": "Entrada física",
+      "descricao": "Assegurar que ocorra apenas acesso físico autorizado às informações da organização e outros ativos associados.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que as áreas seguras sejam protegidas por controles de entrada e pontos de acesso apropriados.",
+      "orientacao": "Convém que os pontos de acesso, como áreas de entrega e carregamento e outros pontos onde pessoas não autorizadas podem entrar nas instalações, sejam controlados e isolados dos recursos de tratamento da informação."
+    },
+    {
+      "id": "7.3",
+      "titulo": "Segurança de escritórios, salas e instalações",
+      "descricao": "Evitar acesso físico não autorizado, danos e interferências nas informações da organização e outros ativos associados em escritórios, salas e instalações.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que seja projetada e implementada segurança física para escritórios, salas e instalações.",
+      "orientacao": "Convém que instalações-chave sejam localizadas de maneira a evitar o acesso do público, projetadas para evitar que informações confidenciais sejam visíveis da parte externa e que não se tornem evidenciadas através de letreiros ou mapas acessíveis online."
+    },
+    {
+      "id": "7.4",
+      "titulo": "Monitoramento de segurança física",
+      "descricao": "Detectar e impedir o acesso físico não autorizado.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que as instalações sejam monitoradas continuamente para acesso físico não autorizado.",
+      "orientacao": "Convém que as instalações físicas sejam monitoradas por sistemas de vigilância, que podem incluir guardas, alarmes de intrusos e sistemas de videomonitoramento, gerenciados internamente ou por um provedor de serviços de monitoramento."
+    },
+    {
+      "id": "7.5",
+      "titulo": "Proteção contra ameaças físicas e ambientais",
+      "descricao": "Prevenir ou reduzir as consequências de eventos originários de ameaças físicas e ambientais.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que a proteção contra ameaças físicas e ambientais, como desastres naturais e outras ameaças físicas intencionais ou não intencionais à infraestrutura, seja projetada e implementada.",
+      "orientacao": "Convém que processos de avaliação de risco para identificar as potenciais consequências das ameaças físicas e ambientais sejam realizados do início das operações críticas em um local físico e em intervalos regulares."
+    },
+    {
+      "id": "7.6",
+      "titulo": "Trabalho em áreas seguras",
+      "descricao": "Proteger as informações e outros ativos associados em áreas seguras contra danos e interferência não autorizada do pessoal que trabalha nessas áreas.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que medidas de segurança para trabalhar em áreas seguras sejam projetadas e implementadas.",
+      "orientacao": "Convém que as medidas de segurança para trabalhar em áreas seguras sejam aplicadas a todo o pessoal e abranjam todas as atividades ocorrendo na área segura, evitando trabalhos não supervisionados e controlando o uso de dispositivos móveis ou de gravação."
+    },
+    {
+      "id": "7.7",
+      "titulo": "Mesa limpa e tela limpa",
+      "descricao": "Reduzir os riscos de acesso não autorizado, perda e danos às informações em mesas, outros locais acessíveis durante e fora do horário comercial.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que regras de mesa limpa para documentos impressos e mídia de armazenamento removível e regras de tela limpa para os recursos de tratamento das informações sejam definidas e adequadamente aplicadas.",
+      "orientacao": "Convém que a organização estabeleça e comunique uma política específica por tema sobre mesa limpa e tela limpa para todas as partes interessadas relevantes, exigindo bloqueio de informações sensíveis quando não requeridas e telas bloqueadas automaticamente."
+    },
+    {
+      "id": "7.8",
+      "titulo": "Localização e proteção de equipamentos",
+      "descricao": "Reduzir os riscos de ameaças físicas e ambientais, e de acesso não autorizado e danos.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que os equipamentos sejam posicionados com segurança e proteção.",
+      "orientacao": "Convém que equipamentos sejam posicionados de modo a minimizar acesso desnecessário ou visualização indevida de dados confidenciais, aplicando controles contra ameaças físicas e implementando proteções específicas (ex: contra raios ou emanação eletromagnética)."
+    },
+    {
+      "id": "7.9",
+      "titulo": "Segurança de ativos fora das instalações da organização",
+      "descricao": "Evitar perdas, danos, roubos ou comprometimento de ativos fora das instalações da organização e interrupção da operação da organização.",
+      "tema_id": "physical",
+      "controle_texto": "Convém proteger os ativos fora das instalações da organização.",
+      "orientacao": "Qualquer dispositivo usado fora das instalações da organização que armazene ou trate informações (por exemplo, dispositivo móvel), incluindo dispositivos de propriedade privada usados em nome da organização (BYOD) necessita estar protegido com autorização prévia."
+    },
+    {
+      "id": "7.10",
+      "titulo": "Mídia de armazenamento",
+      "descricao": "Assegurar a divulgação, modificação, remoção ou destruição de informações apenas de forma autorizada sobre as mídias de armazenamento.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que as mídias de armazenamento sejam gerenciadas por seu ciclo de vida de aquisição, uso, transporte e descarte, de acordo com o esquema de classificação e com os requisitos de manuseio da organização.",
+      "orientacao": "Convém estabelecer uma política específica sobre o gerenciamento de mídias, exigindo autorização para remoção, armazenamento seguro, uso de técnicas criptográficas e destruição adequada quando não forem mais necessárias."
+    },
+    {
+      "id": "7.11",
+      "titulo": "Serviços de infraestrutura",
+      "descricao": "Evitar perdas, danos ou comprometimento de informações e outros ativos associados, ou a interrupção das operações da organização devido à falha e disrupção nos serviços de infraestrutura.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que as instalações de tratamento de informações sejam protegidas contra falhas de energia e outras disrupções causadas por falhas nos serviços de infraestrutura.",
+      "orientacao": "As organizações dependem de serviços de infraestrutura (energia, telecomunicações, abastecimento de água, ar-condicionado). Convém assegurar que os equipamentos que os apoiam sejam inspecionados regularmente, implementando redundância e roteamento diversificado se necessário."
+    },
+    {
+      "id": "7.12",
+      "titulo": "Segurança do cabeamento",
+      "descricao": "Evitar perdas, danos, roubo ou comprometimento de informações e outros ativos associados à interrupção das operações da organização relacionadas ao cabeamento de energia e de comunicação.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que os cabos que transportam energia ou dados ou que sustentam serviços de informação sejam protegidos contra interceptação, interferência ou danos.",
+      "orientacao": "Convém que as linhas de energia e telecomunicação sejam subterrâneas ou devidamente protegidas, segregando cabos de energia de comunicação e adotando proteções como conduítes blindados e rotulagem para sistemas críticos."
+    },
+    {
+      "id": "7.13",
+      "titulo": "Manutenção de equipamentos",
+      "descricao": "Evitar perdas, danos, roubos ou comprometimento de informações e outros ativos associados e interrupção das operações da organização causada pela falta de manutenção.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que os equipamentos sejam mantidos corretamente para assegurar a disponibilidade, integridade e confidencialidade da informação.",
+      "orientacao": "Convém que a manutenção de equipamentos seja feita de acordo com as especificações recomendadas pelo fornecedor, implementando um programa de manutenção, mantendo os registros de falhas e autorizando apenas pessoal capacitado para intervenções."
+    },
+    {
+      "id": "7.14",
+      "titulo": "Descarte seguro ou reutilização de equipamentos",
+      "descricao": "Evitar o vazamento de informações por equipamento que seja descartado ou reutilizado.",
+      "tema_id": "physical",
+      "controle_texto": "Convém que sejam verificados os itens dos equipamentos que contenham mídia de armazenamento, para assegurar que quaisquer dados confidenciais e software licenciado tenham sido removidos ou substituídos com segurança antes do descarte ou reutilização.",
+      "orientacao": "Convém que os equipamentos sejam verificados para garantir se as mídias de armazenamento estão presentes. Mídias com informações confidenciais devem ser fisicamente destruídas ou ter as informações substituídas (sobrescritas) usando técnicas para torná-las irrecuperáveis."
+    },
+    {
+      "id": "8.1",
+      "titulo": "Dispositivos endpoint do usuário",
+      "descricao": "Proteger informações contra os riscos introduzidos pelo uso de dispositivos endpoint do usuário.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que as informações armazenadas, tratadas ou acessíveis por meio de dispositivos endpoint do usuário sejam protegidas.",
+      "orientacao": "Convém que a organização estabeleça uma política específica por tema sobre configuração segura e manuseio de dispositivos endpoint do usuário, abrangendo proteção física, restrição de software, controles de acesso, criptografia e proteção contra malware."
+    },
+    {
+      "id": "8.2",
+      "titulo": "Direitos de acessos privilegiados",
+      "descricao": "Assegurar que apenas usuários, componentes de software e serviços autorizados recebam direitos de acessos privilegiados.",
+      "tema_id": "tech",
+      "controle_texto": "Convém restringir e gerenciar a atribuição e o uso de direitos de acessos privilegiados.",
+      "orientacao": "Convém que a atribuição de direitos de acesso privilegiado seja controlada por meio de um processo de autorização, concedendo-os apenas a indivíduos com a competência necessária e com base no requisito mínimo para seus papéis funcionais."
+    },
+    {
+      "id": "8.3",
+      "titulo": "Restrição de acesso à informação",
+      "descricao": "Assegurar apenas o acesso autorizado e impedir o acesso não autorizado a informações e a outros ativos associados.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que o acesso às informações e outros ativos associados seja restrito de acordo com a política específica por tema sobre controle de acesso.",
+      "orientacao": "Convém restringir o acesso a informações provendo mecanismos para controlar quais dados podem ser acessados, por qual identidade ou grupo, aplicando também técnicas dinâmicas de gestão de acesso para proteger informações confidenciais de alto valor."
+    },
+    {
+      "id": "8.4",
+      "titulo": "Acesso ao código-fonte",
+      "descricao": "Evitar a introdução de funcionalidades não autorizadas, prevenir mudanças não intencionais ou maliciosas e manter a confidencialidade de propriedade intelectual valiosa.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que os acessos de leitura e escrita ao código-fonte, ferramentas de desenvolvimento e bibliotecas de software sejam adequadamente gerenciados.",
+      "orientacao": "Convém que o acesso ao código-fonte e aos itens associados (projetos, especificações) e ferramentas de desenvolvimento seja estritamente controlado, preferencialmente armazenando o código centralmente em um sistema seguro de gerenciamento de código."
+    },
+    {
+      "id": "8.5",
+      "titulo": "Autenticação segura",
+      "descricao": "Assegurar que um usuário ou uma entidade seja autenticada com segurança, quando o acesso a sistemas, aplicações e serviços é concedido.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que sejam implementadas tecnologias e procedimentos de autenticação seguros, com base em restrições de acesso à informação e à política específica por tema de controle de acesso.",
+      "orientacao": "Convém que seja escolhida uma técnica de autenticação com força adequada para a classificação das informações. Quando necessário, convém usar autenticação forte multifatores, combinada com proteções adicionais contra tentativas de acesso (força bruta, timeouts, etc)."
+    },
+    {
+      "id": "8.6",
+      "titulo": "Gestão de capacidade",
+      "descricao": "Assegurar a capacidade necessária dos recursos de tratamento de informações, recursos humanos, escritórios e outros serviços de infraestrutura.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que o uso dos recursos seja monitorado e ajustado de acordo com os requisitos atuais e esperados de capacidade.",
+      "orientacao": "Convém que sejam identificados os requisitos de capacidade para os recursos, aplicando ajuste e monitoramento contínuo para evitar limitações futuras e assegurar a disponibilidade e eficiência de sistemas de negócios essenciais."
+    },
+    {
+      "id": "8.7",
+      "titulo": "Proteção contra malware",
+      "descricao": "Assegurar que informações e outros ativos associados estejam protegidos contra malware.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que a proteção contra malware seja implementada e apoiada pela conscientização adequada do usuário.",
+      "orientacao": "Convém que a proteção seja baseada em software de detecção e reparo de malware, conscientização sobre segurança da informação, acesso adequado aos sistemas e controles restritos sobre a instalação de software não autorizado ou acesso a sites maliciosos."
+    },
+    {
+      "id": "8.8",
+      "titulo": "Gestão de vulnerabilidades técnicas",
+      "descricao": "Evitar a exploração de vulnerabilidades técnicas.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que informações sobre vulnerabilidades técnicas dos sistemas de informação em uso sejam obtidas, a exposição da organização a tais vulnerabilidades sejam avaliadas e medidas apropriadas sejam tomadas.",
+      "orientacao": "Convém que a organização tenha um inventário preciso de ativos como pré-requisito para a gestão, utilizando ferramentas de varredura, recebimento de relatórios e condução de testes de invasão para identificar prontamente vulnerabilidades relevantes."
+    },
+    {
+      "id": "8.9",
+      "titulo": "Gestão de configuração",
+      "descricao": "Assegurar que o hardware, o software, os serviços e as redes funcionem corretamente com as configurações de segurança necessárias, e que a configuração não seja alterada por alterações não autorizadas ou incorretas.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que as configurações, incluindo configurações de segurança, de hardware, software, serviços e redes sejam estabelecidas, documentadas, implementadas, monitoradas e analisadas criticamente.",
+      "orientacao": "Convém que a organização defina e implemente processos, estabelecendo modelos-padrão (templates) para configuração segura baseados em referências públicas confiáveis e mantendo um controle estrito sobre alterações nesses perfis."
+    },
+    {
+      "id": "8.10",
+      "titulo": "Exclusão de informações",
+      "descricao": "Evitar a exposição desnecessária de informações sensíveis e estar em conformidade com requisitos legais, estatutários, regulamentares e contratuais para a exclusão de informações.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que as informações armazenadas em sistemas de informação, dispositivos ou em qualquer outra mídia de armazenamento sejam excluídas quando não forem mais necessárias.",
+      "orientacao": "Convém que informações sensíveis não sejam mantidas por mais tempo do que o necessário, definindo métodos seguros de deleção (sobrescrito, eliminação criptográfica ou desmagnetização) de acordo com políticas de retenção de dados aplicáveis."
+    },
+    {
+      "id": "8.11",
+      "titulo": "Mascaramento de dados",
+      "descricao": "Limitar a exposição de dados confidenciais, incluindo DP, e cumprir requisitos legais, estatutários, regulamentares e contratuais.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que o mascaramento de dados seja usado de acordo com a política específica por tema da organização sobre controle de acesso e outros requisitos específicos por tema relacionados e requisitos de negócios.",
+      "orientacao": "Quando a proteção de dados sensíveis (por exemplo, DP) for uma preocupação, convém que as organizações considerem esconder tais dados utilizando técnicas como mascaramento de dados, pseudonimização, ofuscação de caracteres ou anonimização de bases."
+    },
+    {
+      "id": "8.12",
+      "titulo": "Prevenção de vazamento de dados",
+      "descricao": "Detectar e prevenir a divulgação e extração não autorizadas de informações por indivíduos ou sistemas.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que medidas de prevenção de vazamento de dados sejam aplicadas a sistemas, redes e quaisquer outros dispositivos que tratem, armazenem ou transmitam informações sensíveis.",
+      "orientacao": "Convém que a organização atue identificando e classificando informações para protegê-las, monitorando canais de comunicação (e-mails, transferências, dispositivos móveis) e implantando ferramentas ativas para bloquear ou colocar em quarentena envios suspeitos."
+    },
+    {
+      "id": "8.13",
+      "titulo": "Backup das informações",
+      "descricao": "Permitir a recuperação da perda de dados ou sistemas.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que cópias de backup de informações, software e sistemas sejam mantidas e testadas regularmente de acordo com a política específica por tema acordada sobre backup.",
+      "orientacao": "Convém que uma política específica seja estabelecida assegurando instalações adequadas e planos de testes regulares. Os backups devem ser mantidos em locais remotos seguros, possivelmente criptografados, garantindo a recuperação rápida conforme o RTO do negócio."
+    },
+    {
+      "id": "8.14",
+      "titulo": "Redundância dos recursos de tratamento de informações",
+      "descricao": "Assegurar o funcionamento contínuo dos recursos de tratamento de informações.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que os recursos de tratamento de informações sejam implementados com redundância suficiente para atender aos requisitos de disponibilidade.",
+      "orientacao": "Convém que a organização identifique requisitos de disponibilidade de sistemas e implemente redundância duplicando componentes físicos ou lógicos (links de internet, roteadores, fontes de alimentação, data centers espelhados), garantindo a continuidade de serviços críticos."
+    },
+    {
+      "id": "8.15",
+      "titulo": "Log",
+      "descricao": "Registrar eventos, gerar evidências, assegurar a integridade das informações de registro, prevenir contra acesso não autorizado e apoiar investigações.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que logs que registrem atividades, exceções, falhas e outros eventos relevantes sejam produzidos, armazenados, protegidos e analisados.",
+      "orientacao": "Convém que a organização determine quais dados são registrados (ex: ID, sistema, data, IP) e proteja rigidamente esses logs contra alterações de administradores, submetendo os arquivos a processos de correlação e análise contínua (SIEM)."
+    },
+    {
+      "id": "8.16",
+      "titulo": "Atividades de monitoramento",
+      "descricao": "Detectar comportamentos anômalos e possíveis incidentes de segurança da informação.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que redes, sistemas e aplicações sejam monitorados por comportamentos anômalos e por ações apropriadas, tomadas para avaliar possíveis incidentes de segurança da informação.",
+      "orientacao": "Convém que o escopo e o nível de monitoramento contínuo (redes, firewalls, tráfego, perfis de usuários) seja determinado de acordo com os requisitos de segurança, permitindo o estabelecimento de uma linha de base para facilitar o disparo de alertas em tempo real perante ações incomuns."
+    },
+    {
+      "id": "8.17",
+      "titulo": "Sincronização do relógio",
+      "descricao": "Permitir a correlação e a análise de eventos relacionadas à segurança e a outros dados registrados, e apoiar investigações sobre incidentes de segurança da informação.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que os relógios dos sistemas de tratamento de informações utilizados pela organização sejam sincronizados com fontes de tempo aprovadas.",
+      "orientacao": "Convém que um relógio de referência preciso (ligado a um relógio atômico nacional ou sistema de posicionamento global - GPS) seja usado por meio do protocolo NTP, garantindo confiabilidade cruzada e precisão nos carimbos de tempo (timestamps)."
+    },
+    {
+      "id": "8.18",
+      "titulo": "Uso de programas utilitários privilegiados",
+      "descricao": "Assegurar que o uso de programas utilitários não prejudique os controles do sistema e das aplicações para segurança da informação.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que o uso de programas utilitários que possam ser capazes de substituir os controles de sistema e aplicações seja restrito e rigorosamente controlado.",
+      "orientacao": "Convém limitar o uso dessas ferramentas ao número mínimo de usuários autorizados, exigindo autenticação rigorosa, autorização documentada prévia para uso ad hoc e segmentação lógica para que essas ferramentas não interajam inadvertidamente com as aplicações em operação normal."
+    },
+    {
+      "id": "8.19",
+      "titulo": "Instalação de software em sistemas operacionais",
+      "descricao": "Assegurar a integridade dos sistemas operacionais e evitar a exploração de vulnerabilidades técnicas.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que procedimentos e medidas sejam implementados para gerenciar com segurança a instalação de software em sistemas operacionais.",
+      "orientacao": "Convém realizar instalações e atualizações apenas por administradores treinados após testes completos, além de gerir as versões e configurações por meio de um plano formal com capacidade para realizar regressões (rollback) se necessário."
+    },
+    {
+      "id": "8.20",
+      "titulo": "Segurança de redes",
+      "descricao": "Proteger as informações nas redes e seus recursos de tratamento de informações de suporte contra o comprometimento por rede.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que redes e dispositivos de rede sejam protegidos, gerenciados e controlados para proteger as informações em sistemas e aplicações.",
+      "orientacao": "Convém assegurar o monitoramento de equipamentos, o desenho rigoroso de arquitetura e a segmentação de firewalls, protegendo a confidencialidade e a integridade dos dados, além de restringir a conexão de quaisquer equipamentos desconhecidos às redes críticas."
+    },
+    {
+      "id": "8.21",
+      "titulo": "Segurança dos serviços de rede",
+      "descricao": "Assegurar a segurança no uso de serviços de rede.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que sejam identificados, implementados e monitorados mecanismos de segurança, níveis de serviço e requisitos de serviços de rede.",
+      "orientacao": "Convém identificar e acordar medidas de segurança com provedores internos ou externos e garantir mecanismos (como túneis VPN, criptografia e fortes requisitos de autenticação) que protejam a prestação dos serviços subcontratados perante a rede."
+    },
+    {
+      "id": "8.22",
+      "titulo": "Segregação de redes",
+      "descricao": "Dividir a rede em perímetros de segurança e controlar o tráfego entre eles com base nas necessidades de negócios.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que grupos de serviços de informação, usuários e sistemas de informação sejam segregados nas redes da organização.",
+      "orientacao": "Convém gerenciar grandes redes dividindo-as em domínios ou VLANs diferentes separados da internet, alocados com base nos níveis de confiança (acesso público, servidores, convidados, etc), monitorando e filtrando as travessias entre domínios."
+    },
+    {
+      "id": "8.23",
+      "titulo": "Filtragem da web",
+      "descricao": "Proteger os sistemas de serem comprometidos por malware e impedir o acesso a recursos web não autorizados.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que o acesso a sites externos seja gerenciado para reduzir a exposição a conteúdo malicioso.",
+      "orientacao": "Convém que a organização reduza os riscos de seu pessoal acessar sites que contenham informações ilegais ou que contenham phishing, por meio de bloqueio de URLs e IPs reconhecidos como maliciosos, combinando os bloqueios com forte treinamento aos funcionários."
+    },
+    {
+      "id": "8.24",
+      "titulo": "Uso de criptografia",
+      "descricao": "Assegurar o uso adequado e eficaz da criptografia para proteger a confidencialidade, autenticidade ou integridade das informações de acordo com os requisitos de segurança.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que sejam definidas e implementadas regras para o uso efetivo da criptografia, incluindo o gerenciamento de chaves criptográficas.",
+      "orientacao": "Ao usar criptografia, convém estabelecer uma política para definir o nível de proteção adequado para a classificação de informações tanto em repouso quanto em trânsito, implementando paralelamente regras robustas de ciclo de vida e gerenciamento de chaves (emissão, distribuição e destruição)."
+    },
+    {
+      "id": "8.25",
+      "titulo": "Ciclo de vida de desenvolvimento seguro",
+      "descricao": "Assegurar que a segurança da informação seja projetada e implementada dentro do ciclo de vida e desenvolvimento seguro de software e sistemas.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que regras para o desenvolvimento seguro de software e sistemas sejam estabelecidas e aplicadas.",
+      "orientacao": "O desenvolvimento seguro é um requisito transversal, requerendo desde a separação entre desenvolvimento e produção, adoção de padrões de codificação limpos, até a implementação de modelagem de ameaças e testes na fase de arquitetura de novos sistemas."
+    },
+    {
+      "id": "8.26",
+      "titulo": "Requisitos de segurança da aplicação",
+      "descricao": "Assegurar que todos os requisitos de segurança da informação sejam identificados e abordados ao desenvolver ou adquirir aplicações.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que os requisitos de segurança da informação sejam identificados, especificados e aprovados ao desenvolver ou adquirir aplicações.",
+      "orientacao": "Convém que a especificação levante tópicos amplos como validação rigorosa de inputs/outputs contra injeções, integração adequada de métodos de criptografia, e exigências legais relativas ao trâmite de informações dentro da jurisdição."
+    },
+    {
+      "id": "8.27",
+      "titulo": "Princípios de arquitetura e engenharia de sistemas seguros",
+      "descricao": "Assegurar que os sistemas de informação sejam projetados, implementados e operados com segurança dentro do ciclo de vida de desenvolvimento.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que princípios de engenharia para sistemas de segurança sejam estabelecidos, documentados, mantidos e aplicados a qualquer atividade de desenvolvimento de sistemas.",
+      "orientacao": "Convém fundamentar o design nos princípios basilares (como \"segurança por padrão\", \"confiança zero\" e \"defesa em profundidade\"), onde até as comunicações de sistemas internos são validadas e criptografadas sistematicamente sem confiabilidade implícita."
+    },
+    {
+      "id": "8.28",
+      "titulo": "Codificação segura",
+      "descricao": "Assegurar que o software seja escrito com segurança, reduzindo assim o número de potenciais vulnerabilidades de segurança da informação no software.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que princípios de codificação segura sejam aplicados ao desenvolvimento de software.",
+      "orientacao": "Convém estabelecer processos para governar práticas unificadas e higiênicas em toda organização (incluindo bibliotecas de terceiros), exigindo dos desenvolvedores técnicas seguras, documentação, IDEs controladas, e avaliações contínuas (SAST) em seus pacotes."
+    },
+    {
+      "id": "8.29",
+      "titulo": "Testes de segurança em desenvolvimento e aceitação",
+      "descricao": "Validar se os requisitos de segurança da informação são atendidos quando as aplicações ou códigos são implantados no ambiente de produção.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que os processos de teste de segurança sejam definidos e implementados no ciclo de vida do desenvolvimento.",
+      "orientacao": "Convém submeter todos os sistemas (incluindo atualizações) a varreduras rigorosas em ambientes separados simulando a produção. Funções de segurança, controle de versão e aceitação baseada em testes invasivos independentes devem ser parte da esteira."
+    },
+    {
+      "id": "8.30",
+      "titulo": "Desenvolvimento terceirizado",
+      "descricao": "Assegurar que as medidas de segurança da informação requeridas pela organização sejam implementadas na terceirização do desenvolvimento de sistemas.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que a organização dirija, monitore e analise criticamente as atividades relacionadas à terceirização de desenvolvimento de sistemas.",
+      "orientacao": "Quando terceirizado, a organização tem de concordar previamente por contrato sobre padrões de codificação, requisitos de design seguro, testes invasivos e contratos de custódia de código para mitigar riscos caso a provedora encerre suas atividades."
+    },
+    {
+      "id": "8.31",
+      "titulo": "Separação dos ambientes de desenvolvimento, teste e produção",
+      "descricao": "Proteger o ambiente de produção e os dados de comprometimento por meio de atividades de desenvolvimento e teste.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que ambientes de desenvolvimento, testes e produção sejam separados e protegidos.",
+      "orientacao": "Convém estruturar redes ou divisões lógicas intransponíveis entre desenvolvimento e produção, evitando contaminação, inibindo cópia indiscriminada de dados reais sem higienização para ambientes de teste e aplicando estrito controle de versionamento ao migrar."
+    },
+    {
+      "id": "8.32",
+      "titulo": "Gestão de mudanças",
+      "descricao": "Preservar a segurança da informação ao executar mudanças.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que mudanças nos recursos de tratamento de informações e sistemas de informação estejam sujeitas a procedimentos de gestão de mudanças.",
+      "orientacao": "Convém submeter quaisquer modificações significativas a um processo formal de especificação, planejamento, testes prévios, plano de reversão documentado e janelas aprobatórias formais executadas por um comitê gestor de mudanças antes de alcançarem a produção."
+    },
+    {
+      "id": "8.33",
+      "titulo": "Informações de teste",
+      "descricao": "Assegurar a relevância dos testes e a proteção das informações operacionais utilizadas para testes.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que as informações de teste sejam adequadamente selecionadas, protegidas e gerenciadas.",
+      "orientacao": "Convém selecionar massa de dados simulada para não expor a confidencialidade. Caso se requeira o uso da carga operacional (produção) em testes, deve-se extrair permissões específicas, ofuscar (mascarar) dados sensíveis, auditar o trâmite e extingui-los imediatamente após a validação."
+    },
+    {
+      "id": "8.34",
+      "titulo": "Proteção de sistemas de informação durante os testes de auditoria",
+      "descricao": "Minimizar o impacto da auditoria e outras atividades de garantia em sistemas operacionais e processos de negócio.",
+      "tema_id": "tech",
+      "controle_texto": "Convém que testes de auditoria e outras atividades de garantia envolvendo a avaliação de sistemas operacionais sejam planejados e acordados entre o testador e a gestão apropriada.",
+      "orientacao": "Convém alinhar janelas e premissas isoladas que protejam a disponibilidade diária do negócio e restrinjam o nível de acesso do auditor estritamente à função de leitura segura, sem afetar ou alterar arquivos que operam na infraestrutura produtiva."
+    }
+  ]
+}

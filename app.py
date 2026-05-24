@@ -58,7 +58,7 @@ def _render_theme_toggle() -> None:
     st.sidebar.caption(f"Tema atual: {tema_label}")
 
 st.set_page_config(
-    page_title="ISO/IEC 27000 — Diagnóstico de Conformidade",
+    page_title="ISO/IEC 27000 - Diagnóstico de Conformidade",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -72,9 +72,9 @@ inicializar_estado()
 ROTAS = {
     "home": home.render,
     "diagnosticos": diagnosticos.render,
-    "iso27002_assessment": assessment.render,
-    "iso27002_dashboard": dashboard.render,
-    "iso27002_action_plan": action_plan.render,
+    "iso27001_assessment": assessment.render,
+    "iso27001_dashboard": dashboard.render,
+    "iso27001_action_plan": action_plan.render,
     "iso27701_assessment": iso27701_views.render_assessment,
     "iso27701_dashboard": iso27701_views.render_dashboard,
     "history": history.render,

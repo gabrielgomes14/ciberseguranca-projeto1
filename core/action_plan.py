@@ -10,14 +10,10 @@ from core.models import (
     Avaliacao,
 )
 from core.scoring import RESPOSTA_NAO_CONFORME
-from modulos.iso27002.controls import TEMA_LABELS, Controle
+from modulos.iso27001.controls import TEMA_LABELS, Controle
 
-# Status legado pré-migração (Parcial → NC + remediacao=Sim). Mantido para tolerância
-# de leitura até `_migrar` rodar; não exposto como constante pública.
-_STATUS_LEGADO_PARCIAL = "Parcial"
-
-# Status que geram ação no plano. Inclui o legado retrocompatível.
-_STATUS_NO_PLANO: frozenset[str] = frozenset({RESPOSTA_NAO_CONFORME, _STATUS_LEGADO_PARCIAL})
+# Status que geram ação no plano.
+_STATUS_NO_PLANO: frozenset[str] = frozenset({RESPOSTA_NAO_CONFORME})
 
 CRITICIDADE_RANK: dict[str, int] = {
     CRITICIDADE_ALTA: 0,
@@ -52,10 +48,9 @@ def _prioridade(status: str, criticidade: str, remediacao: str) -> str:
     """Calcula a prioridade da ação a partir de status + criticidade + remediação.
 
     Regra: criticidade Alta + remediação ausente é o pior cenário (Crítica).
-    Remediação em andamento reduz a prioridade em um nível. Status legado "Parcial"
-    é equivalente a "Não Conforme + remediacao=Sim" durante a transição.
+    Remediação em andamento reduz a prioridade em um nível.
     """
-    em_andamento = remediacao == REMEDIACAO_SIM or status == _STATUS_LEGADO_PARCIAL
+    em_andamento = remediacao == REMEDIACAO_SIM
     if status not in _STATUS_NO_PLANO:
         return "Baixa"
     if criticidade == CRITICIDADE_ALTA:
