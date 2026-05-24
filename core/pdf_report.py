@@ -311,7 +311,6 @@ def _gerar_pdf_base(
         )
     )
 
-    # Resumos por categoria (usados na tabela)
     resumos = {
         cat_id: resumo_tema(
             avaliacoes,
@@ -322,20 +321,17 @@ def _gerar_pdf_base(
         for cat_id in categorias
     }
 
-    # Distribuição dos status (donut)
     flow.append(Paragraph("Distribuição dos Status", s["h2"]))
     flow.append(chart_donut_status(resumos))
 
-    # Radar de aderência por categoria (apenas se houver ≥ 3 categorias)
     if len(categorias) >= 3:
         flow.append(Paragraph(f"Aderência por {titulo_categoria} (Radar)", s["h2"]))
         flow.append(chart_radar(categorias, resumos))
 
-    # Barras de score por categoria
+
     flow.append(Paragraph(f"Score por {titulo_categoria}", s["h2"]))
     flow.append(chart_barras_categoria(categorias, resumos))
 
-    # Resultado tabular por categoria
     flow.append(Paragraph(f"Resultado Tabular por {titulo_categoria}", s["h2"]))
     linhas_cat: list[list[object]] = [[titulo_categoria, "Score", "Status", "Conformes", "Em Adequação", "Não Conf.", "N/A"]]
     for cat_id, cat_label in categorias.items():
@@ -355,7 +351,6 @@ def _gerar_pdf_base(
     tabela_cat.setStyle(_tabela_estilo())
     flow.append(tabela_cat)
 
-    # Plano de Ação (opcional)
     if acoes is not None:
         flow.append(PageBreak())
         flow.append(Paragraph("Plano de Ação", s["h2"]))
@@ -396,7 +391,6 @@ def _gerar_pdf_base(
                     )
                 )
 
-    # Detalhamento completo
     flow.append(PageBreak())
     flow.append(Paragraph(f"Detalhamento Completo dos {label_item}s", s["h2"]))
     linhas_det: list[list[object]] = [[label_item, "Título", "Status", "Criticidade"]]

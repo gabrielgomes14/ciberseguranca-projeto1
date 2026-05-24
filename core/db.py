@@ -276,9 +276,28 @@ def _seed_demo(con: sqlite3.Connection) -> None:
         )
 
 
+def _colunas_tabela(con: sqlite3.Connection, tabela: str) -> set[str]:
+    rows = con.execute(f"PRAGMA table_info({tabela})").fetchall()
+    return {str(r["name"]) for r in rows}
+
+
+def _adicionar_coluna(con: sqlite3.Connection, tabela: str, coluna: str, ddl: str) -> None:
+    colunas = _colunas_tabela(con, tabela)
+    if coluna not in colunas:
+        con.execute(f"ALTER TABLE {tabela} ADD COLUMN {ddl}")
+
+
+def _migrar(con: sqlite3.Connection) -> None:
+    _adicionar_coluna(con, "iso27001_controle", "controle_texto", "controle_texto TEXT NOT NULL DEFAULT ''")
+    _adicionar_coluna(con, "iso27001_controle", "orientacao", "orientacao TEXT NOT NULL DEFAULT ''")
+    _adicionar_coluna(con, "iso27701_controle", "controle_texto", "controle_texto TEXT NOT NULL DEFAULT ''")
+    _adicionar_coluna(con, "iso27701_controle", "orientacao", "orientacao TEXT NOT NULL DEFAULT ''")
+
+
 def init_db() -> None:
     with conexao() as con:
         con.executescript(_SCHEMA)
+        _migrar(con)
         _seed_catalogo(con)
         _seed_demo(con)
 

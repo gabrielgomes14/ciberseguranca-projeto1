@@ -5,7 +5,6 @@ from datetime import date
 
 import streamlit as st
 
-# Cor de texto principal. Reusada por _render_header_card e theme_summary.
 _COR_INK = "var(--text-color)"
 
 

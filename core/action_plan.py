@@ -12,7 +12,6 @@ from core.models import (
 from core.scoring import RESPOSTA_NAO_CONFORME
 from modulos.iso27001.controls import TEMA_LABELS, Controle
 
-# Status que geram ação no plano.
 _STATUS_NO_PLANO: frozenset[str] = frozenset({RESPOSTA_NAO_CONFORME})
 
 CRITICIDADE_RANK: dict[str, int] = {
@@ -21,7 +20,6 @@ CRITICIDADE_RANK: dict[str, int] = {
     CRITICIDADE_BAIXA: 2,
 }
 
-# Ordem de prioridade do plano (Crítica > Alta > Média > Baixa).
 _PRIORIDADE_ORDEM: dict[str, int] = {
     "Crítica": 0,
     "Alta": 1,

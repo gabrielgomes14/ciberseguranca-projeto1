@@ -68,7 +68,6 @@ def chart_donut_status(
     pie.y = 10
     pie.width = altura_cm * cm - 20
     pie.height = altura_cm * cm - 20
-    pie.innerRadius = pie.width * 0.55
     pie.data = [qtd for _, qtd in visiveis]
     pie.labels = [str(qtd) for _, qtd in visiveis]
     pie.slices.strokeColor = colors.white
