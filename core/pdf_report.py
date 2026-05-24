@@ -558,14 +558,10 @@ def gerar_pdf_comparativo(
     s = _styles()
     flow: list[object] = []
 
-    flow.append(Paragraph(f"Relatório Comparativo - {norma}", s["titulo"]))
-    flow.append(
-        Paragraph(
-            f"{organizacao} · A: <b>{rotulo_a}</b> ({quando_a}) → "
-            f"B: <b>{rotulo_b}</b> ({quando_b}) · "
-            f"Gerado em {datetime.now().strftime('%d/%m/%Y %H:%M')}",
-            s["subtitulo"],
-        )
+    meta = (
+        f"{organizacao} · A: <b>{rotulo_a}</b> ({quando_a}) → "
+        f"B: <b>{rotulo_b}</b> ({quando_b}) · "
+        f"Gerado em {datetime.now().strftime('%d/%m/%Y %H:%M')}"
     )
     flow.append(_hero("Relatorio Comparativo", norma, meta, s))
     flow.append(Spacer(1, 0.4 * cm))

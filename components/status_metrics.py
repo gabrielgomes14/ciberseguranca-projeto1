@@ -2,6 +2,7 @@ import streamlit as st
 
 from core.scoring import ResultadoTema
 
+
 def render_status_metrics(resumos: dict[str, ResultadoTema], label_itens: str = "itens") -> None:
     total = sum(r.total for r in resumos.values())
     conformes = sum(r.conformes for r in resumos.values())
