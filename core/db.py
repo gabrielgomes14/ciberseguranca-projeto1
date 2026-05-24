@@ -39,11 +39,13 @@ class Snapshot:
 
 
 @dataclass(frozen=True)
-class Controle27002Row:
+class Controle27001Row:
     id: str
     titulo: str
     descricao: str
     tema_id: str
+    controle_texto: str = ""
+    orientacao: str = ""
 
 
 @dataclass(frozen=True)
@@ -52,6 +54,8 @@ class Controle27701Row:
     titulo: str
     descricao: str
     categoria_id: str
+    controle_texto: str = ""
+    orientacao: str = ""
 
 
 _SCHEMA = """
@@ -89,17 +93,19 @@ CREATE TABLE IF NOT EXISTS snapshot (
     FOREIGN KEY (diagnostico_id) REFERENCES diagnostico(id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS iso27002_tema (
+CREATE TABLE IF NOT EXISTS iso27001_tema (
     id TEXT PRIMARY KEY,
     label TEXT NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS iso27002_controle (
+CREATE TABLE IF NOT EXISTS iso27001_controle (
     id TEXT PRIMARY KEY,
     titulo TEXT NOT NULL,
     descricao TEXT NOT NULL,
     tema_id TEXT NOT NULL,
-    FOREIGN KEY (tema_id) REFERENCES iso27002_tema(id)
+    controle_texto TEXT NOT NULL DEFAULT '',
+    orientacao TEXT NOT NULL DEFAULT '',
+    FOREIGN KEY (tema_id) REFERENCES iso27001_tema(id)
 );
 
 CREATE TABLE IF NOT EXISTS iso27701_categoria (
@@ -112,12 +118,14 @@ CREATE TABLE IF NOT EXISTS iso27701_controle (
     titulo TEXT NOT NULL,
     descricao TEXT NOT NULL,
     categoria_id TEXT NOT NULL,
+    controle_texto TEXT NOT NULL DEFAULT '',
+    orientacao TEXT NOT NULL DEFAULT '',
     FOREIGN KEY (categoria_id) REFERENCES iso27701_categoria(id)
 );
 
 CREATE INDEX IF NOT EXISTS idx_diag_modulo ON diagnostico(modulo);
 CREATE INDEX IF NOT EXISTS idx_snap_diag ON snapshot(diagnostico_id);
-CREATE INDEX IF NOT EXISTS idx_iso27002_controle_tema ON iso27002_controle(tema_id);
+CREATE INDEX IF NOT EXISTS idx_iso27001_controle_tema ON iso27001_controle(tema_id);
 CREATE INDEX IF NOT EXISTS idx_iso27701_controle_categoria ON iso27701_controle(categoria_id);
 """
 
@@ -134,68 +142,73 @@ def conexao() -> Iterator[sqlite3.Connection]:
         con.close()
 
 
-def _migrar(con: sqlite3.Connection) -> None:
-    cols_diag = {r["name"] for r in con.execute("PRAGMA table_info(diagnostico)")}
-    if "data_auditoria" not in cols_diag:
-        con.execute("ALTER TABLE diagnostico ADD COLUMN data_auditoria TEXT NOT NULL DEFAULT ''")
-        con.execute("UPDATE diagnostico SET data_auditoria = substr(criado_em, 1, 10) WHERE data_auditoria = ''")
-
-    cols_av = {r["name"] for r in con.execute("PRAGMA table_info(avaliacao)")}
-    if "remediacao" not in cols_av:
-        con.execute("ALTER TABLE avaliacao ADD COLUMN remediacao TEXT NOT NULL DEFAULT ''")
-
-    # Migração do status legado "Parcial": passa a ser "Não Conforme" + remediacao="Sim".
-    # Idempotente: após a primeira execução, não há mais linhas com status="Parcial".
-    con.execute("UPDATE avaliacao SET status = 'Não Conforme', remediacao = 'Sim' WHERE status = 'Parcial'")
-
-
 def _seed_catalogo(con: sqlite3.Connection) -> None:
     """Popula as tabelas de catálogo a partir dos JSONs em `data/` quando vazias.
 
     Idempotente: usa `INSERT OR IGNORE` para que execuções repetidas não dupliquem
     nem sobrescrevam edições eventuais. Se um arquivo de seed estiver ausente,
-    levanta `FileNotFoundError` em vez de silenciar — o catálogo é dado obrigatório.
+    levanta `FileNotFoundError` em vez de silenciar - o catálogo é dado obrigatório.
     """
-    n_temas = con.execute("SELECT COUNT(*) FROM iso27002_tema").fetchone()[0]
-    n_27002 = con.execute("SELECT COUNT(*) FROM iso27002_controle").fetchone()[0]
+    n_temas = con.execute("SELECT COUNT(*) FROM iso27001_tema").fetchone()[0]
+    n_27001 = con.execute("SELECT COUNT(*) FROM iso27001_controle").fetchone()[0]
     n_cats = con.execute("SELECT COUNT(*) FROM iso27701_categoria").fetchone()[0]
     n_27701 = con.execute("SELECT COUNT(*) FROM iso27701_controle").fetchone()[0]
 
-    if all(n > 0 for n in (n_temas, n_27002, n_cats, n_27701)):
+    if all(n > 0 for n in (n_temas, n_27001, n_cats, n_27701)):
         return
 
-    iso27002_json = _DATA_DIR / "iso27002.json"
+    iso27001_json = _DATA_DIR / "iso27001.json"
     iso27701_json = _DATA_DIR / "iso27701.json"
-    if not iso27002_json.exists() or not iso27701_json.exists():
-        raise FileNotFoundError(f"Arquivos de seed do catálogo não encontrados em {_DATA_DIR}. Esperado: iso27002.json, iso27701.json.")
+    if not iso27001_json.exists() or not iso27701_json.exists():
+        raise FileNotFoundError(f"Arquivos de seed do catálogo não encontrados em {_DATA_DIR}. Esperado: iso27001.json, iso27701.json.")
 
-    iso27002 = json.loads(iso27002_json.read_text(encoding="utf-8"))
+    iso27001 = json.loads(iso27001_json.read_text(encoding="utf-8"))
     iso27701 = json.loads(iso27701_json.read_text(encoding="utf-8"))
 
     con.executemany(
-        "INSERT OR IGNORE INTO iso27002_tema (id, label) VALUES (?, ?)",
-        list(iso27002["temas"].items()),
+        "INSERT OR IGNORE INTO iso27001_tema (id, label) VALUES (?, ?)",
+        list(iso27001["temas"].items()),
     )
     con.executemany(
-        "INSERT OR IGNORE INTO iso27002_controle (id, titulo, descricao, tema_id) VALUES (?, ?, ?, ?)",
-        [(c["id"], c["titulo"], c["descricao"], c["tema_id"]) for c in iso27002["controles"]],
+        "INSERT OR IGNORE INTO iso27001_controle (id, titulo, descricao, tema_id, controle_texto, orientacao) VALUES (?, ?, ?, ?, ?, ?)",
+        [
+            (
+                c["id"],
+                c["titulo"],
+                c["descricao"],
+                c["tema_id"],
+                c.get("controle_texto", ""),
+                c.get("orientacao", ""),
+            )
+            for c in iso27001["controles"]
+        ],
     )
     con.executemany(
         "INSERT OR IGNORE INTO iso27701_categoria (id, label) VALUES (?, ?)",
         list(iso27701["categorias"].items()),
     )
     con.executemany(
-        "INSERT OR IGNORE INTO iso27701_controle (id, titulo, descricao, categoria_id) VALUES (?, ?, ?, ?)",
-        [(c["id"], c["titulo"], c["descricao"], c["categoria_id"]) for c in iso27701["controles"]],
+        "INSERT OR IGNORE INTO iso27701_controle (id, titulo, descricao, categoria_id, controle_texto, orientacao) VALUES (?, ?, ?, ?, ?, ?)",
+        [
+            (
+                c["id"],
+                c["titulo"],
+                c["descricao"],
+                c["categoria_id"],
+                c.get("controle_texto", ""),
+                c.get("orientacao", ""),
+            )
+            for c in iso27701["controles"]
+        ],
     )
 
 
 def _seed_demo(con: sqlite3.Connection) -> None:
     """Popula um diagnóstico demo por norma se não houver nenhum diagnóstico real.
 
-    Lê `data/diagnostico_demo.json` e insere 2 diagnósticos (27002 e 27701) com
+    Lê `data/diagnostico_demo.json` e insere 2 diagnósticos (27001 e 27701) com
     suas avaliações e 3 snapshots cada. Pula completamente se o banco já tem
-    qualquer diagnóstico — protegendo o usuário de re-seed após criar dados reais.
+    qualquer diagnóstico - protegendo o usuário de re-seed após criar dados reais.
 
     Diferente do seed de catálogo, o JSON do demo é opcional: se o arquivo não
     existir (ex.: instalação minimalista), apenas pula sem erro.
@@ -266,30 +279,31 @@ def _seed_demo(con: sqlite3.Connection) -> None:
 def init_db() -> None:
     with conexao() as con:
         con.executescript(_SCHEMA)
-        _migrar(con)
         _seed_catalogo(con)
         _seed_demo(con)
 
 
-def listar_temas_iso27002() -> dict[str, str]:
+def listar_temas_iso27001() -> dict[str, str]:
     init_db()
     with conexao() as con:
-        rows = con.execute("SELECT id, label FROM iso27002_tema ORDER BY id").fetchall()
+        rows = con.execute("SELECT id, label FROM iso27001_tema ORDER BY id").fetchall()
     return {str(r["id"]): str(r["label"]) for r in rows}
 
 
-def listar_controles_iso27002() -> list[Controle27002Row]:
+def listar_controles_iso27001() -> list[Controle27001Row]:
     init_db()
     with conexao() as con:
         rows = con.execute(
-            "SELECT id, titulo, descricao, tema_id FROM iso27002_controle ORDER BY id",
+            "SELECT id, titulo, descricao, tema_id, controle_texto, orientacao FROM iso27001_controle ORDER BY CAST(SUBSTR(id, 1, INSTR(id, '.') - 1) AS INTEGER), CAST(SUBSTR(id, INSTR(id, '.') + 1) AS INTEGER)",
         ).fetchall()
     return [
-        Controle27002Row(
+        Controle27001Row(
             id=str(r["id"]),
             titulo=str(r["titulo"]),
             descricao=str(r["descricao"]),
             tema_id=str(r["tema_id"]),
+            controle_texto=str(r["controle_texto"]),
+            orientacao=str(r["orientacao"]),
         )
         for r in rows
     ]
@@ -306,7 +320,7 @@ def listar_controles_iso27701() -> list[Controle27701Row]:
     init_db()
     with conexao() as con:
         rows = con.execute(
-            "SELECT id, titulo, descricao, categoria_id FROM iso27701_controle ORDER BY id",
+            "SELECT id, titulo, descricao, categoria_id, controle_texto, orientacao FROM iso27701_controle ORDER BY id",
         ).fetchall()
     return [
         Controle27701Row(
@@ -314,6 +328,8 @@ def listar_controles_iso27701() -> list[Controle27701Row]:
             titulo=str(r["titulo"]),
             descricao=str(r["descricao"]),
             categoria_id=str(r["categoria_id"]),
+            controle_texto=str(r["controle_texto"]),
+            orientacao=str(r["orientacao"]),
         )
         for r in rows
     ]

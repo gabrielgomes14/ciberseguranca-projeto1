@@ -5,7 +5,7 @@ from core.db import listar_diagnosticos
 from core.models import Avaliacao
 from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTAS_SELECIONAVEIS
 from core.state import avaliacoes_do_modulo, diagnostico_ativo, limpar_modulo, persistir
-from modulos.iso27002.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES, Controle
+from modulos.iso27001.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES, Controle
 
 
 def _filtrar(controles: list[Controle], avaliacoes: dict[str, Avaliacao], busca: str, status_filtros: list[str]) -> list[Controle]:
@@ -30,31 +30,31 @@ def _aplicar_em_massa(avaliacoes: dict[str, Avaliacao], ids: list[str], status: 
 
 
 def _barra_diagnostico() -> None:
-    ativo_id = diagnostico_ativo("iso27002")
-    diags = listar_diagnosticos("iso27002")
+    ativo_id = diagnostico_ativo("iso27001")
+    diags = listar_diagnosticos("iso27001")
     diag_atual = next((d for d in diags if d.id == ativo_id), None)
     col_d1, col_d2, col_d3 = st.columns([3, 1, 1])
     with col_d1:
         if diag_atual:
-            st.info(f"Diagnóstico ativo: **{diag_atual.organizacao}** · ID #{ativo_id} · 📅 {diag_atual.data_auditoria}")
+            st.info(f"Diagnóstico ativo: **{diag_atual.organizacao}** · ID #{ativo_id} · {diag_atual.data_auditoria}")
         else:
             st.warning("Nenhum diagnóstico ativo. Suas respostas não serão salvas. Selecione/crie um diagnóstico.")
     with col_d2:
-        if st.button("💾 Salvar", width="stretch", disabled=ativo_id is None):
-            if persistir("iso27002"):
-                st.toast("Diagnóstico salvo no banco.", icon="💾")
+        if st.button("Salvar", width="stretch", disabled=ativo_id is None):
+            if persistir("iso27001"):
+                st.toast("Diagnóstico salvo no banco.")
     with col_d3:
-        if st.button("📁 Diagnósticos", width="stretch"):
-            st.session_state.modulo_alvo = "iso27002"
+        if st.button("Diagnósticos", width="stretch"):
+            st.session_state.modulo_alvo = "iso27001"
             st.session_state.page = "diagnosticos"
             st.rerun()
 
 
 def render() -> None:
-    st.title("📋 ISO/IEC 27002 — Avaliação dos Controles")
+    st.title("ISO/IEC 27001 - Avaliação dos Controles")
     _barra_diagnostico()
 
-    avaliacoes = avaliacoes_do_modulo("iso27002")
+    avaliacoes = avaliacoes_do_modulo("iso27001")
     respondidos = sum(1 for c in TODOS_CONTROLES if avaliacoes.get(c.id, Avaliacao()).status)
     total = len(TODOS_CONTROLES)
 
@@ -63,10 +63,10 @@ def render() -> None:
         st.progress(respondidos / total, text=f"Progresso: {respondidos}/{total} controles avaliados")
     with col_b:
         if st.button("Ver Resultado", type="primary", disabled=respondidos == 0, width="stretch"):
-            st.session_state.page = "iso27002_dashboard"
+            st.session_state.page = "iso27001_dashboard"
             st.rerun()
 
-    with st.expander("🔎 Buscar e filtrar"):
+    with st.expander("Buscar e filtrar"):
         col_b1, col_b2 = st.columns([2, 3])
         with col_b1:
             busca = st.text_input("Busca por ID, título ou descrição", value=st.session_state.get("busca", ""), key="busca")
@@ -82,7 +82,7 @@ def render() -> None:
             controles_filtrados = _filtrar(controles, avaliacoes, busca, status_filtros)
             st.caption(f"{len(controles_filtrados)} de {len(controles)} controles · {TEMA_LABELS[tema_id]}")
 
-            with st.popover("⚡ Marcar em massa neste tema"):
+            with st.popover("Marcar em massa neste tema"):
                 ids_filtrados = [c.id for c in controles_filtrados]
                 st.write(f"Aplicar status a **{len(ids_filtrados)}** controles visíveis.")
                 col_m1, col_m2 = st.columns([3, 1])
@@ -112,20 +112,20 @@ def render() -> None:
                         avaliacoes[controle.id] = nova
 
     with st.sidebar:
-        st.markdown("### ISO/IEC 27002:2022")
-        if st.button("🏠 Início", width="stretch"):
+        st.markdown("### ISO/IEC 27001:2022")
+        if st.button("Início", width="stretch"):
             st.session_state.page = "home"
             st.rerun()
-        if st.button("📊 Resultado", width="stretch", disabled=respondidos == 0):
-            st.session_state.page = "iso27002_dashboard"
+        if st.button("Resultado", width="stretch", disabled=respondidos == 0):
+            st.session_state.page = "iso27001_dashboard"
             st.rerun()
-        if st.button("📌 Plano de ação", width="stretch", disabled=respondidos == 0):
-            st.session_state.page = "iso27002_action_plan"
+        if st.button("Plano de ação", width="stretch", disabled=respondidos == 0):
+            st.session_state.page = "iso27001_action_plan"
             st.rerun()
-        if st.button("📈 Histórico", width="stretch"):
+        if st.button("Histórico", width="stretch"):
             st.session_state.page = "history"
             st.rerun()
         st.divider()
         if st.button("Limpar avaliações", width="stretch"):
-            limpar_modulo("iso27002")
+            limpar_modulo("iso27001")
             st.rerun()

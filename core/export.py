@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass, fields
 
 from core.models import Avaliacao
 from core.scoring import status_individual
-from modulos.iso27002.controls import TEMA_LABELS, Controle
+from modulos.iso27001.controls import TEMA_LABELS, Controle
 
 # Caracteres que, no início de uma célula CSV, são interpretados como fórmula
 # por Excel/LibreOffice/Google Sheets. Mitigação para CSV Injection (CWE-1236).

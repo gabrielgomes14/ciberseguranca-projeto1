@@ -31,7 +31,7 @@ from core.scoring import (
     status_label,
 )
 from core.types import ItemDiagnostico
-from modulos.iso27002.controls import TEMA_LABELS, TEMAS, Controle
+from modulos.iso27001.controls import TEMA_LABELS, TEMAS, Controle
 
 _PRIMARY = colors.HexColor("#1d4ed8")
 _INK = colors.HexColor("#0f172a")
@@ -110,7 +110,7 @@ def _gerar_pdf_base(
 ) -> bytes:
     """Gera um PDF executivo de conformidade independente da norma.
 
-    Permite reuso entre 27001 (requisitos por seção), 27002 (controles por tema)
+    Permite reuso entre 27001 (requisitos por seção), 27001 (controles por tema)
     e 27701 (controles por categoria). O parâmetro `acoes` é opcional: se `None`,
     a seção "Plano de Ação" é omitida (útil para normas que não modelam plano).
 
@@ -133,7 +133,7 @@ def _gerar_pdf_base(
     flow: list[object] = []
 
     # Cabeçalho
-    flow.append(Paragraph(f"Relatório de Conformidade — {norma}", s["titulo"]))
+    flow.append(Paragraph(f"Relatório de Conformidade - {norma}", s["titulo"]))
     subtitulo_partes = [organizacao]
     if data_auditoria:
         subtitulo_partes.append(f"Data da auditoria: {data_auditoria}")
@@ -235,8 +235,8 @@ def _gerar_pdf_base(
                         Paragraph(a.controle_id, s["cell"]),
                         Paragraph(a.titulo, s["cell"]),
                         _badge_status(a.prioridade, s),
-                        Paragraph(a.remediacao or "—", s["cell_muted"]),
-                        Paragraph(a.prazo or "—", s["cell_muted"]),
+                        Paragraph(a.remediacao or "-", s["cell_muted"]),
+                        Paragraph(a.prazo or "-", s["cell_muted"]),
                     ]
                 )
             tabela_acoes = Table(linhas_acoes, colWidths=[1.8 * cm, 5.5 * cm, 2.2 * cm, 5.5 * cm, 2.3 * cm])
@@ -263,7 +263,7 @@ def _gerar_pdf_base(
                 Paragraph(it.id, s["cell"]),
                 Paragraph(it.titulo, s["cell"]),
                 _badge_status(label, s),
-                Paragraph(av.criticidade if av.status else "—", s["cell_muted"]),
+                Paragraph(av.criticidade if av.status else "-", s["cell_muted"]),
             ]
         )
     tabela_det = Table(linhas_det, colWidths=[1.8 * cm, 9.5 * cm, 3.2 * cm, 2.5 * cm], repeatRows=1)
@@ -290,13 +290,13 @@ def gerar_pdf(
     ponderado: bool = True,
     data_auditoria: str = "",
 ) -> bytes:
-    """Gera o PDF executivo de conformidade ISO/IEC 27002:2022."""
+    """Gera o PDF executivo de conformidade ISO/IEC 27001:2022."""
     itens: list[ItemDiagnostico] = [
-        ItemDiagnostico(id=c.id, titulo=c.titulo, descricao=c.descricao, categoria_id=c.tema_id, modulo="iso27002") for c in controles
+        ItemDiagnostico(id=c.id, titulo=c.titulo, descricao=c.descricao, categoria_id=c.tema_id, modulo="iso27001") for c in controles
     ]
     itens_por_categoria = {tema_id: [it for it in itens if it.categoria_id == tema_id] for tema_id in TEMAS}
     return _gerar_pdf_base(
-        norma="ISO/IEC 27002:2022",
+        norma="ISO/IEC 27001:2022",
         titulo_categoria="Tema",
         label_item="Controle",
         itens=itens,
@@ -321,14 +321,14 @@ def gerar_pdf_27001(
 ) -> bytes:
     """Gera o PDF executivo de conformidade ISO/IEC 27001:2022 (SGSI).
 
-    Diferente do 27002, a 27001 organiza os itens em "seções/cláusulas" e não
+    Diferente do 27001, a 27001 organiza os itens em "seções/cláusulas" e não
     possui plano de ação no relatório (por isso `acoes=None` em `_gerar_pdf_base`).
     Os parâmetros `secoes` e `requisitos_por_secao` vêm do catálogo da norma
     (definido em `modulos/iso27001/clausulas.py`), mantendo `core/pdf_report.py`
     desacoplado do módulo.
     """
     return _gerar_pdf_base(
-        norma="ISO/IEC 27001:2022 — SGSI",
+        norma="ISO/IEC 27001:2022 - SGSI",
         titulo_categoria="Seção",
         label_item="Requisito",
         itens=requisitos,
@@ -359,7 +359,7 @@ def gerar_pdf_27701(
     desacoplado do módulo da norma.
     """
     return _gerar_pdf_base(
-        norma="ISO/IEC 27701:2019 — SGPI",
+        norma="ISO/IEC 27701:2019 - SGPI",
         titulo_categoria="Categoria",
         label_item="Controle",
         itens=controles,
@@ -414,7 +414,7 @@ def gerar_pdf_comparativo(
     s = _styles()
     flow: list[object] = []
 
-    flow.append(Paragraph(f"Relatório Comparativo — {norma}", s["titulo"]))
+    flow.append(Paragraph(f"Relatório Comparativo - {norma}", s["titulo"]))
     flow.append(
         Paragraph(
             f"{organizacao} · A: <b>{rotulo_a}</b> ({quando_a}) → "
@@ -490,7 +490,7 @@ def gerar_pdf_comparativo(
     flow.append(Paragraph("Síntese", s["h2"]))
     flow.append(
         Paragraph(
-            f"📈 <b>{melhorou}</b> categoria(s) melhoraram · ➡️ <b>{estavel}</b> estáveis · 📉 <b>{piorou}</b> pioraram.",
+            f"<b>{melhorou}</b> categoria(s) melhoraram · <b>{estavel}</b> estáveis · <b>{piorou}</b> pioraram.",
             s["body"],
         )
     )

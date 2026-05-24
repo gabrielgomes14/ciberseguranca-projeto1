@@ -23,12 +23,12 @@ def db_path() -> object:
 def test_criar_e_carregar_diagnostico(db_path: str) -> None:
     from core.db import carregar_avaliacoes, criar_diagnostico, init_db, salvar_avaliacoes
     init_db()
-    did = criar_diagnostico("iso27002", "Acme Ltda.", data_auditoria="2026-05-10")
+    did = criar_diagnostico("iso27001", "Acme Ltda.", data_auditoria="2026-05-10")
     assert did > 0
 
     salvar_avaliacoes(did, {
         "5.1": Avaliacao(status="Conforme", criticidade="Alta", observacao="ok"),
-        "5.2": Avaliacao(status="Parcial", responsavel="João"),
+        "5.2": Avaliacao(status="Não Conforme", responsavel="João"),
         "5.3": Avaliacao(status="Não Conforme", remediacao="Sim"),
     })
     av = carregar_avaliacoes(did)
@@ -51,19 +51,19 @@ def test_data_auditoria_default_hoje(db_path: str) -> None:
 
     from core.db import criar_diagnostico, init_db, listar_diagnosticos
     init_db()
-    criar_diagnostico("iso27002", "X")
-    diag = listar_diagnosticos("iso27002")[0]
+    criar_diagnostico("iso27001", "X")
+    diag = listar_diagnosticos("iso27001")[0]
     assert diag.data_auditoria == date.today().isoformat()
 
 
 def test_listar_diagnosticos_filtra_por_modulo(db_path: str) -> None:
     from core.db import criar_diagnostico, init_db, listar_diagnosticos
     init_db()
-    criar_diagnostico("iso27002", "A")
-    criar_diagnostico("iso27001", "B")
-    criar_diagnostico("iso27002", "C")
-    assert len(listar_diagnosticos("iso27002")) == 2
-    assert len(listar_diagnosticos("iso27001")) == 1
+    criar_diagnostico("iso27001", "A")
+    criar_diagnostico("iso27701", "B")
+    criar_diagnostico("iso27001", "C")
+    assert len(listar_diagnosticos("iso27001")) == 2
+    assert len(listar_diagnosticos("iso27701")) == 1
     assert len(listar_diagnosticos()) == 3
 
 
@@ -91,7 +91,7 @@ def test_excluir_cascateia(db_path: str) -> None:
         salvar_snapshot,
     )
     init_db()
-    did = criar_diagnostico("iso27002", "X")
+    did = criar_diagnostico("iso27001", "X")
     salvar_avaliacoes(did, {"5.1": Avaliacao(status="Conforme")})
     salvar_snapshot(did, "s", 100.0, {"org": 100.0}, 1)
     excluir_diagnostico(did)

@@ -1,6 +1,6 @@
 import streamlit as st
 
-from components._helpers import _render_header_card
+from components._helpers import _parse_prazo, _render_header_card
 from core.models import (
     CRITICIDADE_MEDIA,
     CRITICIDADES,
@@ -29,7 +29,7 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
             index=index,
             horizontal=True,
             key=f"radio_{item.modulo}_{item.id}",
-            format_func=lambda v: "— selecione —" if v == "" else v,
+            format_func=lambda v: "- selecione -" if v == "" else v,
             label_visibility="collapsed",
         )
 
@@ -44,11 +44,17 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
                 index=idx_rem,
                 horizontal=True,
                 key=f"rem_{item.modulo}_{item.id}",
-                format_func=lambda v: "— selecione —" if v == "" else v,
+                format_func=lambda v: "- selecione -" if v == "" else v,
                 label_visibility="collapsed",
             )
 
-        with st.expander("Detalhes e plano"):
+        with st.expander("Detalhes, orientação e plano"):
+            st.markdown("**Controle**")
+            st.write(item.controle_texto or "Sem texto do controle cadastrado.")
+            st.markdown("**Orientação da norma**")
+            st.write(item.orientacao or "Sem orientação cadastrada.")
+
+            st.divider()
             col1, col2 = st.columns(2)
             with col1:
                 criticidade_atual = avaliacao.criticidade if avaliacao.criticidade in CRITICIDADES else CRITICIDADE_MEDIA
@@ -64,12 +70,13 @@ def render_item_card(item: ItemDiagnostico, avaliacao: Avaliacao) -> Avaliacao:
                     key=f"resp_{item.modulo}_{item.id}",
                 )
             with col2:
-                novo_prazo = st.text_input(
+                novo_prazo_date = st.date_input(
                     "Prazo",
-                    value=avaliacao.prazo,
+                    value=_parse_prazo(avaliacao.prazo),
                     key=f"prazo_{item.modulo}_{item.id}",
-                    placeholder="AAAA-MM-DD",
+                    format="DD/MM/YYYY",
                 )
+                novo_prazo = novo_prazo_date.isoformat() if novo_prazo_date else ""
             nova_observacao = st.text_area(
                 "Observação",
                 value=avaliacao.observacao,

@@ -64,18 +64,6 @@ def test_controles_por_categoria_consistente() -> None:
             assert controle.categoria_id == cat
 
 
-def test_descricao_contem_sufixo_lgpd_quando_aplicavel() -> None:
-    """Controles com LGPD inline têm sufixo ' · LGPD ...' na descrição."""
-    com_lgpd = [c for c in CONTROLES if " · LGPD " in c.descricao]
-    # A maioria dos controles desta fase tem LGPD; basta validar que existe.
-    assert len(com_lgpd) > 10
-
-
-def test_controle_a323_sem_lgpd() -> None:
-    """A.3.23 é um caso conhecido sem mapeamento LGPD."""
-    c = next(c for c in CONTROLES if c.id == "A.3.23")
-    assert " · LGPD " not in c.descricao
-
 
 def test_anexo_b_operador_presente() -> None:
     """A.2.* (Operador) deve estar presente após este commit."""

@@ -4,10 +4,10 @@ import streamlit as st
 
 from core.db import Snapshot, excluir_snapshot, listar_diagnosticos, listar_snapshots
 from core.pdf_report import gerar_pdf_comparativo
-from modulos.iso27002.controls import TEMA_LABELS, TEMAS
+from modulos.iso27001.controls import TEMA_LABELS, TEMAS
 
 MODULO_OPCOES = {
-    "iso27002": "ISO/IEC 27002:2022",
+    "iso27001": "ISO/IEC 27001:2022",
     "iso27701": "ISO/IEC 27701:2026",
 }
 
@@ -50,7 +50,7 @@ def _render_grafico(snapshots: list[Snapshot], categorias_label: dict[str, str])
 
 
 def render() -> None:
-    st.title("📈 Histórico de Diagnósticos")
+    st.title("Histórico de Diagnósticos")
 
     modulo = st.selectbox(
         "Módulo",
@@ -71,7 +71,7 @@ def render() -> None:
     diag = st.selectbox(
         "Diagnóstico",
         options=diagnosticos,
-        format_func=lambda d: f"#{d.id} — {d.organizacao} · auditoria {d.data_auditoria}",
+        format_func=lambda d: f"#{d.id} - {d.organizacao} · auditoria {d.data_auditoria}",
         key="hist_diag",
     )
 
@@ -81,7 +81,7 @@ def render() -> None:
         return
 
     st.caption(f"{len(snapshots)} snapshot(s) registrado(s).")
-    categorias_label = TEMA_LABELS if modulo == "iso27002" else {k: f"{k} {v}" for k, v in _secoes(modulo).items()}
+    categorias_label = TEMA_LABELS if modulo == "iso27001" else {k: f"{k} {v}" for k, v in _secoes(modulo).items()}
     _render_grafico(snapshots, categorias_label)
 
     st.divider()
@@ -94,7 +94,7 @@ def render() -> None:
             "Avaliados": s.avaliados,
             "Score Geral": round(s.score_geral, 1),
         }
-        if modulo == "iso27002":
+        if modulo == "iso27001":
             for tema in TEMAS:
                 base[TEMA_LABELS[tema]] = round(s.scores_por_categoria.get(tema, 0.0), 1)
         else:
@@ -110,11 +110,11 @@ def render() -> None:
     st.divider()
     col_l, col_v = st.columns([3, 1])
     with col_l:
-        opcoes_remover = [f"#{s.id} — {s.rotulo} ({s.criado_em})" for s in snapshots]
+        opcoes_remover = [f"#{s.id} - {s.rotulo} ({s.criado_em})" for s in snapshots]
         idx = st.selectbox(
             "Selecionar snapshot para remover",
             options=[None] + list(range(len(opcoes_remover))),
-            format_func=lambda i: "—" if i is None else opcoes_remover[i],
+            format_func=lambda i: "-" if i is None else opcoes_remover[i],
         )
     with col_v:
         if st.button("Remover", width="stretch", disabled=idx is None):
@@ -124,19 +124,19 @@ def render() -> None:
 
     with st.sidebar:
         st.markdown("### Navegação")
-        if st.button("🏠 Início", width="stretch", key="hist_home"):
+        if st.button("Início", width="stretch", key="hist_home"):
             st.session_state.page = "home"
             st.rerun()
 
 
 _NORMA_LABELS = {
-    "iso27002": ("ISO/IEC 27002:2022", "Tema"),
-    "iso27701": ("ISO/IEC 27701:2026 — SGPI", "Grupo"),
+    "iso27001": ("ISO/IEC 27001:2022", "Tema"),
+    "iso27701": ("ISO/IEC 27701:2026 - SGPI", "Grupo"),
 }
 
 
 def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, str], modulo: str, organizacao: str) -> None:
-    st.subheader("🔍 Comparar auditorias")
+    st.subheader("Comparar auditorias")
     st.caption("Compare dois snapshots para ver evolução, regressões e variações por categoria.")
 
     opcoes = list(range(len(snapshots)))
@@ -146,7 +146,7 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
             "Snapshot base (anterior)",
             options=opcoes,
             index=0,
-            format_func=lambda i: f"#{snapshots[i].id} — {snapshots[i].rotulo} ({snapshots[i].criado_em})",
+            format_func=lambda i: f"#{snapshots[i].id} - {snapshots[i].rotulo} ({snapshots[i].criado_em})",
             key="cmp_a",
         )
     with col_b:
@@ -154,13 +154,13 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
             "Snapshot comparado (mais recente)",
             options=opcoes,
             index=len(snapshots) - 1,
-            format_func=lambda i: f"#{snapshots[i].id} — {snapshots[i].rotulo} ({snapshots[i].criado_em})",
+            format_func=lambda i: f"#{snapshots[i].id} - {snapshots[i].rotulo} ({snapshots[i].criado_em})",
             key="cmp_b",
         )
     with col_swap:
         st.write("")
         st.write("")
-        if st.button("🔄", help="Inverter A e B", key="cmp_swap"):
+        if st.button("Inverter", help="Inverter A e B", key="cmp_swap"):
             st.session_state.cmp_a, st.session_state.cmp_b = st.session_state.cmp_b, st.session_state.cmp_a
             st.rerun()
 
@@ -203,16 +203,16 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
         vb = snap_b.scores_por_categoria.get(cat, 0.0)
         delta = vb - va
         if delta > 0.5:
-            tendencia = "📈 melhorou"
+            tendencia = "melhorou"
         elif delta < -0.5:
-            tendencia = "📉 piorou"
+            tendencia = "piorou"
         else:
-            tendencia = "➡️ estável"
+            tendencia = "estável"
         linhas_delta.append(
             {
                 "Categoria": categorias_label.get(cat, cat),
-                f"A — {snap_a.rotulo}": round(va, 1),
-                f"B — {snap_b.rotulo}": round(vb, 1),
+                f"A - {snap_a.rotulo}": round(va, 1),
+                f"B - {snap_b.rotulo}": round(vb, 1),
                 "Δ (pp)": round(delta, 1),
                 "Tendência": tendencia,
             }
@@ -225,9 +225,9 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
     piorou = sum(1 for linha in linhas_delta if isinstance(linha["Δ (pp)"], (int, float)) and float(linha["Δ (pp)"]) < -0.5)
     estavel = len(linhas_delta) - melhorou - piorou
     col_s1, col_s2, col_s3 = st.columns(3)
-    col_s1.success(f"📈 {melhorou} categoria(s) melhoraram")
-    col_s2.warning(f"➡️ {estavel} categoria(s) estáveis")
-    col_s3.error(f"📉 {piorou} categoria(s) pioraram")
+    col_s1.success(f"{melhorou} categoria(s) melhoraram")
+    col_s2.warning(f"{estavel} categoria(s) estáveis")
+    col_s3.error(f"{piorou} categoria(s) pioraram")
 
     dias = _dias_entre(snap_a.criado_em, snap_b.criado_em)
     if dias is not None and dias != 0:
@@ -236,7 +236,7 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
 
     norma_nome, titulo_cat = _NORMA_LABELS.get(modulo, (modulo, "Categoria"))
     st.download_button(
-        "📄 Baixar PDF comparativo (A vs B)",
+        "Baixar PDF comparativo (A vs B)",
         data=gerar_pdf_comparativo(
             norma=norma_nome,
             titulo_categoria=titulo_cat,

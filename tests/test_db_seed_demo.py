@@ -37,7 +37,7 @@ def test_seed_demo_popula_dois_diagnosticos_em_db_vazio(db_path: str) -> None:
     diags = db.listar_diagnosticos()
     assert len(diags) == 2
     modulos = {d.modulo for d in diags}
-    assert modulos == {"iso27002", "iso27701"}
+    assert modulos == {"iso27001", "iso27701"}
     assert all("(exemplo)" in d.organizacao for d in diags)
 
 
@@ -74,7 +74,7 @@ def test_seed_demo_pula_se_db_ja_tem_diagnostico(db_path: str) -> None:
     """Demo não atropela dados reais e o seed continua idempotente."""
     os.environ["DIAGNOSTICO_SEED_DEMO"] = "0"
     db.init_db()
-    db.criar_diagnostico("iso27002", "Cliente Real S.A.")
+    db.criar_diagnostico("iso27001", "Cliente Real S.A.")
     os.environ.pop("DIAGNOSTICO_SEED_DEMO", None)
 
     db.init_db()  # demo ativo, mas DB já tem diagnóstico → pula
@@ -92,13 +92,13 @@ def test_seed_demo_desabilitado_via_env(db_path: str) -> None:
 
 
 def test_seed_demo_pula_se_arquivo_ausente(db_path: str, tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    """Sem o JSON, seed pula silenciosamente — não levanta erro (demo é opcional).
+    """Sem o JSON, seed pula silenciosamente - não levanta erro (demo é opcional).
 
     Preserva os JSONs de catálogo, que SÃO obrigatórios; só o de demo é removido.
     """
     catalogo_dir = tmp_path / "data"
     catalogo_dir.mkdir()
-    for nome in ("iso27002.json", "iso27701.json"):
+    for nome in ("iso27001.json", "iso27701.json"):
         (catalogo_dir / nome).write_text(
             (db._DATA_DIR / nome).read_text(encoding="utf-8"),
             encoding="utf-8",

@@ -1,6 +1,6 @@
 import streamlit as st
 
-from components._helpers import _render_header_card
+from components._helpers import _parse_prazo, _render_header_card
 from core.models import (
     CRITICIDADE_MEDIA,
     CRITICIDADES,
@@ -8,27 +8,7 @@ from core.models import (
     Avaliacao,
 )
 from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTA_NAO_CONFORME, RESPOSTAS_SELECIONAVEIS, STATUS_COLORS
-from modulos.iso27002.controls import Controle
-from modulos.iso27002.guidance import GUIDANCE
-from modulos.iso27002.mappings import MAPEAMENTOS
-
-
-def _render_referencias(controle_id: str) -> None:
-    mapeamento = MAPEAMENTOS.get(controle_id)
-    if mapeamento is None:
-        return
-    pares: list[tuple[str, list[str]]] = [
-        ("NIST CSF 2.0", mapeamento.nist_csf),
-        ("CIS Controls v8", mapeamento.cis_v8),
-        ("LGPD", mapeamento.lgpd),
-    ]
-    pares_validos = [(label, refs) for label, refs in pares if refs]
-    if not pares_validos:
-        return
-    chunks = []
-    for label, refs in pares_validos:
-        chunks.append(f"**{label}:** {', '.join(refs)}")
-    st.caption(" · ".join(chunks))
+from modulos.iso27001.controls import Controle
 
 
 def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
@@ -49,7 +29,7 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
             index=index,
             horizontal=True,
             key=f"radio_{controle.id}",
-            format_func=lambda v: "— selecione —" if v == "" else v,
+            format_func=lambda v: "- selecione -" if v == "" else v,
             label_visibility="collapsed",
         )
 
@@ -64,14 +44,15 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
                 index=idx_rem,
                 horizontal=True,
                 key=f"rem_{controle.id}",
-                format_func=lambda v: "— selecione —" if v == "" else v,
+                format_func=lambda v: "- selecione -" if v == "" else v,
                 label_visibility="collapsed",
             )
 
         with st.expander("Detalhes, orientação e plano"):
+            st.markdown("**Controle**")
+            st.write(controle.controle_texto or "Sem texto do controle cadastrado.")
             st.markdown("**Orientação da norma**")
-            st.write(GUIDANCE.get(controle.id, "Sem orientação cadastrada."))
-            _render_referencias(controle.id)
+            st.write(controle.orientacao or "Sem orientação cadastrada.")
 
             st.divider()
             col1, col2 = st.columns(2)
@@ -91,12 +72,13 @@ def render_control_card(controle: Controle, avaliacao: Avaliacao) -> Avaliacao:
                     placeholder="Ex.: Equipe SecOps",
                 )
             with col2:
-                novo_prazo = st.text_input(
+                novo_prazo_date = st.date_input(
                     "Prazo de adequação",
-                    value=avaliacao.prazo,
+                    value=_parse_prazo(avaliacao.prazo),
                     key=f"prazo_{controle.id}",
-                    placeholder="AAAA-MM-DD",
+                    format="DD/MM/YYYY",
                 )
+                novo_prazo = novo_prazo_date.isoformat() if novo_prazo_date else ""
             nova_observacao = st.text_area(
                 "Observações / Justificativa",
                 value=avaliacao.observacao,

@@ -5,7 +5,7 @@ from core.models import Avaliacao
 from core.pdf_report import gerar_pdf, gerar_pdf_27001, gerar_pdf_27701, gerar_pdf_comparativo
 from core.scoring import RESPOSTA_CONFORME, RESPOSTA_NAO_CONFORME
 from core.types import ItemDiagnostico
-from modulos.iso27002.controls import TODOS_CONTROLES
+from modulos.iso27001.controls import TODOS_CONTROLES
 
 
 def test_gerar_pdf_retorna_bytes_pdf() -> None:
@@ -76,7 +76,7 @@ def test_gerar_pdf_27001_com_avaliacoes() -> None:
 def test_gerar_pdf_27001_sem_plano_de_acao() -> None:
     """27001 não inclui seção de plano de ação no PDF (acoes=None na base)."""
     pdf = gerar_pdf_27001([], {}, {}, {})
-    # Sem itens, gera só cabeçalho e tabelas vazias — ainda assim é um PDF válido.
+    # Sem itens, gera só cabeçalho e tabelas vazias - ainda assim é um PDF válido.
     assert pdf.startswith(b"%PDF-")
 
 
@@ -170,7 +170,7 @@ def test_gerar_pdf_comparativo_melhoria() -> None:
         avaliados=85,
     )
     pdf = gerar_pdf_comparativo(
-        norma="ISO/IEC 27002:2022",
+        norma="ISO/IEC 27001:2022",
         titulo_categoria="Tema",
         categorias_label={"org": "Organizacionais", "tech": "Tecnológicos"},
         snap_a=snap_a,
