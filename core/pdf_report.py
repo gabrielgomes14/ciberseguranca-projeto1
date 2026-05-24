@@ -1,7 +1,10 @@
 import io
+from collections.abc import Callable
 from datetime import datetime
+from typing import Any
 
 from reportlab.lib import colors
+from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm
@@ -38,6 +41,8 @@ _INK = colors.HexColor("#0f172a")
 _MUTED = colors.HexColor("#475569")
 _BORDER = colors.HexColor("#cbd5e1")
 _BG_LIGHT = colors.HexColor("#f1f5f9")
+_HERO_BG = colors.HexColor("#eff6ff")
+_CARD_BG = colors.HexColor("#f8fafc")
 
 
 def _styles() -> dict[str, ParagraphStyle]:
@@ -45,11 +50,91 @@ def _styles() -> dict[str, ParagraphStyle]:
     return {
         "titulo": ParagraphStyle("titulo", parent=base["Title"], fontSize=22, textColor=_INK, spaceAfter=4),
         "subtitulo": ParagraphStyle("subtitulo", parent=base["Normal"], fontSize=11, textColor=_MUTED, spaceAfter=14),
+        "hero_kicker": ParagraphStyle("hero_kicker", parent=base["Normal"], fontSize=9, textColor=_PRIMARY, leading=11),
+        "hero_title": ParagraphStyle("hero_title", parent=base["Title"], fontSize=18, textColor=_INK, leading=22, spaceAfter=2),
+        "hero_meta": ParagraphStyle("hero_meta", parent=base["Normal"], fontSize=9, textColor=_MUTED, leading=12),
         "h2": ParagraphStyle("h2", parent=base["Heading2"], fontSize=14, textColor=_PRIMARY, spaceBefore=14, spaceAfter=6),
         "body": ParagraphStyle("body", parent=base["Normal"], fontSize=10, textColor=_INK, leading=14),
+        "caption": ParagraphStyle("caption", parent=base["Normal"], fontSize=9, textColor=_MUTED, leading=12),
+        "metric": ParagraphStyle("metric", parent=base["Normal"], fontSize=14, textColor=_INK, leading=16, alignment=TA_CENTER),
+        "badge": ParagraphStyle("badge", parent=base["Normal"], fontSize=8, textColor=colors.white, alignment=TA_CENTER),
         "cell": ParagraphStyle("cell", parent=base["Normal"], fontSize=9, textColor=_INK, leading=12),
         "cell_muted": ParagraphStyle("cell_muted", parent=base["Normal"], fontSize=9, textColor=_MUTED, leading=12),
     }
+
+
+def _hero(kicker: str, titulo: str, subtitulo: str, styles: dict[str, ParagraphStyle]) -> Table:
+    conteudo = [
+        Paragraph(kicker, styles["hero_kicker"]),
+        Spacer(1, 0.05 * cm),
+        Paragraph(titulo, styles["hero_title"]),
+        Spacer(1, 0.08 * cm),
+        Paragraph(subtitulo, styles["hero_meta"]),
+    ]
+    bloco = Table([["", conteudo]], colWidths=[0.35 * cm, 17.05 * cm])
+    bloco.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (0, 0), _PRIMARY),
+                ("BACKGROUND", (1, 0), (1, 0), _HERO_BG),
+                ("BOX", (0, 0), (-1, -1), 0.5, _BORDER),
+                ("LEFTPADDING", (1, 0), (1, 0), 12),
+                ("RIGHTPADDING", (1, 0), (1, 0), 12),
+                ("TOPPADDING", (1, 0), (1, 0), 10),
+                ("BOTTOMPADDING", (1, 0), (1, 0), 10),
+                ("VALIGN", (0, 0), (-1, -1), "TOP"),
+            ]
+        )
+    )
+    return bloco
+
+
+def _metric_cards(
+    score_total: float,
+    status: str,
+    avaliados: int,
+    total: int,
+    total_na: int,
+    styles: dict[str, ParagraphStyle],
+) -> Table:
+    muted = _MUTED.hexval()
+    linhas = [
+        [
+            Paragraph(
+                f"<b>{score_total:.1f}%</b><br/><font size='8' color='{muted}'>Score geral</font>",
+                styles["metric"],
+            ),
+            Paragraph(
+                f"<b>{status}</b><br/><font size='8' color='{muted}'>Classificacao</font>",
+                styles["metric"],
+            ),
+            Paragraph(
+                f"<b>{avaliados}/{total}</b><br/><font size='8' color='{muted}'>Avaliados</font>",
+                styles["metric"],
+            ),
+            Paragraph(
+                f"<b>{total_na}</b><br/><font size='8' color='{muted}'>N/A</font>",
+                styles["metric"],
+            ),
+        ]
+    ]
+    tabela = Table(linhas, colWidths=[4.35 * cm, 4.35 * cm, 4.35 * cm, 4.35 * cm], rowHeights=[1.5 * cm])
+    tabela.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
+                ("BOX", (0, 0), (-1, -1), 0.5, _BORDER),
+                ("INNERGRID", (0, 0), (-1, -1), 0.25, _BORDER),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ]
+        )
+    )
+    return tabela
 
 
 def _barra(score: float, largura_cm: float = 8.0) -> Table:
@@ -75,9 +160,27 @@ def _barra(score: float, largura_cm: float = 8.0) -> Table:
     return container
 
 
-def _badge_status(label: str, styles: dict[str, ParagraphStyle]) -> Paragraph:
-    cor = colors.HexColor(STATUS_COLORS.get(label, STATUS_COLORS[RESPOSTA_NAO_AVALIADO]))
-    return Paragraph(f'<font color="{cor.hexval()}"><b>{label}</b></font>', styles["cell"])
+def _badge_status(label: str, styles: dict[str, ParagraphStyle]) -> Table:
+    base_label = label if label in STATUS_COLORS else RESPOSTA_NAO_AVALIADO
+    cor = colors.HexColor(STATUS_COLORS.get(base_label, STATUS_COLORS[RESPOSTA_NAO_AVALIADO]))
+    texto = Paragraph(f"<b>{label}</b>", styles["badge"])
+    badge = Table([[texto]])
+    texto_cor = colors.white if base_label != RESPOSTA_NAO_AVALIADO else _INK
+    badge.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), cor),
+                ("TEXTCOLOR", (0, 0), (-1, -1), texto_cor),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 4),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 4),
+                ("TOPPADDING", (0, 0), (-1, -1), 2),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+            ]
+        )
+    )
+    return badge
 
 
 def _tabela_estilo() -> TableStyle:
@@ -91,8 +194,30 @@ def _tabela_estilo() -> TableStyle:
             ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, _BG_LIGHT]),
             ("GRID", (0, 0), (-1, -1), 0.25, _BORDER),
             ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+            ("LEFTPADDING", (0, 0), (-1, -1), 6),
+            ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+            ("TOPPADDING", (0, 0), (-1, -1), 4),
+            ("BOTTOMPADDING", (0, 1), (-1, -1), 4),
         ]
     )
+
+
+def _page_footer(norma: str, organizacao: str) -> Callable[[Any, Any], None]:
+    def _render(canvas: Any, doc: Any) -> None:
+        canvas.saveState()
+        largura, _ = A4
+        y = 1.1 * cm
+        canvas.setStrokeColor(_BORDER)
+        canvas.setLineWidth(0.5)
+        canvas.line(doc.leftMargin, y + 0.4 * cm, largura - doc.rightMargin, y + 0.4 * cm)
+        canvas.setFont("Helvetica", 8)
+        canvas.setFillColor(_MUTED)
+        esquerda = f"{organizacao} · {norma}" if organizacao else norma
+        canvas.drawString(doc.leftMargin, y, esquerda)
+        canvas.drawRightString(largura - doc.rightMargin, y, f"Pagina {doc.page}")
+        canvas.restoreState()
+
+    return _render
 
 
 def _gerar_pdf_base(
@@ -138,7 +263,8 @@ def _gerar_pdf_base(
     if data_auditoria:
         subtitulo_partes.append(f"Data da auditoria: {data_auditoria}")
     subtitulo_partes.append(f"Gerado em {datetime.now().strftime('%d/%m/%Y %H:%M')}")
-    flow.append(Paragraph(" · ".join(subtitulo_partes), s["subtitulo"]))
+    flow.append(_hero("Relatorio de Conformidade", norma, " · ".join(subtitulo_partes), s))
+    flow.append(Spacer(1, 0.4 * cm))
 
     # Sumário Executivo
     todos_ids = [it.id for it in itens]
@@ -147,6 +273,9 @@ def _gerar_pdf_base(
     total_na = sum(1 for it in itens if avaliacoes.get(it.id, Avaliacao()).status == "N/A")
 
     flow.append(Paragraph("Sumário Executivo", s["h2"]))
+    flow.append(_metric_cards(score_total, status_label(score_total), avaliados, len(itens), total_na, s))
+    flow.append(Spacer(1, 0.2 * cm))
+    flow.append(Paragraph("Indice geral de conformidade", s["caption"]))
     cabecalho = Table(
         [
             [
@@ -157,7 +286,19 @@ def _gerar_pdf_base(
         ],
         colWidths=[2.0 * cm, 11.0 * cm, 4.0 * cm],
     )
-    cabecalho.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
+    cabecalho.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
+                ("BOX", (0, 0), (-1, -1), 0.5, _BORDER),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ]
+        )
+    )
     flow.append(cabecalho)
     flow.append(Spacer(1, 0.3 * cm))
     flow.append(
@@ -170,7 +311,6 @@ def _gerar_pdf_base(
         )
     )
 
-    # Resumos por categoria (usados na tabela)
     resumos = {
         cat_id: resumo_tema(
             avaliacoes,
@@ -181,20 +321,17 @@ def _gerar_pdf_base(
         for cat_id in categorias
     }
 
-    # Distribuição dos status (donut)
     flow.append(Paragraph("Distribuição dos Status", s["h2"]))
     flow.append(chart_donut_status(resumos))
 
-    # Radar de aderência por categoria (apenas se houver ≥ 3 categorias)
     if len(categorias) >= 3:
         flow.append(Paragraph(f"Aderência por {titulo_categoria} (Radar)", s["h2"]))
         flow.append(chart_radar(categorias, resumos))
 
-    # Barras de score por categoria
+
     flow.append(Paragraph(f"Score por {titulo_categoria}", s["h2"]))
     flow.append(chart_barras_categoria(categorias, resumos))
 
-    # Resultado tabular por categoria
     flow.append(Paragraph(f"Resultado Tabular por {titulo_categoria}", s["h2"]))
     linhas_cat: list[list[object]] = [[titulo_categoria, "Score", "Status", "Conformes", "Em Adequação", "Não Conf.", "N/A"]]
     for cat_id, cat_label in categorias.items():
@@ -210,11 +347,10 @@ def _gerar_pdf_base(
                 Paragraph(str(r.na), s["cell"]),
             ]
         )
-    tabela_cat = Table(linhas_cat, colWidths=[5 * cm, 2 * cm, 3 * cm, 2 * cm, 2 * cm, 2 * cm, 1.5 * cm])
+    tabela_cat = Table(linhas_cat, colWidths=[5 * cm, 2 * cm, 3 * cm, 2 * cm, 2 * cm, 2 * cm, 1.5 * cm], repeatRows=1)
     tabela_cat.setStyle(_tabela_estilo())
     flow.append(tabela_cat)
 
-    # Plano de Ação (opcional)
     if acoes is not None:
         flow.append(PageBreak())
         flow.append(Paragraph("Plano de Ação", s["h2"]))
@@ -239,7 +375,11 @@ def _gerar_pdf_base(
                         Paragraph(a.prazo or "-", s["cell_muted"]),
                     ]
                 )
-            tabela_acoes = Table(linhas_acoes, colWidths=[1.8 * cm, 5.5 * cm, 2.2 * cm, 5.5 * cm, 2.3 * cm])
+            tabela_acoes = Table(
+                linhas_acoes,
+                colWidths=[1.8 * cm, 5.5 * cm, 2.2 * cm, 5.5 * cm, 2.3 * cm],
+                repeatRows=1,
+            )
             tabela_acoes.setStyle(_tabela_estilo())
             flow.append(tabela_acoes)
             if len(acoes) > 40:
@@ -251,7 +391,6 @@ def _gerar_pdf_base(
                     )
                 )
 
-    # Detalhamento completo
     flow.append(PageBreak())
     flow.append(Paragraph(f"Detalhamento Completo dos {label_item}s", s["h2"]))
     linhas_det: list[list[object]] = [[label_item, "Título", "Status", "Criticidade"]]
@@ -278,7 +417,8 @@ def _gerar_pdf_base(
         )
     )
 
-    doc.build(flow)
+    decoracao = _page_footer(norma, organizacao)
+    doc.build(flow, onFirstPage=decoracao, onLaterPages=decoracao)
     return buffer.getvalue()
 
 
@@ -414,15 +554,13 @@ def gerar_pdf_comparativo(
     s = _styles()
     flow: list[object] = []
 
-    flow.append(Paragraph(f"Relatório Comparativo - {norma}", s["titulo"]))
-    flow.append(
-        Paragraph(
-            f"{organizacao} · A: <b>{rotulo_a}</b> ({quando_a}) → "
-            f"B: <b>{rotulo_b}</b> ({quando_b}) · "
-            f"Gerado em {datetime.now().strftime('%d/%m/%Y %H:%M')}",
-            s["subtitulo"],
-        )
+    meta = (
+        f"{organizacao} · A: <b>{rotulo_a}</b> ({quando_a}) → "
+        f"B: <b>{rotulo_b}</b> ({quando_b}) · "
+        f"Gerado em {datetime.now().strftime('%d/%m/%Y %H:%M')}"
     )
+    flow.append(_hero("Relatorio Comparativo", norma, meta, s))
+    flow.append(Spacer(1, 0.4 * cm))
 
     # Variação geral
     flow.append(Paragraph("Variação Geral", s["h2"]))
@@ -448,7 +586,19 @@ def gerar_pdf_comparativo(
         ],
         colWidths=[3.5 * cm, 3.5 * cm, 4.5 * cm, 3.0 * cm, 3.0 * cm],
     )
-    cabecalho.setStyle(TableStyle([("VALIGN", (0, 0), (-1, -1), "MIDDLE")]))
+    cabecalho.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, -1), _CARD_BG),
+                ("BOX", (0, 0), (-1, -1), 0.5, _BORDER),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("LEFTPADDING", (0, 0), (-1, -1), 6),
+                ("RIGHTPADDING", (0, 0), (-1, -1), 6),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ]
+        )
+    )
     flow.append(cabecalho)
 
     # Variação por categoria
@@ -519,5 +669,6 @@ def gerar_pdf_comparativo(
         )
     )
 
-    doc.build(flow)
+    decoracao = _page_footer(norma, organizacao)
+    doc.build(flow, onFirstPage=decoracao, onLaterPages=decoracao)
     return buffer.getvalue()

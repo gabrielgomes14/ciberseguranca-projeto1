@@ -8,7 +8,6 @@ RESPOSTA_NA = "N/A"
 RESPOSTA_NAO_AVALIADO = "Não avaliado"
 RESPOSTA_EM_ADEQUACAO = "Em Adequação"
 
-# Thresholds de score (0-100) usados por status_label e por componentes de visualização.
 SCORE_THRESHOLD_EM_ADEQUACAO = 40.0
 SCORE_THRESHOLD_CONFORME = 80.0
 

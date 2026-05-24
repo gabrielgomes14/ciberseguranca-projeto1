@@ -28,7 +28,6 @@ def _barra_diagnostico() -> None:
             if persistir("iso27001"):
                 st.toast("Salvo.")
 
-
 def render() -> None:
     st.title("ISO/IEC 27001 - Resultado")
     _barra_diagnostico()

@@ -13,6 +13,27 @@ from core.scoring import (
 )
 
 _LAYOUT_TRANSPARENT_BG = "rgba(0,0,0,0)"
+_THEME_PALETTES = {
+    "light": {
+        "primary": "#1d4ed8",
+        "surface": "#f1f5f9",
+        "text": "#0f172a",
+        "muted": "#475569",
+        "axis": "#94a3b8",
+    },
+    "dark": {
+        "primary": "#60a5fa",
+        "surface": "#111827",
+        "text": "#e5e7eb",
+        "muted": "#9ca3af",
+        "axis": "#64748b",
+    },
+}
+
+
+def _theme_palette() -> dict[str, str]:
+    theme_name = st.session_state.get("theme", "dark")
+    return _THEME_PALETTES.get(theme_name, _THEME_PALETTES["dark"])
 
 
 def _hex_to_rgba(hex_color: str, alpha: float) -> str:
@@ -33,16 +54,17 @@ def render_gauge(score: float, label: str, *, key: str | None = None) -> None:
     """Renderiza um gauge 0-100 colorido conforme `status_label(score)`."""
     score_safe = clamp_score(score)
     cor = STATUS_COLORS[status_label(score_safe)]
+    palette = _theme_palette()
     fig = go.Figure(
         go.Indicator(
             mode="gauge+number",
             value=score_safe,
-            number={"suffix": "%", "font": {"size": 36, "color": "#0f172a"}},
-            title={"text": label, "font": {"size": 16, "color": "#475569"}},
+            number={"suffix": "%", "font": {"size": 36, "color": palette["text"]}},
+            title={"text": label, "font": {"size": 16, "color": palette["muted"]}},
             gauge={
-                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": "#94a3b8"},
+                "axis": {"range": [0, 100], "tickwidth": 1, "tickcolor": palette["axis"]},
                 "bar": {"color": cor, "thickness": 0.3},
-                "bgcolor": "#f1f5f9",
+                "bgcolor": palette["surface"],
                 "borderwidth": 0,
                 "steps": [
                     {
@@ -79,21 +101,31 @@ def render_radar(temas: list[str], scores: list[float], *, key: str | None = Non
 
     valores = scores + [scores[0]]
     eixos = temas + [temas[0]]
+    palette = _theme_palette()
     fig = go.Figure(
         go.Scatterpolar(
             r=valores,
             theta=eixos,
             fill="toself",
-            line={"color": "#1d4ed8"},
-            fillcolor="rgba(29, 78, 216, 0.25)",
+            line={"color": palette["primary"]},
+            fillcolor=_hex_to_rgba(palette["primary"], 0.25),
             name="Score",
         )
     )
     fig.update_layout(
-        polar={"radialaxis": {"visible": True, "range": [0, 100]}},
+        polar={
+            "radialaxis": {
+                "visible": True,
+                "range": [0, 100],
+                "tickfont": {"color": palette["text"]},
+                "gridcolor": palette["axis"],
+            },
+            "angularaxis": {"tickfont": {"color": palette["text"]}, "gridcolor": palette["axis"]},
+        },
         showlegend=False,
         height=380,
         margin={"t": 20, "b": 20, "l": 40, "r": 40},
+        font={"color": palette["text"]},
         paper_bgcolor=_LAYOUT_TRANSPARENT_BG,
     )
     st.plotly_chart(fig, width="stretch", key=key)
@@ -108,6 +140,7 @@ def render_bar_temas(temas: list[str], scores: list[float], *, key: str | None =
         raise ValueError(f"temas ({len(temas)}) e scores ({len(scores)}) com tamanhos diferentes")
 
     cores = [STATUS_COLORS[status_label(s)] for s in scores]
+    palette = _theme_palette()
     fig = go.Figure(
         go.Bar(
             x=scores,
@@ -119,9 +152,16 @@ def render_bar_temas(temas: list[str], scores: list[float], *, key: str | None =
         )
     )
     fig.update_layout(
-        xaxis={"range": [0, 100], "title": "Score"},
+        xaxis={
+            "range": [0, 100],
+            "title": "Score",
+            "tickfont": {"color": palette["text"]},
+            "titlefont": {"color": palette["text"]},
+        },
+        yaxis={"tickfont": {"color": palette["text"]}},
         height=300,
         margin={"t": 20, "b": 30, "l": 100, "r": 20},
+        font={"color": palette["text"]},
         paper_bgcolor=_LAYOUT_TRANSPARENT_BG,
         plot_bgcolor=_LAYOUT_TRANSPARENT_BG,
     )

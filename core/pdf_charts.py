@@ -71,7 +71,7 @@ def chart_donut_status(
     pie.data = [qtd for _, qtd in visiveis]
     pie.labels = [str(qtd) for _, qtd in visiveis]
     pie.slices.strokeColor = colors.white
-    pie.slices.strokeWidth = 1.5
+    pie.slices.strokeWidth = 1.0
     pie.sideLabels = False
     pie.simpleLabels = 1
     for i, (label, _) in enumerate(visiveis):
@@ -232,6 +232,8 @@ def chart_prioridades(
     chart.valueAxis.valueMin = 0
     chart.valueAxis.valueMax = max(valores) + max(1, max(valores) // 5)
     chart.valueAxis.labels.fontSize = 8
+    chart.valueAxis.gridStrokeColor = _hx("#e2e8f0")
+    chart.valueAxis.visibleGrid = True
     chart.bars.strokeWidth = 0
     for i, prioridade in enumerate(ordem):
         chart.bars[(0, i)].fillColor = _hx(cores[prioridade])

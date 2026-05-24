@@ -6,8 +6,6 @@ from core.models import Avaliacao
 from core.scoring import status_individual
 from modulos.iso27001.controls import TEMA_LABELS, Controle
 
-# Caracteres que, no início de uma célula CSV, são interpretados como fórmula
-# por Excel/LibreOffice/Google Sheets. Mitigação para CSV Injection (CWE-1236).
 _CSV_FORMULA_PREFIXES = ("=", "+", "-", "@", "\t", "\r")
 
 
@@ -31,9 +29,6 @@ class LinhaRelatorio:
     remediacao: str
     descricao: str
 
-
-# Mapeia atributo da dataclass -> rótulo em pt-BR exibido no cabeçalho do CSV.
-# Mantém uma única fonte de verdade para ordem e nomes das colunas.
 _HEADERS: dict[str, str] = {
     "controle_id": "Controle",
     "tema": "Tema",
@@ -47,7 +42,6 @@ _HEADERS: dict[str, str] = {
     "descricao": "Descrição",
 }
 
-# Garante em tempo de import que _HEADERS cobre exatamente os campos da dataclass.
 assert set(_HEADERS) == {f.name for f in fields(LinhaRelatorio)}, "_HEADERS desalinhado com LinhaRelatorio"
 
 

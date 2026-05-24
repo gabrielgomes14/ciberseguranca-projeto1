@@ -5,8 +5,7 @@ from datetime import date
 
 import streamlit as st
 
-# Cor de texto principal (slate-900). Reusada por _render_header_card e theme_summary.
-_COR_INK = "#0f172a"
+_COR_INK = "var(--text-color)"
 
 
 def _parse_prazo(s: str) -> date | None:

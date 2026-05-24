@@ -18,13 +18,11 @@ MODULOS: list[ModuloInfo] = [
     ),
 ]
 
-
 def _abrir_modulo(modulo_id: str) -> None:
     st.session_state.modulo_ativo = modulo_id
     st.session_state.modulo_alvo = modulo_id
     st.session_state.page = "diagnosticos"
     st.rerun()
-
 
 def render() -> None:
     st.title("Diagnóstico de Conformidade - ISO/IEC 27001 e 27701")
