@@ -18,4 +18,3 @@ class ModuloInfo:
     nome: str
     norma: str
     descricao: str
-    icone: str

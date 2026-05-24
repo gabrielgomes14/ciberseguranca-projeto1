@@ -50,7 +50,7 @@ def _render_grafico(snapshots: list[Snapshot], categorias_label: dict[str, str])
 
 
 def render() -> None:
-    st.title("📈 Histórico de Diagnósticos")
+    st.title("Histórico de Diagnósticos")
 
     modulo = st.selectbox(
         "Módulo",
@@ -124,7 +124,7 @@ def render() -> None:
 
     with st.sidebar:
         st.markdown("### Navegação")
-        if st.button("🏠 Início", width="stretch", key="hist_home"):
+        if st.button("Início", width="stretch", key="hist_home"):
             st.session_state.page = "home"
             st.rerun()
 
@@ -136,7 +136,7 @@ _NORMA_LABELS = {
 
 
 def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, str], modulo: str, organizacao: str) -> None:
-    st.subheader("🔍 Comparar auditorias")
+    st.subheader("Comparar auditorias")
     st.caption("Compare dois snapshots para ver evolução, regressões e variações por categoria.")
 
     opcoes = list(range(len(snapshots)))
@@ -160,7 +160,7 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
     with col_swap:
         st.write("")
         st.write("")
-        if st.button("🔄", help="Inverter A e B", key="cmp_swap"):
+        if st.button("Inverter", help="Inverter A e B", key="cmp_swap"):
             st.session_state.cmp_a, st.session_state.cmp_b = st.session_state.cmp_b, st.session_state.cmp_a
             st.rerun()
 
@@ -203,11 +203,11 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
         vb = snap_b.scores_por_categoria.get(cat, 0.0)
         delta = vb - va
         if delta > 0.5:
-            tendencia = "📈 melhorou"
+            tendencia = "melhorou"
         elif delta < -0.5:
-            tendencia = "📉 piorou"
+            tendencia = "piorou"
         else:
-            tendencia = "➡️ estável"
+            tendencia = "estável"
         linhas_delta.append(
             {
                 "Categoria": categorias_label.get(cat, cat),
@@ -225,9 +225,9 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
     piorou = sum(1 for linha in linhas_delta if isinstance(linha["Δ (pp)"], (int, float)) and float(linha["Δ (pp)"]) < -0.5)
     estavel = len(linhas_delta) - melhorou - piorou
     col_s1, col_s2, col_s3 = st.columns(3)
-    col_s1.success(f"📈 {melhorou} categoria(s) melhoraram")
-    col_s2.warning(f"➡️ {estavel} categoria(s) estáveis")
-    col_s3.error(f"📉 {piorou} categoria(s) pioraram")
+    col_s1.success(f"{melhorou} categoria(s) melhoraram")
+    col_s2.warning(f"{estavel} categoria(s) estáveis")
+    col_s3.error(f"{piorou} categoria(s) pioraram")
 
     dias = _dias_entre(snap_a.criado_em, snap_b.criado_em)
     if dias is not None and dias != 0:
@@ -236,7 +236,7 @@ def _render_comparativo(snapshots: list[Snapshot], categorias_label: dict[str, s
 
     norma_nome, titulo_cat = _NORMA_LABELS.get(modulo, (modulo, "Categoria"))
     st.download_button(
-        "📄 Baixar PDF comparativo (A vs B)",
+        "Baixar PDF comparativo (A vs B)",
         data=gerar_pdf_comparativo(
             norma=norma_nome,
             titulo_categoria=titulo_cat,

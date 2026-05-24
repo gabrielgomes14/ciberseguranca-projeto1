@@ -490,7 +490,7 @@ def gerar_pdf_comparativo(
     flow.append(Paragraph("Síntese", s["h2"]))
     flow.append(
         Paragraph(
-            f"📈 <b>{melhorou}</b> categoria(s) melhoraram · ➡️ <b>{estavel}</b> estáveis · 📉 <b>{piorou}</b> pioraram.",
+            f"<b>{melhorou}</b> categoria(s) melhoraram · <b>{estavel}</b> estáveis · <b>{piorou}</b> pioraram.",
             s["body"],
         )
     )

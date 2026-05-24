@@ -20,17 +20,17 @@ def _barra_diagnostico() -> None:
     col_d1, col_d2 = st.columns([4, 1])
     with col_d1:
         if diag_atual:
-            st.info(f"Diagnóstico ativo: **{diag_atual.organizacao}** · ID #{ativo_id} · 📅 {diag_atual.data_auditoria}")
+            st.info(f"Diagnóstico ativo: **{diag_atual.organizacao}** · ID #{ativo_id} · {diag_atual.data_auditoria}")
         else:
             st.warning("Nenhum diagnóstico ativo. Selecione/crie um para persistir.")
     with col_d2:
-        if st.button("💾 Salvar", width="stretch", disabled=ativo_id is None, key="dash_salvar"):
+        if st.button("Salvar", width="stretch", disabled=ativo_id is None, key="dash_salvar"):
             if persistir("iso27001"):
-                st.toast("Salvo.", icon="💾")
+                st.toast("Salvo.")
 
 
 def render() -> None:
-    st.title("📊 ISO/IEC 27001 - Resultado")
+    st.title("ISO/IEC 27001 - Resultado")
     _barra_diagnostico()
     avaliacoes = avaliacoes_do_modulo("iso27001")
 
@@ -98,7 +98,7 @@ def render() -> None:
     st.dataframe(df_filtrado, width="stretch", hide_index=True)
 
     st.divider()
-    st.subheader("📥 Exportar")
+    st.subheader("Exportar")
     diag_ativo_id = diagnostico_ativo("iso27001")
     diags_lista = listar_diagnosticos("iso27001")
     diag_obj = next((d for d in diags_lista if d.id == diag_ativo_id), None)
@@ -117,7 +117,7 @@ def render() -> None:
         )
     with col_d2:
         st.download_button(
-            "📄 PDF completo",
+            "PDF completo",
             data=gerar_pdf(TODOS_CONTROLES, avaliacoes, acoes, organizacao=organizacao, ponderado=ponderado, data_auditoria=data_aud),
             file_name="relatorio_iso27001.pdf",
             mime="application/pdf",
@@ -132,7 +132,7 @@ def render() -> None:
         st.write("")
         st.write("")
         diag_id = diagnostico_ativo("iso27001")
-        if st.button("📈 Salvar snapshot", width="stretch", disabled=diag_id is None):
+        if st.button("Salvar snapshot", width="stretch", disabled=diag_id is None):
             if diag_id is not None:
                 persistir("iso27001")
                 avaliados_n = sum(1 for c in TODOS_CONTROLES if avaliacoes.get(c.id))
@@ -143,19 +143,19 @@ def render() -> None:
                     {tema: resumos[tema].score for tema in TEMAS},
                     avaliados_n,
                 )
-                st.toast("Snapshot salvo no banco.", icon="📈")
+                st.toast("Snapshot salvo no banco.")
 
     with st.sidebar:
         st.markdown("### ISO/IEC 27001:2022")
-        if st.button("🏠 Início", width="stretch", key="nav_home"):
+        if st.button("Início", width="stretch", key="nav_home"):
             st.session_state.page = "home"
             st.rerun()
         if st.button("← Avaliação", width="stretch", key="nav_assess"):
             st.session_state.page = "iso27001_assessment"
             st.rerun()
-        if st.button("📌 Plano de ação", width="stretch", key="nav_action"):
+        if st.button("Plano de ação", width="stretch", key="nav_action"):
             st.session_state.page = "iso27001_action_plan"
             st.rerun()
-        if st.button("📈 Histórico", width="stretch", key="nav_hist"):
+        if st.button("Histórico", width="stretch", key="nav_hist"):
             st.session_state.page = "history"
             st.rerun()

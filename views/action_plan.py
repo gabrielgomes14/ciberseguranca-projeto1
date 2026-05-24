@@ -8,7 +8,7 @@ from modulos.iso27001.controls import TODOS_CONTROLES
 
 
 def render() -> None:
-    st.title("📌 Plano de Ação")
+    st.title("Plano de Ação")
     st.caption("Gerado a partir dos controles avaliados como Não Conforme ou Parcial.")
 
     avaliacoes: dict[str, Avaliacao] = avaliacoes_do_modulo("iso27001")
@@ -59,7 +59,7 @@ def render() -> None:
         },
     )
 
-    st.info("💡 Para editar **Responsável**, **Prazo** ou **Observação** de cada ação, volte à página de Avaliação e expanda o controle.")
+    st.info("Para editar **Responsável**, **Prazo** ou **Observação** de cada ação, volte à página de Avaliação e expanda o controle.")
 
     st.divider()
     col_e1, col_e2 = st.columns(2)
@@ -78,12 +78,12 @@ def render() -> None:
 
     with st.sidebar:
         st.markdown("### ISO/IEC 27001:2022")
-        if st.button("🏠 Início", width="stretch", key="ap_home"):
+        if st.button("Início", width="stretch", key="ap_home"):
             st.session_state.page = "home"
             st.rerun()
-        if st.button("📋 Avaliação", width="stretch", key="ap_assess"):
+        if st.button("Avaliação", width="stretch", key="ap_assess"):
             st.session_state.page = "iso27001_assessment"
             st.rerun()
-        if st.button("📊 Resultado", width="stretch", key="ap_dash"):
+        if st.button("Resultado", width="stretch", key="ap_dash"):
             st.session_state.page = "iso27001_dashboard"
             st.rerun()

@@ -9,14 +9,12 @@ MODULOS: list[ModuloInfo] = [
         nome="ISO/IEC 27001:2022",
         norma="Controles de Segurança da Informação",
         descricao="93 controles distribuídos em 4 temas (organizacionais, pessoas, físicos, tecnológicos).",
-        icone="🛡️",
     ),
     ModuloInfo(
         id="iso27701",
         nome="ISO/IEC 27701:2026",
         norma="SGPI - Sistema de Gestão de Privacidade da Informação",
         descricao="Anexo A da norma ABNT NBR ISO/IEC 27701:2026 - controles para controladores (A.1), operadores (A.2) e segurança da informação aplicada a DP (A.3). Vinculado à LGPD.",
-        icone="🔒",
     ),
 ]
 
@@ -29,7 +27,7 @@ def _abrir_modulo(modulo_id: str) -> None:
 
 
 def render() -> None:
-    st.title("🛡️ Diagnóstico de Conformidade - ISO/IEC 27001 e 27701")
+    st.title("Diagnóstico de Conformidade - ISO/IEC 27001 e 27701")
     st.markdown(
         "Ferramenta para diagnóstico de conformidade com as normas **27001** (segurança da informação) "
         "e **27701** (privacidade da informação, com mapeamento à LGPD). "
@@ -41,7 +39,7 @@ def render() -> None:
     cols = st.columns(len(MODULOS))
     for col, modulo in zip(cols, MODULOS, strict=True):
         with col, st.container(border=True):
-            st.markdown(f"### {modulo.icone} {modulo.nome}")
+            st.markdown(f"### {modulo.nome}")
             st.caption(modulo.norma)
             st.write(modulo.descricao)
             diags = listar_diagnosticos(modulo.id)
@@ -62,7 +60,7 @@ def render() -> None:
     st.divider()
     col_h1, col_h2 = st.columns(2)
     with col_h1:
-        if st.button("📈 Ver histórico", width="stretch"):
+        if st.button("Ver histórico", width="stretch"):
             st.session_state.page = "history"
             st.rerun()
     with col_h2:
