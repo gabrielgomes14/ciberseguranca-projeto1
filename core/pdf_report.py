@@ -1,6 +1,7 @@
 import io
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable
+from typing import Any
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
