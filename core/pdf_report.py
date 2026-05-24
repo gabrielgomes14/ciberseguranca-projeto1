@@ -1,5 +1,6 @@
 import io
 from datetime import datetime
+from typing import Any, Callable
 
 from reportlab.lib import colors
 from reportlab.lib.enums import TA_CENTER
@@ -200,8 +201,8 @@ def _tabela_estilo() -> TableStyle:
     )
 
 
-def _page_footer(norma: str, organizacao: str):
-    def _render(canvas, doc) -> None:
+def _page_footer(norma: str, organizacao: str) -> Callable[[Any, Any], None]:
+    def _render(canvas: Any, doc: Any) -> None:
         canvas.saveState()
         largura, _ = A4
         y = 1.1 * cm
