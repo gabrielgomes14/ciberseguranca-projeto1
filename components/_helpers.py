@@ -4,8 +4,8 @@ import html
 
 import streamlit as st
 
-# Cor de texto principal (slate-900). Reusada por _render_header_card e theme_summary.
-_COR_INK = "#0f172a"
+# Cor de texto principal. Reusada por _render_header_card e theme_summary.
+_COR_INK = "var(--text-color)"
 
 
 def _render_header_card(item_id: str, titulo: str, cor: str) -> None:

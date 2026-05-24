@@ -27,7 +27,7 @@ def _abrir_modulo(modulo_id: str) -> None:
     st.rerun()
 
 def render() -> None:
-    st.title("🛡️ Diagnóstico de Conformidade — ISO/IEC 27002 e 27701")
+    st.title("Diagnóstico de Conformidade — ISO/IEC 27002 e 27701")
     st.markdown(
         "Ferramenta para diagnóstico de conformidade com as normas **27002** (segurança da informação) "
         "e **27701** (privacidade da informação, com mapeamento à LGPD). "
@@ -60,7 +60,7 @@ def render() -> None:
     st.divider()
     col_h1, col_h2 = st.columns(2)
     with col_h1:
-        if st.button("📈 Ver histórico", width="stretch"):
+        if st.button("Ver histórico", width="stretch"):
             st.session_state.page = "history"
             st.rerun()
     with col_h2:

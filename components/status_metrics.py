@@ -2,7 +2,6 @@ import streamlit as st
 
 from core.scoring import ResultadoTema
 
-
 def render_status_metrics(resumos: dict[str, ResultadoTema], label_itens: str = "itens") -> None:
     total = sum(r.total for r in resumos.values())
     conformes = sum(r.conformes for r in resumos.values())
@@ -20,7 +19,7 @@ def render_status_metrics(resumos: dict[str, ResultadoTema], label_itens: str = 
     col5.metric("⚫ Não avaliado", nao_avaliado, help="Ainda sem resposta — também fora do cálculo")
 
     st.caption(
-        f"📐 **Base do cálculo:** {base_calc} de {total} {label_itens} avaliados "
+        f"**Base do cálculo:** {base_calc} de {total} {label_itens} avaliados "
         f"(Conformes + Em Adequação + Não Conformes). "
         f"Os **{na} {label_itens} N/A** e os **{nao_avaliado} não avaliados** "
         f"não entram no denominador do score."
