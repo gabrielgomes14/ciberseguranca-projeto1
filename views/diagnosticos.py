@@ -15,7 +15,7 @@ from core.state import (
 )
 
 _MODULOS = {
-    "iso27002": ("ISO/IEC 27002:2022", "iso27002_assessment"),
+    "iso27001": ("ISO/IEC 27001:2022", "iso27001_assessment"),
     "iso27701": ("ISO/IEC 27701:2026", "iso27701_assessment"),
 }
 
@@ -28,10 +28,10 @@ def _parse_data(s: str) -> date | None:
 
 
 def render() -> None:
-    modulo_id = st.session_state.get("modulo_alvo") or "iso27002"
-    nome, rota_abrir = _MODULOS.get(modulo_id, _MODULOS["iso27002"])
+    modulo_id = st.session_state.get("modulo_alvo") or "iso27001"
+    nome, rota_abrir = _MODULOS.get(modulo_id, _MODULOS["iso27001"])
 
-    st.title(f"📁 Diagnósticos — {nome}")
+    st.title(f"📁 Diagnósticos - {nome}")
     st.caption("Cada diagnóstico é uma auditoria independente, persistida em SQLite local.")
 
     with st.container(border=True):
@@ -87,7 +87,7 @@ def render() -> None:
                     if nova and nova.isoformat() != d.data_auditoria:
                         atualizar_diagnostico(d.id, d.organizacao, nova.isoformat())
                         st.rerun()
-                    st.caption(f"📅 Auditoria: {nova.strftime('%d/%m/%Y') if nova else '—'}")
+                    st.caption(f"📅 Auditoria: {nova.strftime('%d/%m/%Y') if nova else '-'}")
                 with col3:
                     if st.button("Abrir", key=f"abrir_{d.id}", width="stretch"):
                         if ativo and ativo != d.id:

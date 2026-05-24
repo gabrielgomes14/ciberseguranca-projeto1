@@ -100,7 +100,7 @@ def chart_radar(
 ) -> Drawing:
     """Renderiza um radar (spider chart) com o score por categoria.
 
-    Exige pelo menos 3 categorias — abaixo disso, retorna um Drawing com a
+    Exige pelo menos 3 categorias - abaixo disso, retorna um Drawing com a
     mensagem "Radar exige ≥ 3 categorias" (radar com 1 ou 2 vértices não tem
     leitura visual útil).
     """

@@ -1,6 +1,6 @@
 from core.action_plan import gerar_plano, plano_para_csv
 from core.models import Avaliacao
-from modulos.iso27002.controls import TODOS_CONTROLES
+from modulos.iso27001.controls import TODOS_CONTROLES
 
 
 def test_plano_inclui_apenas_nao_conformes_e_parciais_legado() -> None:

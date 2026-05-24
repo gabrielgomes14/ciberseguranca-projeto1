@@ -5,7 +5,7 @@ from modulos.iso27701 import views as iso27701_views
 from views import action_plan, assessment, dashboard, diagnosticos, history, home
 
 st.set_page_config(
-    page_title="ISO/IEC 27000 — Diagnóstico de Conformidade",
+    page_title="ISO/IEC 27000 - Diagnóstico de Conformidade",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="expanded",
@@ -24,9 +24,9 @@ inicializar_estado()
 ROTAS = {
     "home": home.render,
     "diagnosticos": diagnosticos.render,
-    "iso27002_assessment": assessment.render,
-    "iso27002_dashboard": dashboard.render,
-    "iso27002_action_plan": action_plan.render,
+    "iso27001_assessment": assessment.render,
+    "iso27001_dashboard": dashboard.render,
+    "iso27001_action_plan": action_plan.render,
     "iso27701_assessment": iso27701_views.render_assessment,
     "iso27701_dashboard": iso27701_views.render_dashboard,
     "history": history.render,

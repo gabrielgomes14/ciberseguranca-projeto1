@@ -21,6 +21,9 @@ def _carregar() -> tuple[dict[str, str], list[ItemDiagnostico], dict[str, list[I
             descricao=r.descricao,
             categoria_id=r.categoria_id,
             modulo=MODULO_ID,
+            controle_texto=r.controle_texto,
+            proposito=r.proposito,
+            orientacao=r.orientacao,
         )
         for r in rows
     ]

@@ -10,7 +10,7 @@ from core.models import (
     Avaliacao,
 )
 from core.scoring import RESPOSTA_NAO_CONFORME
-from modulos.iso27002.controls import TEMA_LABELS, Controle
+from modulos.iso27001.controls import TEMA_LABELS, Controle
 
 # Status legado pré-migração (Parcial → NC + remediacao=Sim). Mantido para tolerância
 # de leitura até `_migrar` rodar; não exposto como constante pública.

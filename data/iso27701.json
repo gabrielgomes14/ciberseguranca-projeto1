@@ -14,470 +14,704 @@
     {
       "id": "A.1.2.2",
       "titulo": "Identificação e documentação do propósito",
-      "descricao": "A organização deve identificar e documentar os propósitos específicos pelos quais os DP serão tratados. · LGPD Art. 6º II, V, Art. 9º",
-      "categoria_id": "A.1.2"
+      "descricao": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "categoria_id": "A.1.2",
+      "controle_texto": "A organização deve identificar e documentar os propósitos específicos pelos quais os DP serão tratados.",
+      "proposito": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "orientacao": "Os titulares de DP precisam compreender o propósito do tratamento. A documentação deve ser clara e detalhada o suficiente para ser usada nas informações fornecidas aos titulares e para subsidiar o consentimento e as políticas/procedimentos. Sem declaração clara, consentimento e escolha não podem ser concedidos adequadamente."
     },
     {
       "id": "A.1.2.3",
       "titulo": "Identificação de bases legais",
-      "descricao": "A organização deve determinar, documentar e ser capaz de demonstrar compliance com a base legal pertinente para o tratamento de DP para os propósitos identificados. · LGPD Art. 7º, Art. 11",
-      "categoria_id": "A.1.2"
+      "descricao": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "categoria_id": "A.1.2",
+      "controle_texto": "A organização deve determinar, documentar e ser capaz de demonstrar compliance com a base legal pertinente para o tratamento de DP.",
+      "proposito": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "orientacao": "Bases legais possíveis incluem: consentimento, execução de contrato, compliance com obrigação legal, proteção da vida do titular, interesse público e interesses legítimos do controlador. Documentar a base por atividade de tratamento. Categorias especiais de DP (saúde, crianças, biométricos) exigem controles adicionais. Mudanças de finalidade podem exigir nova base legal ou novo consentimento. NOTA BRASILEIRA: a LGPD apresenta 11 hipóteses legais."
     },
     {
       "id": "A.1.2.4",
       "titulo": "Determinação de quando e como o consentimento deve ser obtido",
-      "descricao": "A organização deve determinar e documentar um processo pelo qual ela pode demonstrar se, quando e como o consentimento para tratamento de DP foi obtido dos titulares de DP. · LGPD Art. 8º",
-      "categoria_id": "A.1.2"
+      "descricao": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "categoria_id": "A.1.2",
+      "controle_texto": "A organização deve determinar e documentar um processo que permita demonstrar se, quando e como o consentimento foi obtido dos titulares.",
+      "proposito": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "orientacao": "Correlacionar a finalidade do tratamento com a forma de obter o consentimento. Algumas jurisdições têm requisitos específicos (ex.: não agrupar consentimento com outros acordos). Casos especiais (pesquisa científica, crianças) podem ter requisitos adicionais."
     },
     {
       "id": "A.1.2.5",
       "titulo": "Obtenção e registro do consentimento",
-      "descricao": "A organização deve obter e registrar o consentimento dos titulares de DP de acordo com os processos documentados. · LGPD Art. 8º §1º",
-      "categoria_id": "A.1.2"
+      "descricao": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "categoria_id": "A.1.2",
+      "controle_texto": "A organização deve obter e registrar o consentimento de acordo com os processos documentados.",
+      "proposito": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "orientacao": "Registrar de forma a permitir fornecer detalhes sob solicitação (data, identificação do titular, declaração de consentimento). O consentimento deve ser: dado livremente, específico ao propósito, inequívoco e explícito."
     },
     {
       "id": "A.1.2.6",
       "titulo": "Avaliação de impacto de privacidade",
-      "descricao": "A organização deve avaliar a necessidade de, e implementar onde apropriado, uma avaliação de impacto de privacidade sempre que um novo tratamento de DP ou mudanças no tratamento existente forem planejadas. · LGPD Art. 38",
-      "categoria_id": "A.1.2"
+      "descricao": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "categoria_id": "A.1.2",
+      "controle_texto": "A organização deve avaliar a necessidade e implementar, quando apropriado, uma avaliação de impacto de privacidade (AIP) sempre que houver novo tratamento ou mudanças significativas.",
+      "proposito": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "orientacao": "Algumas jurisdições tornam a AIP obrigatória em casos como decisão automatizada com efeitos legais, tratamento em larga escala de categorias especiais ou monitoramento sistemático de área pública. Pode incluir lista de tipos de DP, locais de armazenamento, diagramas de fluxo e mapas de dados. Ver ABNT NBR ISO/IEC 29134."
     },
     {
       "id": "A.1.2.7",
       "titulo": "Contratos com operadores de DP",
-      "descricao": "A organização deve ter um contrato escrito com qualquer operador de DP que ela utilize e deve assegurar que seus contratos contemplem a implementação dos controles apropriados no Anexo A (Tabela A.2). · LGPD Art. 39",
-      "categoria_id": "A.1.2"
+      "descricao": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "categoria_id": "A.1.2",
+      "controle_texto": "A organização deve ter contrato escrito com qualquer operador de DP e assegurar que os contratos contemplem a implementação dos controles apropriados da Tabela A.2.",
+      "proposito": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "orientacao": "Considerar o processo de avaliação de riscos e o escopo do tratamento. Por padrão, todos os controles da Tabela A.2 são pertinentes; exclusões devem ser justificadas. As responsabilidades podem ser distribuídas de forma diferente, mas todos os controles precisam ser considerados."
     },
     {
       "id": "A.1.2.8",
       "titulo": "Controlador conjunto de DP",
-      "descricao": "A organização deve determinar os respectivos papéis e responsabilidades para o tratamento de DP (incluindo requisitos de proteção e segurança) com qualquer controlador conjunto de DP. · LGPD Art. 5º VI",
-      "categoria_id": "A.1.2"
+      "descricao": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "categoria_id": "A.1.2",
+      "controle_texto": "A organização deve determinar os respectivos papéis e responsabilidades (incluindo proteção e segurança) com qualquer controlador conjunto.",
+      "proposito": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "orientacao": "Documentar em contrato/acordo (acordo de compartilhamento de dados). O acordo pode incluir: finalidade do compartilhamento, identidade dos controladores, categorias de DP, operações de tratamento, papéis e responsabilidades, medidas técnicas e organizacionais, responsabilidade em caso de violação, retenção, descarte, ponto de contato e como atender às obrigações dos titulares."
     },
     {
       "id": "A.1.2.9",
       "titulo": "Registros relacionados ao tratamento de DP",
-      "descricao": "A organização deve determinar e manter, de forma segura, os registros necessários ao suporte às suas obrigações para o tratamento de DP. · LGPD Art. 37",
-      "categoria_id": "A.1.2"
+      "descricao": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "categoria_id": "A.1.2",
+      "controle_texto": "A organização deve determinar e manter de forma segura os registros necessários ao suporte às suas obrigações.",
+      "proposito": "Demonstrar que o tratamento é lícito, com base legal conforme as jurisdições aplicáveis e com finalidades claramente definidas e legítimas.",
+      "orientacao": "Manter inventário ou lista das atividades de tratamento contendo: tipo de tratamento, propósitos, categorias de DP e titulares, destinatários (incluindo países e organizações internacionais), descrição das medidas técnicas e organizacionais, relatório de AIP. O inventário deve ter proprietário responsável pela precisão e completeza."
     },
     {
       "id": "A.1.3.2",
       "titulo": "Determinação e cumprimento de obrigações com os titulares de DP",
-      "descricao": "A organização deve determinar e documentar suas obrigações legais, regulatórias e de negócios com os titulares de DP, relacionadas ao tratamento de seus DP, e fornecer meios para atender a essas obrigações. · LGPD Art. 17, Art. 18",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve determinar e documentar suas obrigações legais, regulatórias e de negócios e fornecer meios para atendê-las.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Disponibilizar meios acessíveis e tempestivos. Fornecer documentação clara e ponto de contato atualizado para encaminhar solicitações. O ponto de contato deve ser semelhante ao usado para coletar DP (ex.: se a coleta foi por e-mail/site, o canal de contato também)."
     },
     {
       "id": "A.1.3.3",
       "titulo": "Determinação das informações para os titulares de DP",
-      "descricao": "A organização deve determinar e documentar a informação a ser fornecida aos titulares de DP relacionadas ao tratamento de seus DP e o momento de tal disponibilização. · LGPD Art. 9º",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve determinar e documentar quais informações serão fornecidas aos titulares e quando.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Informações típicas: propósito do tratamento, contato do controlador, base legal, origem dos DP (se não coletados diretamente), se o fornecimento é obrigatório, obrigações para com titulares e como exercê-las, como retirar consentimento, transferências, destinatários, período de retenção, uso de decisão automatizada, direito de reclamar e frequência das informações."
     },
     {
       "id": "A.1.3.4",
       "titulo": "Fornecimento de informações aos titulares de DP",
-      "descricao": "A organização deve fornecer aos titulares de DP, de forma clara e facilmente acessível, informações que identifiquem o controlador de DP e descrevam o tratamento de seus DP. · LGPD Art. 6º VI, Art. 9º",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve fornecer informações claras e facilmente acessíveis, identificando o controlador e descrevendo o tratamento.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Fornecer em tempo hábil, de forma concisa, transparente, inteligível e acessível, com linguagem clara apropriada ao público. Preferencialmente no momento da coleta, e permanentemente acessível. Ícones e imagens podem ajudar."
     },
     {
       "id": "A.1.3.5",
       "titulo": "Fornecimento de mecanismo para modificar ou retirar o consentimento",
-      "descricao": "A organização deve fornecer um mecanismo para que os titulares de DP modifiquem ou retirem os seus consentimentos. · LGPD Art. 8º §5º",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve fornecer mecanismo para modificar ou retirar consentimento.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Informar sobre o direito de retirada a qualquer momento. O mecanismo deve ser consistente com o usado para obter o consentimento (coletado por e-mail/site → retirada por e-mail/site). Registrar solicitações da mesma forma que o consentimento. Tratamento anterior à retirada é normalmente válido, mas seus resultados não devem ser usados em novo tratamento."
     },
     {
       "id": "A.1.3.6",
       "titulo": "Fornecimento de mecanismo para se opor ao tratamento de DP",
-      "descricao": "A organização deve fornecer um mecanismo para os titulares de DP se oporem ao tratamento de seus DP. · LGPD Art. 18 §2º",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve fornecer mecanismo para os titulares se oporem ao tratamento.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Documentar requisitos legais sobre objeções (ex.: marketing direto). Mecanismos consistentes com o serviço (serviços online → objeção online). Manter registros de titulares que exerceram esse direito."
     },
     {
       "id": "A.1.3.7",
       "titulo": "Acesso, correção ou exclusão",
-      "descricao": "A organização deve implementar políticas, procedimentos ou mecanismos para atender às suas obrigações com os titulares de DP para acessarem, corrigirem ou excluírem seus DP. · LGPD Art. 18 I-VI",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve implementar políticas, procedimentos ou mecanismos para atender solicitações de acesso, correção ou exclusão.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Atender sem demora injustificada, com tempo de resposta definido. Disseminar correções/exclusões pelos sistemas e terceiros (ver A.1.3.8). Ter procedimento para disputas sobre exatidão, informando o titular sobre as mudanças (ou motivos para não fazê-las)."
     },
     {
       "id": "A.1.3.8",
-      "titulo": "Obrigações dos controladores para informar aos terceiros",
-      "descricao": "A organização deve informar aos terceiros com os quais DP tenham sido compartilhados sobre qualquer modificação, retirada ou oposição pertinente aos DP, e implementar políticas, procedimentos ou mecanismos apropriados. · LGPD Art. 18 §6º",
-      "categoria_id": "A.1.3"
+      "titulo": "Obrigações dos controladores de DP para informar aos terceiros",
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve informar aos terceiros com os quais os DP foram compartilhados sobre modificações, retiradas ou oposições pertinentes.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Manter canais ativos de comunicação com terceiros. Atribuir responsáveis pela operação/manutenção desses canais. Monitorar a confirmação de recebimento das informações pelos terceiros."
     },
     {
       "id": "A.1.3.9",
       "titulo": "Fornecimento de cópia dos DP tratados",
-      "descricao": "A organização deve ser capaz de fornecer uma cópia dos DP que são tratados, quando requerida pelo titular de DP. · LGPD Art. 18 II, V",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve ser capaz de fornecer cópia dos DP tratados quando solicitada pelo titular.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Fornecer em formato estruturado, de uso comum e acessível. Algumas jurisdições exigem formato legível por máquina (portabilidade). Se os DP já foram excluídos (retenção), informar o titular. Não reidentificar titulares apenas para atender este controle. Quando viável, possibilitar a transferência direta a outra organização."
     },
     {
       "id": "A.1.3.10",
       "titulo": "Tratamento de solicitações",
-      "descricao": "A organização deve definir e documentar políticas e procedimentos para tratamento e resposta a solicitações legítimas dos titulares de DP. · LGPD Art. 18 §1º",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve definir e documentar políticas e procedimentos para tratar solicitações legítimas dos titulares.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Solicitações podem incluir cópia dos DP ou reclamações. Algumas jurisdições permitem cobrar taxa em casos excessivos/repetitivos e definem tempos de resposta conforme complexidade. Tempos apropriados devem constar na política de privacidade."
     },
     {
       "id": "A.1.3.11",
       "titulo": "Tomada de decisão automatizada",
-      "descricao": "A organização deve identificar obrigações, incluindo legais, com os titulares de DP, resultantes de decisões baseadas exclusivamente em tratamento automatizado de DP, e demonstrar como atende a essas obrigações. · LGPD Art. 20",
-      "categoria_id": "A.1.3"
+      "descricao": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "categoria_id": "A.1.3",
+      "controle_texto": "A organização deve identificar obrigações relacionadas a decisões baseadas exclusivamente em tratamento automatizado de DP e demonstrar como as atende.",
+      "proposito": "Assegurar que os titulares de DP recebam informações apropriadas sobre o tratamento de seus DP e cumprir quaisquer outras obrigações aplicáveis.",
+      "orientacao": "Jurisdições podem exigir notificação da existência da decisão automatizada, permissão de oposição ou intervenção humana. Em algumas, certos tratamentos não podem ser totalmente automatizados."
     },
     {
       "id": "A.1.4.2",
       "titulo": "Limitação da coleta",
-      "descricao": "A organização deve limitar a coleta de DP ao mínimo que seja pertinente, proporcional e necessário para os propósitos identificados. · LGPD Art. 6º III",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização deve limitar a coleta de DP ao mínimo pertinente, proporcional e necessário aos propósitos identificados.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Incluir limitação de coleta indireta (logs, registros de acesso). Privacidade por default: opções de tratamento desativadas por padrão, ativadas apenas por escolha explícita do titular."
     },
     {
       "id": "A.1.4.3",
       "titulo": "Limitação do tratamento",
-      "descricao": "A organização deve limitar o tratamento de DP ao que seja adequado, pertinente e necessário para os propósitos identificados. · LGPD Art. 6º III",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização deve limitar o tratamento ao adequado, pertinente e necessário aos propósitos identificados.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Gerida por políticas de segurança/privacidade e procedimentos documentados. Por padrão, limitar: divulgação, período de armazenamento e quem tem acesso."
     },
     {
       "id": "A.1.4.4",
       "titulo": "Precisão e qualidade",
-      "descricao": "A organização deve assegurar e documentar que os DP sejam precisos, completos e atualizados, quando necessário, para os propósitos para os quais são tratados, ao longo do ciclo de vida dos DP. · LGPD Art. 6º V",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização deve assegurar e documentar que os DP sejam precisos, completos e atualizados conforme necessário, ao longo do ciclo de vida.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Políticas para minimizar imprecisões e para retificação. Aplicar em todo o ciclo de vida dos DP (ver ISO/IEC 29101:2018, 6.2)."
     },
     {
       "id": "A.1.4.5",
       "titulo": "Objetivos de minimização de DP",
-      "descricao": "A organização deve definir e documentar objetivos de minimização de dados e quais mecanismos (como desidentificação) são usados para alcançar aqueles objetivos. · LGPD Art. 6º III",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização deve definir e documentar objetivos de minimização de dados e quais mecanismos (como desidentificação) são usados.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Em alguns casos basta tratar dados desidentificados. Documentar mecanismos (configurações técnicas) que implementam minimização e desidentificação tempestivamente. Técnicas: remoção de atributos, generalização (rounding), randomização (noise addition). Ver ISO/IEC 20889."
     },
     {
       "id": "A.1.4.6",
       "titulo": "Desidentificação e exclusão de DP ao final do tratamento",
-      "descricao": "A organização deve excluir os DP ou entregá-los em uma forma que não permita identificação ou reidentificação, tão logo os DP originais não sejam mais necessários. · LGPD Art. 16",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização deve excluir ou desidentificar os DP assim que não forem mais necessários aos propósitos.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Ter mecanismos para excluir quando não houver previsão de novo tratamento; alternativamente, técnicas de desidentificação cujo resultado não permita reidentificação razoável."
     },
     {
       "id": "A.1.4.7",
       "titulo": "Arquivos temporários",
-      "descricao": "A organização deve assegurar que arquivos temporários criados como resultado do tratamento de DP sejam descartados seguindo procedimentos documentados dentro de um período de tempo especificado. · LGPD Art. 16",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização deve assegurar que arquivos temporários sejam descartados em prazo especificado e documentado.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Verificação periódica de exclusão dentro do prazo. Arquivos temporários incluem rollback, atualizações de bancos, operação de softwares - um procedimento de coleta de resíduos identifica esses arquivos e seu tempo de inatividade."
     },
     {
       "id": "A.1.4.8",
       "titulo": "Retenção",
-      "descricao": "A organização não pode reter DP por período superior ao que seja necessário para os propósitos para os quais os DP sejam tratados. · LGPD Art. 16",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização não pode reter DP por período superior ao necessário aos propósitos.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Manter cronogramas de retenção considerando requisitos legais, regulatórios e comerciais. Em caso de conflito, decisão de negócio com base em avaliação de riscos, documentada no cronograma."
     },
     {
       "id": "A.1.4.9",
       "titulo": "Descarte",
-      "descricao": "A organização deve ter políticas, procedimentos ou mecanismos documentados para o descarte de DP. · LGPD Art. 16",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização deve ter políticas, procedimentos ou mecanismos documentados para descarte de DP.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Escolha das técnicas depende da natureza/extensão dos DP, dos metadados associados e das características físicas da mídia. Técnicas diferem em granularidade e recuperabilidade."
     },
     {
       "id": "A.1.4.10",
       "titulo": "Controles de transmissão de DP",
-      "descricao": "A organização deve submeter DP transmitidos por meio de rede aos controles apropriados projetados para assegurar que os dados cheguem ao seu destino pretendido. · LGPD Art. 46",
-      "categoria_id": "A.1.4"
+      "descricao": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "categoria_id": "A.1.4",
+      "controle_texto": "A organização deve aplicar controles apropriados nas transmissões por rede para garantir que os dados cheguem ao destino pretendido.",
+      "proposito": "Assegurar que processos e sistemas sejam projetados para que coleta e tratamento de DP sejam limitados ao necessário para o propósito identificado.",
+      "orientacao": "Garantir acesso apenas a indivíduos autorizados aos sistemas de transmissão e adotar processos apropriados (incluindo registros de auditoria)."
     },
     {
       "id": "A.1.5.2",
-      "titulo": "Identificação das bases para transferências de DP entre as jurisdições",
-      "descricao": "A organização deve identificar e documentar as bases pertinentes para transferências de DP entre as jurisdições. · LGPD Art. 33",
-      "categoria_id": "A.1.5"
+      "titulo": "Identificação das bases para transferências de DP entre jurisdições",
+      "descricao": "Determinar se e quando os DP são compartilhados, transferidos ou divulgados, conforme as obrigações aplicáveis, e documentar.",
+      "categoria_id": "A.1.5",
+      "controle_texto": "A organização deve identificar e documentar as bases pertinentes para transferências entre jurisdições.",
+      "proposito": "Determinar se e quando os DP são compartilhados, transferidos ou divulgados, conforme as obrigações aplicáveis, e documentar.",
+      "orientacao": "Documentar compliance com requisitos legais aplicáveis. Algumas jurisdições exigem análise crítica por autoridade supervisora."
     },
     {
       "id": "A.1.5.3",
       "titulo": "Países e organizações internacionais para os quais os DP podem ser transferidos",
-      "descricao": "A organização deve especificar e documentar os países e organizações internacionais para os quais os DP podem ser transferidos. · LGPD Art. 33",
-      "categoria_id": "A.1.5"
+      "descricao": "Determinar se e quando os DP são compartilhados, transferidos ou divulgados, conforme as obrigações aplicáveis, e documentar.",
+      "categoria_id": "A.1.5",
+      "controle_texto": "A organização deve especificar e documentar os países e organizações internacionais destinatários.",
+      "proposito": "Determinar se e quando os DP são compartilhados, transferidos ou divulgados, conforme as obrigações aplicáveis, e documentar.",
+      "orientacao": "Disponibilizar aos clientes, incluindo países decorrentes de subcontratados. Em casos fora da operação normal (requisições legais), pode não ser possível especificar antecipadamente."
     },
     {
       "id": "A.1.5.4",
       "titulo": "Registros de transferência de DP",
-      "descricao": "A organização deve registrar transferências de DP para ou de terceiros e assegurar cooperação com aqueles terceiros para apoiar requisições relacionadas com as obrigações com os titulares de DP. · LGPD Art. 37, Art. 33",
-      "categoria_id": "A.1.5"
+      "descricao": "Determinar se e quando os DP são compartilhados, transferidos ou divulgados, conforme as obrigações aplicáveis, e documentar.",
+      "categoria_id": "A.1.5",
+      "controle_texto": "A organização deve registrar transferências para/de terceiros e assegurar cooperação com eles para apoiar requisições relacionadas a obrigações com titulares.",
+      "proposito": "Determinar se e quando os DP são compartilhados, transferidos ou divulgados, conforme as obrigações aplicáveis, e documentar.",
+      "orientacao": "Registros podem incluir transferências de/para terceiros por cumprimento de obrigações ou solicitações dos titulares (ex.: exclusões após revogação de consentimento). Aplicar minimização também aos registros."
     },
     {
       "id": "A.1.5.5",
       "titulo": "Registros de divulgação de DP a terceiros",
-      "descricao": "A organização deve registrar as divulgações de DP para terceiros, incluindo quais DP foram divulgados, para quem e em que momento. · LGPD Art. 37",
-      "categoria_id": "A.1.5"
+      "descricao": "Determinar se e quando os DP são compartilhados, transferidos ou divulgados, conforme as obrigações aplicáveis, e documentar.",
+      "categoria_id": "A.1.5",
+      "controle_texto": "A organização deve registrar as divulgações: quais DP, para quem e quando.",
+      "proposito": "Determinar se e quando os DP são compartilhados, transferidos ou divulgados, conforme as obrigações aplicáveis, e documentar.",
+      "orientacao": "Incluir divulgações em operações normais e adicionais (investigações, auditorias). Registrar a origem da divulgação e a autoridade que a fundamentou."
     },
     {
       "id": "A.2.2.2",
       "titulo": "Acordo com o cliente",
-      "descricao": "A organização deve assegurar, onde pertinente, que o contrato para tratar os DP aborde o papel da organização em prestar assistência nas obrigações do cliente. · LGPD Art. 39",
-      "categoria_id": "A.2.2"
+      "descricao": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "categoria_id": "A.2.2",
+      "controle_texto": "A organização deve assegurar que o contrato aborde o papel da organização em prestar assistência nas obrigações do cliente.",
+      "proposito": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "orientacao": "Contrato deve incluir, conforme aplicável: privacidade por design e por default, segurança do tratamento, notificação de incidentes (autoridade, clientes, titulares), AIPs e assistência em consultas prévias. Algumas jurisdições exigem objeto/duração do tratamento, natureza/propósito, tipo de DP e categorias de titulares."
     },
     {
       "id": "A.2.2.3",
       "titulo": "Propósitos da organização",
-      "descricao": "A organização deve assegurar que os DP tratados em nome de um cliente sejam tratados apenas para os propósitos expressos nas instruções documentadas do cliente. · LGPD Art. 39",
-      "categoria_id": "A.2.2"
+      "descricao": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "categoria_id": "A.2.2",
+      "controle_texto": "A organização deve tratar os DP apenas para os propósitos das instruções documentadas do cliente.",
+      "proposito": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "orientacao": "O contrato deve incluir objetivo e prazo do serviço. Pode haver razões técnicas para a organização determinar o método (compatível com as instruções gerais). Permitir que o cliente verifique compliance com a limitação de propósito, inclusive em subcontratados."
     },
     {
       "id": "A.2.2.4",
       "titulo": "Uso para marketing e propaganda",
-      "descricao": "A organização não pode usar os DP tratados sob um contrato para finalidades de marketing e propaganda sem estabelecer que o consentimento prévio foi obtido do respectivo titular de DP. · LGPD Art. 8º, Art. 39",
-      "categoria_id": "A.2.2"
+      "descricao": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "categoria_id": "A.2.2",
+      "controle_texto": "A organização não pode usar DP do contrato para marketing/propaganda sem consentimento prévio do titular. Não condicionar o serviço a esse consentimento.",
+      "proposito": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "orientacao": "Documentar compliance com requisitos contratuais quando houver planos de marketing. Não exigir cláusulas de marketing sem consentimento justo."
     },
     {
       "id": "A.2.2.5",
       "titulo": "Instruções infratoras",
-      "descricao": "A organização deve informar ao cliente se, em sua opinião, uma instrução de tratamento infringe requisitos legais aplicáveis. · LGPD Art. 39",
-      "categoria_id": "A.2.2"
+      "descricao": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "categoria_id": "A.2.2",
+      "controle_texto": "A organização deve informar ao cliente se entender que uma instrução de tratamento infringe requisitos legais.",
+      "proposito": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "orientacao": "A capacidade de verificação depende do contexto tecnológico, do conteúdo da instrução e do contrato."
     },
     {
       "id": "A.2.2.6",
       "titulo": "Obrigações do cliente",
-      "descricao": "A organização deve fornecer ao cliente informações apropriadas para que o cliente possa demonstrar compliance com suas obrigações.",
-      "categoria_id": "A.2.2"
+      "descricao": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "categoria_id": "A.2.2",
+      "controle_texto": "A organização deve fornecer ao cliente informações apropriadas para demonstrar compliance com suas obrigações.",
+      "proposito": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "orientacao": "Pode incluir permitir e colaborar com auditorias pelo cliente ou por auditor designado."
     },
     {
       "id": "A.2.2.7",
       "titulo": "Registros relativos ao tratamento de DP",
-      "descricao": "A organização deve determinar e manter os registros necessários em apoio à demonstração de compliance com suas obrigações para o tratamento de DP conduzido em nome de um cliente. · LGPD Art. 37",
-      "categoria_id": "A.2.2"
+      "descricao": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "categoria_id": "A.2.2",
+      "controle_texto": "A organização deve manter os registros necessários à demonstração de compliance (conforme contrato).",
+      "proposito": "Demonstrar que o tratamento é legítimo, com base legal conforme as jurisdições aplicáveis e com propósitos claramente definidos.",
+      "orientacao": "Algumas jurisdições exigem registrar: categorias de tratamento por cliente, transferências internacionais e descrição das medidas técnicas e organizacionais."
     },
     {
       "id": "A.2.3.2",
-      "titulo": "Compliance com obrigações com os titulares de DP",
-      "descricao": "A organização deve fornecer ao cliente os meios para estar em compliance com suas obrigações com os titulares de DP. · LGPD Art. 18",
-      "categoria_id": "A.2.3"
+      "titulo": "Compliance com obrigações para com os titulares de DP",
+      "descricao": "Assegurar que os titulares recebam informações apropriadas e que demais obrigações aplicáveis sejam cumpridas.",
+      "categoria_id": "A.2.3",
+      "controle_texto": "A organização deve fornecer ao cliente os meios para estar em compliance com suas obrigações para com os titulares.",
+      "proposito": "Assegurar que os titulares recebam informações apropriadas e que demais obrigações aplicáveis sejam cumpridas.",
+      "orientacao": "Quando o cliente depende do operador para informações ou medidas técnicas (ex.: correção/exclusão em tempo hábil), isso deve ser especificado contratualmente."
     },
     {
       "id": "A.2.4.2",
       "titulo": "Arquivos temporários",
-      "descricao": "A organização deve assegurar que arquivos temporários criados como resultado do tratamento de DP sejam descartados seguindo procedimentos documentados dentro de um período de tempo especificado. · LGPD Art. 16",
-      "categoria_id": "A.2.4"
+      "descricao": "Assegurar projeto de sistemas/processos que limitem coleta e tratamento ao necessário.",
+      "categoria_id": "A.2.4",
+      "controle_texto": "Arquivos temporários criados pelo tratamento devem ser descartados em prazo especificado e documentado.",
+      "proposito": "Assegurar projeto de sistemas/processos que limitem coleta e tratamento ao necessário.",
+      "orientacao": "Verificação periódica de exclusão. Procedimento de coleta de resíduos identifica arquivos relevantes e tempo de inatividade."
     },
     {
       "id": "A.2.4.3",
       "titulo": "Devolução, transferência ou descarte de DP",
-      "descricao": "A organização deve ser capaz de devolver, transferir ou descartar DP de forma segura. Ela deve também tornar sua política disponível para o cliente. · LGPD Art. 16, Art. 39",
-      "categoria_id": "A.2.4"
+      "descricao": "Assegurar projeto de sistemas/processos que limitem coleta e tratamento ao necessário.",
+      "categoria_id": "A.2.4",
+      "controle_texto": "A organização deve ser capaz de devolver, transferir ou descartar DP de forma segura, e disponibilizar a política ao cliente.",
+      "proposito": "Assegurar projeto de sistemas/processos que limitem coleta e tratamento ao necessário.",
+      "orientacao": "Cobrir descarte por: devolução, transferência (ex.: fusão), exclusão, desidentificação ou arquivamento. Fornecer garantias para o cliente sobre apagamento (incluindo backups e em subcontratados). Definir política específica com prazo de retenção após encerramento contratual."
     },
     {
       "id": "A.2.4.4",
       "titulo": "Controles de transmissão de DP",
-      "descricao": "A organização deve submeter os DP transmitidos por meio de rede aos controles apropriados, projetados para assegurar que os dados cheguem ao seu destino pretendido. · LGPD Art. 46",
-      "categoria_id": "A.2.4"
+      "descricao": "Assegurar projeto de sistemas/processos que limitem coleta e tratamento ao necessário.",
+      "categoria_id": "A.2.4",
+      "controle_texto": "A organização deve aplicar controles apropriados nas transmissões.",
+      "proposito": "Assegurar projeto de sistemas/processos que limitem coleta e tratamento ao necessário.",
+      "orientacao": "Acesso restrito a indivíduos autorizados, retenção de dados de auditoria. Requisitos podem estar no contrato; sem cláusula, buscar orientação do cliente."
     },
     {
       "id": "A.2.5.2",
-      "titulo": "Fundamentação para a transferência de DP entre as jurisdições",
-      "descricao": "A organização deve informar ao cliente de forma oportuna a fundamentação para as transferências de DP entre jurisdições e quaisquer alterações pretendidas. · LGPD Art. 33",
-      "categoria_id": "A.2.5"
+      "titulo": "Fundamentação para transferência de DP entre jurisdições",
+      "descricao": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "categoria_id": "A.2.5",
+      "controle_texto": "A organização deve informar oportunamente ao cliente a fundamentação para transferências entre jurisdições e mudanças pretendidas, permitindo oposição ou rescisão.",
+      "proposito": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "orientacao": "Documentar compliance com requisitos legais. Informar sobre transferências a fornecedores, outras partes, países/organizações internacionais. Contrato pode permitir mudanças sem aviso desde que com limites claros. Identificar acordos (cláusulas contratuais modelo, regras corporativas obrigatórias, regras de privacidade transfronteiriça)."
     },
     {
       "id": "A.2.5.3",
-      "titulo": "Países e organizações internacionais para os quais os DP podem ser transferidos",
-      "descricao": "A organização deve especificar e documentar os países e organizações internacionais para os quais os DP podem ser transferidos.",
-      "categoria_id": "A.2.5"
+      "titulo": "Países e organizações internacionais destinatários",
+      "descricao": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "categoria_id": "A.2.5",
+      "controle_texto": "Especificar e documentar países e organizações internacionais.",
+      "proposito": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "orientacao": "Disponibilizar aos clientes (incluindo decorrentes de subcontratados). Em operações fora do normal (autoridade legal), pode não ser possível especificar antecipadamente."
     },
     {
       "id": "A.2.5.4",
-      "titulo": "Registros de divulgações de DP a terceiros",
-      "descricao": "A organização deve registrar divulgações de DP para terceiros, incluindo quais DP foram divulgados, para quem e em que momento. · LGPD Art. 37",
-      "categoria_id": "A.2.5"
+      "titulo": "Registros de divulgação de DP a terceiros",
+      "descricao": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "categoria_id": "A.2.5",
+      "controle_texto": "Registrar divulgações: quais DP, para quem e quando.",
+      "proposito": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "orientacao": "Incluir divulgações em operações normais e adicionais (investigações, auditorias). Registrar origem da divulgação e autoridade."
     },
     {
       "id": "A.2.5.5",
       "titulo": "Notificação de solicitações de divulgação de DP",
-      "descricao": "A organização deve notificar o cliente de quaisquer solicitações legalmente obrigatórias de divulgação de DP.",
-      "categoria_id": "A.2.5"
+      "descricao": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "categoria_id": "A.2.5",
+      "controle_texto": "A organização deve notificar o cliente sobre solicitações legalmente obrigatórias de divulgação.",
+      "proposito": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "orientacao": "Notificar nos prazos e procedimentos acordados em contrato. Algumas solicitações legais incluem proibição de notificação (ex.: lei penal para preservar investigação)."
     },
     {
       "id": "A.2.5.6",
       "titulo": "Divulgações de DP legalmente obrigatórias",
-      "descricao": "A organização deve rejeitar quaisquer solicitações de divulgação de DP que não sejam legalmente obrigatórias, consultar o cliente correspondente antes de realizar qualquer divulgação.",
-      "categoria_id": "A.2.5"
+      "descricao": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "categoria_id": "A.2.5",
+      "controle_texto": "A organização deve rejeitar solicitações de divulgação que não sejam legalmente obrigatórias, consultar o cliente antes de divulgar e aceitar solicitações contratualmente acordadas e autorizadas pelo cliente.",
+      "proposito": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "orientacao": "Detalhes pertinentes no contrato. Solicitações podem vir de tribunais, cortes e autoridades administrativas, de qualquer jurisdição."
     },
     {
       "id": "A.2.5.7",
       "titulo": "Divulgação de subcontratados utilizados para tratar DP",
-      "descricao": "Antes da utilização, a organização deve informar ao cliente se algum subcontratado é utilizado para tratar DP. · LGPD Art. 39",
-      "categoria_id": "A.2.5"
+      "descricao": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "categoria_id": "A.2.5",
+      "controle_texto": "Antes da utilização, informar ao cliente se subcontratados são usados para tratar DP.",
+      "proposito": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "orientacao": "Incluir disposições no contrato. Divulgar: fato da subcontratação, nomes dos subcontratados, países/organizações para onde podem transferir, e meios pelos quais cumprem as obrigações da organização. Se a divulgação pública aumentar risco de segurança, divulgar sob acordo de confidencialidade ou sob solicitação. Lista de países deve sempre ser divulgada ao cliente."
     },
     {
       "id": "A.2.5.8",
-      "titulo": "Envolvimento de subcontratado para tratar os DP",
-      "descricao": "A organização somente deve envolver um subcontratado para tratar os DP conforme previsto no contrato com o cliente. · LGPD Art. 39",
-      "categoria_id": "A.2.5"
+      "titulo": "Envolvimento de subcontratado para tratar DP",
+      "descricao": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "categoria_id": "A.2.5",
+      "controle_texto": "Envolver subcontratado apenas conforme previsto no contrato com o cliente.",
+      "proposito": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "orientacao": "Autorização por escrito antes que o subcontratado trate os DP (via cláusulas no contrato ou acordo pontual). Ter contrato escrito com subcontratados, exigindo implementação dos controles da Tabela A.2 (considerando avaliação de riscos e escopo). Exclusões devem ser justificadas."
     },
     {
       "id": "A.2.5.9",
-      "titulo": "Troca de subcontratado para tratar os DP",
-      "descricao": "A organização deve, no caso de haver autorização geral por escrito, informar o cliente sobre quaisquer alterações pretendidas relativas à inclusão ou substituição de subcontratados. · LGPD Art. 39",
-      "categoria_id": "A.2.5"
+      "titulo": "Troca de subcontratado para tratar DP",
+      "descricao": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "categoria_id": "A.2.5",
+      "controle_texto": "Em caso de autorização geral por escrito, informar ao cliente sobre mudanças pretendidas (inclusão/substituição), permitindo oposição.",
+      "proposito": "Determinar se e documentar quando os DP são compartilhados, transferidos ou divulgados, conforme obrigações.",
+      "orientacao": "Necessária autorização escrita antes da troca; formalizar por cláusulas no contrato ou acordo pontual."
     },
     {
       "id": "A.3.3",
       "titulo": "Políticas de segurança da informação",
-      "descricao": "As políticas de segurança da informação relacionadas ao tratamento de DP devem ser definidas, aprovadas pela direção, publicadas, comunicadas e analisadas criticamente em intervalos planejados. · LGPD Art. 46",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Políticas relacionadas ao tratamento de DP devem ser definidas, aprovadas pela direção, publicadas, comunicadas, reconhecidas e analisadas criticamente em intervalos planejados ou em mudanças significativas.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Produzir declaração de apoio e compromisso com compliance legal e contratual. Alocar claramente responsabilidades entre partes. Considerar requisitos legais de proteção de DP no desenvolvimento das políticas."
     },
     {
       "id": "A.3.4",
       "titulo": "Papéis e responsabilidades em segurança da informação",
-      "descricao": "Os papéis e responsabilidades relacionados à segurança da informação no tratamento de DP devem ser definidos e alocados de acordo com as necessidades organizacionais. · LGPD Art. 41",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Papéis e responsabilidades devem ser definidos e alocados conforme as necessidades organizacionais.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Designar ponto de contato para clientes (e para titulares, quando controlador). Designar responsável pelo programa de privacidade (independente, reportando a nível gerencial apropriado), envolvido em questões de DP, especialista em legislação/regulamentação, ponto de contato com autoridades, atuando junto à alta direção. NOTA BRASILEIRA: chamado \"Encarregado pelo Tratamento de Dados Pessoais\" na LGPD."
     },
     {
       "id": "A.3.5",
       "titulo": "Classificação da informação",
-      "descricao": "A informação deve ser classificada de acordo com as necessidades de segurança da informação da organização, levando em consideração os DP, com base na confidencialidade, integridade, disponibilidade e nos requisitos das partes interessadas.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "A informação deve ser classificada considerando os DP, com base em confidencialidade, integridade, disponibilidade e requisitos das partes interessadas.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Esquema deve considerar explicitamente os DP (tipo, categorias especiais), onde estão armazenados e por quais sistemas circulam."
     },
     {
       "id": "A.3.6",
       "titulo": "Rotulagem da informação",
-      "descricao": "Um conjunto apropriado de procedimentos para rotulagem da informação, que considere os DP, deve ser desenvolvido e implementado de acordo com o esquema de classificação adotado pela organização.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Procedimentos de rotulagem que considerem DP devem ser desenvolvidos e implementados conforme o esquema de classificação.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Garantir que as pessoas reconheçam DP. NOTA BRASILEIRA: conscientizar sobre cuidados específicos com DP sensíveis e DP de crianças e adolescentes (LGPD)."
     },
     {
       "id": "A.3.7",
       "titulo": "Transferência de informação",
-      "descricao": "Regras, procedimentos ou acordos de transferência de informação relacionados ao tratamento de DP devem ser estabelecidos para todos os tipos de meios de transferência. · LGPD Art. 46",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Regras, procedimentos ou acordos de transferência devem ser estabelecidos para todos os tipos de meios, internos e externos.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Procedimentos para assegurar aplicação das regras de DP dentro e fora do sistema."
     },
     {
       "id": "A.3.8",
       "titulo": "Gestão de identidade",
-      "descricao": "O ciclo de vida completo das identidades relacionadas ao tratamento de DP deve ser gerenciado.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "O ciclo de vida completo das identidades deve ser gerenciado.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Procedimentos de registro/cancelamento que tratem comprometimento de credenciais. Não reatribuir IDs desativados/expirados. Em serviços de tratamento, o cliente pode ter responsabilidades - documentar. Algumas jurisdições impõem frequência de verificação de credenciais não utilizadas."
     },
     {
       "id": "A.3.9",
       "titulo": "Direitos de acesso",
-      "descricao": "Os direitos de acesso aos DP e a outros ativos associados ao tratamento de DP devem ser provisionados, analisados criticamente, modificados e removidos de acordo com a política específica por tema da organização e com as regras de controle de acesso. · LGPD Art. 46",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Direitos de acesso devem ser provisionados, analisados, modificados e removidos conforme política e regras de controle de acesso.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Manter registro preciso de perfis de usuário. IDs individuais permitem rastreabilidade de acessos e alterações. Em serviços de tratamento, fornecer ao cliente meios para gerenciar acesso (direitos administrativos, encerramento)."
     },
     {
       "id": "A.3.10",
       "titulo": "Abordagem da segurança da informação nos contratos de fornecedores",
-      "descricao": "Requisitos pertinentes de segurança da informação relacionados ao tratamento de DP devem ser estabelecidos e acordados com cada fornecedor, com base no tipo de relacionamento. · LGPD Art. 39",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Requisitos pertinentes devem ser estabelecidos e acordados com cada fornecedor.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Especificar nos contratos se há tratamento de DP e medidas técnicas/organizacionais mínimas. Alocar claramente responsabilidades entre organização, parceiros, fornecedores e terceiros. Prever auditoria independente. Para operadores, especificar que DP serão tratados apenas conforme instruções."
     },
     {
       "id": "A.3.11",
-      "titulo": "Planejamento e preparação para gestão de incidentes de segurança da informação",
-      "descricao": "A organização deve planejar e se preparar para a gestão de incidentes de segurança da informação relacionados ao tratamento de DP, definindo processos, papéis e responsabilidades. · LGPD Art. 48",
-      "categoria_id": "A.3"
+      "titulo": "Planejamento e preparação para gestão de incidentes",
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "A organização deve planejar e se preparar definindo, estabelecendo e comunicando processos, papéis e responsabilidades.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Estabelecer responsabilidades para identificação/registro de violações de DP, notificação a partes interessadas (com prazos) e comunicação com autoridades. Conhecer regulamentos de notificação aplicáveis."
     },
     {
       "id": "A.3.12",
       "titulo": "Resposta a incidentes de segurança da informação",
-      "descricao": "As respostas a incidentes de segurança da informação relacionados ao tratamento de DP devem ser de acordo com os procedimentos documentados. · LGPD Art. 48",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Respostas a incidentes relacionados ao tratamento de DP devem seguir procedimentos documentados.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Incidente envolvendo DP aciona análise crítica; evento por si só não. Procedimentos de resposta devem incluir notificações e registros. Notificações devem ser claras (contato, descrição, consequências, medidas). Operadores devem notificar o cliente conforme contrato, sem demora injustificada."
     },
     {
       "id": "A.3.13",
       "titulo": "Requisitos legais, estatutários, regulatórios e contratuais",
-      "descricao": "Requisitos legais, estatutários, regulatórios e contratuais pertinentes à segurança da informação, relacionados ao tratamento de DP, e a abordagem da organização para cumpri-los, devem ser documentados e mantidos atualizados. · LGPD Art. 6º, Art. 7º",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Requisitos pertinentes devem ser documentados, com a abordagem para cumpri-los; manter atualizado.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Identificar sanções legais aplicáveis, incluindo multas. Normas como este documento podem servir de base contratual com sanções contratuais."
     },
     {
       "id": "A.3.14",
       "titulo": "Proteção de registros",
-      "descricao": "Registros relacionados ao tratamento de DP devem ser protegidos contra perda, destruição, falsificação, acesso não autorizado e divulgação não autorizada.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Registros relacionados ao tratamento de DP devem ser protegidos contra perda, destruição, falsificação, acesso e divulgação não autorizados.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Reter cópias de políticas e procedimentos (incluindo versões anteriores) conforme cronograma de retenção, para análises críticas, disputas e investigações."
     },
     {
       "id": "A.3.15",
       "titulo": "Análise crítica independente da segurança da informação",
-      "descricao": "A abordagem da organização para gerenciar a segurança da informação relacionada ao tratamento de DP e sua implementação deve ser analisada criticamente de forma independente em intervalos planejados, ou quando ocorrerem mudanças significativas.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "A abordagem para gerenciar segurança (pessoas, processos, tecnologias) deve ser analisada criticamente de forma independente em intervalos planejados ou em mudanças significativas.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Se operador e auditorias individuais forem impraticáveis, disponibilizar evidências independentes aos clientes (auditoria independente pertinente é normalmente aceitável, com resultados transparentes)."
     },
     {
       "id": "A.3.16",
-      "titulo": "Compliance com políticas, regras e normas de segurança da informação",
-      "descricao": "O compliance com a política de segurança da informação, políticas específicas, regras e normas relacionadas ao tratamento de DP deve ser regularmente analisado criticamente.",
-      "categoria_id": "A.3"
+      "titulo": "Compliance com políticas, regras e normas de segurança",
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Compliance com política e normas deve ser regularmente analisado criticamente.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Incluir métodos de análise técnica de ferramentas e componentes: monitoramento contínuo (verificar tratamento permitido) ou testes específicos (penetração/vulnerabilidade, validação de desidentificação)."
     },
     {
       "id": "A.3.17",
-      "titulo": "Conscientização, educação e treinamento em segurança da informação",
-      "descricao": "O pessoal e as partes interessadas pertinentes devem receber conscientização, educação e treinamento apropriados em segurança da informação, conforme pertinente às suas funções no tratamento de DP.",
-      "categoria_id": "A.3"
+      "titulo": "Conscientização, educação e treinamento",
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Pessoal e partes interessadas pertinentes devem receber conscientização, educação e treinamento apropriados, com atualizações regulares.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Aumentar conscientização sobre relato de incidentes e consequências de violar regras (organização, funcionário, titular). Treinamentos periódicos para quem acessa DP."
     },
     {
       "id": "A.3.18",
       "titulo": "Acordos de confidencialidade ou não divulgação",
-      "descricao": "Os acordos de confidencialidade ou não divulgação que reflitam as necessidades da organização quanto à proteção de DP devem ser identificados, documentados, analisados criticamente regularmente e assinados pelos funcionários e outras partes pertinentes.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Acordos devem ser identificados, documentados, analisados criticamente e assinados.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Indivíduos com acesso a DP devem estar sob obrigação de confidencialidade. Especificar o período. Operadores devem assegurar que colaboradores e agentes cumprem políticas/procedimentos."
     },
     {
       "id": "A.3.19",
       "titulo": "Mesa limpa e tela limpa",
-      "descricao": "Regras de mesa limpa para documentos em papel e mídias removíveis e regras de tela limpa para instalações de processamento devem ser definidas e aplicadas adequadamente.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Regras de mesa limpa e tela limpa devem ser definidas e aplicadas adequadamente.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Restringir a geração de materiais com DP ao mínimo necessário ao propósito."
     },
     {
       "id": "A.3.20",
       "titulo": "Mídias de armazenamento",
-      "descricao": "Mídias de armazenamento contendo DP devem ser gerenciadas durante seu ciclo de vida de aquisição, uso, transporte e descarte, de acordo com o esquema de classificação e requisitos de manuseio. · LGPD Art. 16",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Mídias com DP devem ser gerenciadas no ciclo de aquisição, uso, transporte e descarte conforme classificação e requisitos de manuseio.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Documentar uso de mídias removíveis. Preferir mídias com suporte a criptografia. Mídias não criptografadas só quando inevitável, com controles compensatórios. Procedimentos de descarte seguro. Registro de entrada/saída de mídias físicas. Autorização para saída de mídias e proteção (criptografia) para que dados só sejam acessíveis no destino."
     },
     {
       "id": "A.3.21",
       "titulo": "Descarte seguro ou reutilização de equipamentos",
-      "descricao": "Itens dos equipamentos que contenham mídias com DP devem ser verificados para assegurar que quaisquer dados sensíveis e softwares licenciados tenham sido removidos ou sobrescritos de forma segura previamente ao descarte ou à reutilização. · LGPD Art. 16",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Equipamentos com mídias contendo DP devem ser verificados para remoção segura ou sobrescrita antes do descarte/reutilização.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Quando um espaço de armazenamento é realocado, garantir que DP não estejam acessíveis. Exclusões podem ser inviáveis por desempenho - evitar com medidas técnicas específicas. Tratar equipamentos que possam conter DP como se contivessem."
     },
     {
       "id": "A.3.22",
       "titulo": "Dispositivos endpoint do usuário",
-      "descricao": "DP armazenados, processados ou acessíveis por meio de dispositivos endpoint do usuário devem ser protegidos.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "DP armazenados, processados ou acessíveis em endpoints devem ser protegidos.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Assegurar que o uso de dispositivos móveis não comprometa DP."
     },
     {
       "id": "A.3.23",
       "titulo": "Autenticação segura",
-      "descricao": "Tecnologias e procedimentos de autenticação segura relacionados ao tratamento de DP devem ser implementados com base em restrições de acesso à informação.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Tecnologias e procedimentos de autenticação segura devem ser implementados com base nas restrições de acesso.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Se requerido pelo cliente, fornecer procedimentos seguros de log-on para contas sob controle do cliente."
     },
     {
       "id": "A.3.24",
       "titulo": "Backup das informações",
-      "descricao": "O backup de DP, bem como de softwares e sistemas relacionados ao tratamento de DP, devem ser mantidos e testados regularmente.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Backup de DP, softwares e sistemas relacionados ao tratamento deve ser mantido e testado regularmente.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Política para backup, recuperação, restauração e descarte de DP em backups. Responsabilidades podem depender do cliente - informar limites. Algumas jurisdições prescrevem frequência. Em restauração, garantir integridade ou identificar inexatidões. Registro de restaurações deve conter: responsável e descrição dos DP restaurados."
     },
     {
       "id": "A.3.25",
       "titulo": "Log",
-      "descricao": "Logs que registrem atividades, exceções, falhas e outros eventos relevantes relacionados ao tratamento de DP devem ser produzidos, armazenados, protegidos e analisados.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Logs de atividades, exceções, falhas e eventos relevantes devem ser produzidos, armazenados, protegidos e analisados.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Processo de análise crítica com monitoramento contínuo ou manual em periodicidade definida. Logs devem registrar acesso a DP (quem, quando, qual titular, alterações). Logs podem conter DP - procedimento (preferencialmente automático) para remoção ou desidentificação conforme cronograma."
     },
     {
       "id": "A.3.26",
       "titulo": "Uso de criptografia",
-      "descricao": "Regras para o uso efetivo de criptografia relacionada ao tratamento de DP, incluindo gerenciamento de chaves criptográficas, devem ser definidas e implementadas. · LGPD Art. 46",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Regras para uso efetivo de criptografia (incluindo gerenciamento de chaves) devem ser definidas e implementadas.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Algumas jurisdições exigem criptografia para certos tipos de DP (saúde, registro de residentes, passaporte, CNH). Informar o cliente sobre circunstâncias de uso e capacidades que ele pode usar."
     },
     {
       "id": "A.3.27",
       "titulo": "Ciclo de vida de desenvolvimento seguro",
-      "descricao": "Regras para o desenvolvimento seguro de software e sistemas relacionados ao tratamento de DP devem ser estabelecidas e aplicadas.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Regras para desenvolvimento seguro de software/sistemas devem ser estabelecidas e aplicadas.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Políticas que contribuem para privacidade por design/default devem considerar: orientações sobre proteção de DP no ciclo de vida; requisitos de privacidade na fase de projeto (com base em AIPs); pontos de verificação nos marcos do projeto; conhecimento requerido; minimização do tratamento como padrão."
     },
     {
       "id": "A.3.28",
       "titulo": "Requisitos de segurança da aplicação",
-      "descricao": "Requisitos de segurança da informação relacionados ao tratamento de DP devem ser identificados, especificados e aprovados ao desenvolver ou adquirir aplicações.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Requisitos de segurança devem ser identificados, especificados e aprovados ao desenvolver ou adquirir aplicações.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "DP transmitidos por redes não confiáveis devem ser criptografados (ex.: internet pública). Em alguns casos, características inerentes podem exigir exposição de cabeçalhos/tráfego."
     },
     {
       "id": "A.3.29",
       "titulo": "Princípios de arquitetura e engenharia de sistemas seguros",
-      "descricao": "Princípios para engenharia de sistemas seguros relacionados ao tratamento de DP devem ser estabelecidos, documentados, mantidos e aplicados a quaisquer atividades de desenvolvimento.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Princípios devem ser estabelecidos, documentados, mantidos e aplicados.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Sistemas/componentes devem ser projetados com privacidade por design/default, antecipando e facilitando implementação dos controles. Coleta e tratamento limitados ao necessário. Projetar para facilitar exclusão após período especificado."
     },
     {
       "id": "A.3.30",
       "titulo": "Desenvolvimento terceirizado",
-      "descricao": "A organização deve dirigir, monitorar e analisar criticamente as atividades relacionadas à terceirização de desenvolvimento de sistemas de tratamento de DP.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "A organização deve dirigir, monitorar e analisar criticamente atividades de terceirização do desenvolvimento.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Mesmos princípios de privacidade por design/default se aplicam, quando aplicável, a sistemas terceirizados."
     },
     {
       "id": "A.3.31",
       "titulo": "Informações de teste",
-      "descricao": "Informações de teste relacionadas ao tratamento de DP devem ser selecionadas, protegidas e gerenciadas adequadamente.",
-      "categoria_id": "A.3"
+      "descricao": "Assegurar a segurança do tratamento de DP.",
+      "categoria_id": "A.3",
+      "controle_texto": "Informações de teste relacionadas ao tratamento de DP devem ser selecionadas, protegidas e gerenciadas adequadamente.",
+      "proposito": "Assegurar a segurança do tratamento de DP.",
+      "orientacao": "Preferir dados fictícios/sintéticos. Se DP forem inevitáveis em testes, aplicar medidas técnicas e organizacionais equivalentes às de produção. Se não viável, avaliação de riscos para selecionar controles de mitigação."
     }
   ]
 }

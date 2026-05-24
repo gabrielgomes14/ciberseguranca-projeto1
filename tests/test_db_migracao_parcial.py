@@ -45,7 +45,7 @@ def _ler_avaliacao(diag_id: int, item_id: str) -> tuple[str, str]:
 
 def test_migra_parcial_para_nao_conforme_com_remediacao(db_path: str) -> None:
     db.init_db()
-    did = db.criar_diagnostico("iso27002", "Acme")
+    did = db.criar_diagnostico("iso27001", "Acme")
     _inserir_parcial_legado(did, "5.1", criticidade="Alta")
 
     # Reexecutar init_db dispara a migração.
@@ -59,11 +59,11 @@ def test_migra_parcial_para_nao_conforme_com_remediacao(db_path: str) -> None:
 def test_migracao_e_idempotente(db_path: str) -> None:
     """Rodar a migração 2× não muda nada após a primeira execução."""
     db.init_db()
-    did = db.criar_diagnostico("iso27002", "Acme")
+    did = db.criar_diagnostico("iso27001", "Acme")
     _inserir_parcial_legado(did, "5.2")
     db.init_db()  # primeira migração
     primeiro = _ler_avaliacao(did, "5.2")
-    db.init_db()  # segunda migração — não deve regredir
+    db.init_db()  # segunda migração - não deve regredir
     segundo = _ler_avaliacao(did, "5.2")
     assert primeiro == segundo == ("Não Conforme", "Sim")
 
@@ -71,7 +71,7 @@ def test_migracao_e_idempotente(db_path: str) -> None:
 def test_migracao_nao_afeta_outros_status(db_path: str) -> None:
     """Conforme, Não Conforme e N/A não devem ser tocados."""
     db.init_db()
-    did = db.criar_diagnostico("iso27002", "Acme")
+    did = db.criar_diagnostico("iso27001", "Acme")
     db.salvar_avaliacoes(
         did,
         {
@@ -92,7 +92,7 @@ def test_migracao_nao_afeta_outros_status(db_path: str) -> None:
 def test_migracao_via_carregar_avaliacoes_exibe_estado_pos_migracao(db_path: str) -> None:
     """Caminho de leitura padrão: após init_db, o usuário vê o estado migrado."""
     db.init_db()
-    did = db.criar_diagnostico("iso27002", "Acme")
+    did = db.criar_diagnostico("iso27001", "Acme")
     _inserir_parcial_legado(did, "5.4")
     # carregar_avaliacoes não chama init_db; chamamos manual antes.
     db.init_db()

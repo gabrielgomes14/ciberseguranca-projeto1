@@ -68,8 +68,8 @@ def _render_sidebar(respondidos: int) -> None:
 
 def render_assessment() -> None:
     """Tela de auto-avaliação do módulo 27701, com tabs por categoria."""
-    st.title(f"🔒 {MODULO_NOME} — Sistema de Gestão de Informações de Privacidade")
-    st.caption("Controles dos Anexos A (Controladores) e B (Operadores) — vinculados à LGPD quando aplicável.")
+    st.title(f"🔒 {MODULO_NOME} - Sistema de Gestão de Informações de Privacidade")
+    st.caption("Controles dos Anexos A (Controladores) e B (Operadores) - vinculados à LGPD quando aplicável.")
     _barra_diagnostico()
 
     avaliacoes = avaliacoes_do_modulo(MODULO_ID)
@@ -95,7 +95,7 @@ def render_assessment() -> None:
     abas = st.tabs(list(CATEGORIAS))
     for aba, (cat_id, controles) in zip(abas, CONTROLES_POR_CATEGORIA.items(), strict=True):
         with aba:
-            st.markdown(f"**{cat_id}** — {CATEGORIAS[cat_id]}")
+            st.markdown(f"**{cat_id}** - {CATEGORIAS[cat_id]}")
             st.caption(f"{len(controles)} controle(s)")
             with st.popover("⚡ Marcar em massa"):
                 col_m1, col_m2 = st.columns([3, 1])
@@ -134,7 +134,7 @@ def render_dashboard() -> None:
     """Tela de resultado do módulo: gauge geral, radar, métricas, resumo por categoria,
     tabela de controles, export PDF e captura de snapshot.
     """
-    st.title(f"📊 {MODULO_NOME} — Resultado")
+    st.title(f"📊 {MODULO_NOME} - Resultado")
     _barra_diagnostico()
     avaliacoes = avaliacoes_do_modulo(MODULO_ID)
 

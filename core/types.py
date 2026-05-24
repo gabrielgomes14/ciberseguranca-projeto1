@@ -8,6 +8,9 @@ class ItemDiagnostico:
     descricao: str
     categoria_id: str
     modulo: str
+    controle_texto: str = ""
+    proposito: str = ""
+    orientacao: str = ""
 
 
 @dataclass(frozen=True)
