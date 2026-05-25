@@ -13,9 +13,9 @@ def render_status_metrics(resumos: dict[str, ResultadoTema], label_itens: str = 
     base_calc = conformes + em_adequacao + nao_conformes
 
     col1, col2, col3, col4, col5 = st.columns(5)
-    col1.metric("Conforme", conformes)
+    col1.metric("🟢 Conforme", conformes)
     col2.metric("🟡 Em Adequação", em_adequacao)
-    col3.metric("Não Conforme", nao_conformes)
+    col3.metric("🔴 Não Conforme", nao_conformes)
     col4.metric("⚪ Não Aplicável", na, help="Excluído do cálculo do score (denominador)")
     col5.metric("⚫ Não avaliado", nao_avaliado, help="Ainda sem resposta - também fora do cálculo")
 

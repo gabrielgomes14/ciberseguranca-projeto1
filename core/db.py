@@ -132,7 +132,9 @@ CREATE INDEX IF NOT EXISTS idx_iso27701_controle_categoria ON iso27701_controle(
 
 @contextmanager
 def conexao() -> Iterator[sqlite3.Connection]:
-    con = sqlite3.connect(_db_path())
+    path = _db_path()
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    con = sqlite3.connect(path)
     con.execute("PRAGMA foreign_keys = ON")
     con.row_factory = sqlite3.Row
     try:

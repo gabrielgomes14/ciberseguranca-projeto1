@@ -1,0 +1,16 @@
+services:
+  app:
+    build: .
+    image: diagnostico-iso:latest
+    container_name: diagnostico-iso
+    ports:
+      - "8501:8501"
+    volumes:
+      # Persiste o banco SQLite no host. O diretório local é criado se não existir.
+      - ./data-db:/app/data-db
+    environment:
+      # Caminho do banco dentro do container (apontando para o volume).
+      DIAGNOSTICO_DB_PATH: /app/data-db/diagnosticos.db
+      # Para desabilitar o seed do diagnóstico demo, descomente:
+      # DIAGNOSTICO_SEED_DEMO: "0"
+    restart: unless-stopped
