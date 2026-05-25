@@ -87,16 +87,16 @@ Banco SQLite criado automaticamente em `diagnosticos.db` na raiz do projeto. A v
 
 | ID | Descrição |
 | --- | --- |
-| **RNF01** | Roda localmente como aplicação Streamlit, acessada por qualquer navegador moderno. |
+| **RNF01** | Roda localmente como aplicação Streamlit, acessada por qualquer navegador. |
 | **RNF02** | Requer Python 3.11 ou superior; as dependências estão fixadas em [requirements.txt](requirements.txt) e [requirements-dev.txt](requirements-dev.txt). |
-| **RNF03** | Os dados ficam em um banco SQLite local, sem necessidade de servidor; o caminho do arquivo pode ser trocado pela variável `DIAGNOSTICO_DB_PATH`. |
+| **RNF03** | Os dados ficam em um banco SQLite local, sem ter s necessidade de servidor; o caminho do arquivo pode ser trocado pela variável `DIAGNOSTICO_DB_PATH`. |
 | **RNF04** | O schema é criado com `CREATE TABLE IF NOT EXISTS` e os catálogos são populados por seed idempotente a partir dos JSONs em `data/` (ver `_seed_catalogo` em [core/db.py](core/db.py)). |
 | **RNF05** | As chaves estrangeiras ficam ativas via `PRAGMA foreign_keys = ON`, com `ON DELETE CASCADE` ligando diagnóstico, avaliações e snapshots. |
 | **RNF06** | Todas as queries usam parâmetros posicionais, evitando concatenação de strings e SQL injection. |
 | **RNF07** | O código é tipado e validado por mypy em modo estrito; o Ruff cuida do lint e da ordenação de imports. |
 | **RNF08** | Os testes em pytest rodam contra um banco temporário, sem interferir no `diagnosticos.db` real. |
 | **RNF09** | A pipeline do GitHub Actions executa lint, type-check e testes a cada push e pull request na main. |
-| **RNF10** | Toda a interface é em português brasileiro, mantendo a acentuação e a nomenclatura oficial das normas ISO. |
+| **RNF10** | Toda a interface é em pt-br, mantendo a acentuação e a nomenclatura oficial das normas ISO. |
 
 ### Regras de negócio
 
