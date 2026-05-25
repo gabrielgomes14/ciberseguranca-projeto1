@@ -23,6 +23,19 @@ def _hx(hex_color: str) -> colors.Color:
     return colors.HexColor(hex_color)
 
 
+def _id_curto(label: str) -> str:
+    """Extrai o identificador curto do label (ex: 'A.1.2 Condições...' -> 'A.1.2').
+
+    Usado em radar/barras quando o label completo é muito longo para caber.
+    """
+    return label.split(" ", 1)[0] if label else label
+
+
+def _truncar(label: str, max_len: int = 38) -> str:
+    """Trunca labels para caber em barras horizontais."""
+    return label if len(label) <= max_len else label[: max_len - 1] + "…"
+
+
 def chart_donut_status(
     resumos: dict[str, ResultadoTema],
     largura_cm: float = 16.0,
@@ -95,16 +108,19 @@ def chart_donut_status(
 def chart_radar(
     categorias: dict[str, str],
     resumos: dict[str, ResultadoTema],
-    largura_cm: float = 11.0,
-    altura_cm: float = 9.0,
+    largura_cm: float = 14.0,
+    altura_cm: float = 11.0,
 ) -> Drawing:
     """Renderiza um radar (spider chart) com o score por categoria.
 
     Exige pelo menos 3 categorias - abaixo disso, retorna um Drawing com a
     mensagem "Radar exige ≥ 3 categorias" (radar com 1 ou 2 vértices não tem
     leitura visual útil).
+
+    Os labels nos vértices usam apenas o identificador curto (ex: "A.1.2") para
+    evitar sobreposição. O nome completo aparece nas tabelas e barras do PDF.
     """
-    labels = [categorias[c] for c in categorias]
+    labels = [_id_curto(categorias[c]) for c in categorias]
     valores = [resumos[c].score for c in categorias]
 
     d = Drawing(largura_cm * cm, altura_cm * cm)
@@ -121,10 +137,10 @@ def chart_radar(
         return d
 
     spider = SpiderChart()
-    spider.x = 30
-    spider.y = 25
-    spider.width = largura_cm * cm - 60
-    spider.height = altura_cm * cm - 50
+    spider.x = 50
+    spider.y = 35
+    spider.width = largura_cm * cm - 100
+    spider.height = altura_cm * cm - 70
     spider.data = [valores]
     spider.labels = labels
     spider.strands[0].strokeColor = _hx("#1d4ed8")
@@ -132,8 +148,8 @@ def chart_radar(
     spider.strands[0].fillColor = colors.Color(29 / 255, 78 / 255, 216 / 255, alpha=0.25)
     spider.strands[0].symbol = "FilledCircle"
     spider.strands[0].symbolSize = 5
-    spider.spokeLabels.fontName = "Helvetica"
-    spider.spokeLabels.fontSize = 8
+    spider.spokeLabels.fontName = "Helvetica-Bold"
+    spider.spokeLabels.fontSize = 9
     d.add(spider)
     return d
 
@@ -150,7 +166,7 @@ def chart_barras_categoria(
     A altura é calculada automaticamente em função do número de categorias se
     `altura_cm` não for informado.
     """
-    labels = [categorias[c] for c in categorias]
+    labels = [_truncar(categorias[c], 42) for c in categorias]
     valores = [resumos[c].score for c in categorias]
     if altura_cm is None:
         altura_cm = max(4.0, 0.7 * len(labels) + 1.5)
@@ -158,9 +174,9 @@ def chart_barras_categoria(
     d = Drawing(largura_cm * cm, altura_cm * cm)
 
     chart = HorizontalBarChart()
-    chart.x = 110
+    chart.x = 200
     chart.y = 25
-    chart.width = largura_cm * cm - 130
+    chart.width = largura_cm * cm - 220
     chart.height = altura_cm * cm - 40
     chart.data = [valores]
     chart.categoryAxis.categoryNames = labels

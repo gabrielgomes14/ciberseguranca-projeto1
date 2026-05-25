@@ -1,0 +1,32 @@
+# Ambiente virtual e caches
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Banco e dados locais
+diagnosticos.db
+data-db/
+
+# Git e CI
+.git/
+.github/
+.gitignore
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Docs e dev
+docs/
+tests/
+*.md
+!README.md
+
+# Configs locais
+.env
+.env.*
+!.env.example

@@ -9,6 +9,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm
 from reportlab.platypus import (
+    KeepTogether,
     PageBreak,
     Paragraph,
     SimpleDocTemplate,
@@ -105,7 +106,7 @@ def _metric_cards(
                 styles["metric"],
             ),
             Paragraph(
-                f"<b>{status}</b><br/><font size='8' color='{muted}'>Classificacao</font>",
+                f"<b>{status}</b><br/><font size='8' color='{muted}'>Classificação</font>",
                 styles["metric"],
             ),
             Paragraph(
@@ -214,7 +215,7 @@ def _page_footer(norma: str, organizacao: str) -> Callable[[Any, Any], None]:
         canvas.setFillColor(_MUTED)
         esquerda = f"{organizacao} · {norma}" if organizacao else norma
         canvas.drawString(doc.leftMargin, y, esquerda)
-        canvas.drawRightString(largura - doc.rightMargin, y, f"Pagina {doc.page}")
+        canvas.drawRightString(largura - doc.rightMargin, y, f"Página {doc.page}")
         canvas.restoreState()
 
     return _render
@@ -258,12 +259,11 @@ def _gerar_pdf_base(
     flow: list[object] = []
 
     # Cabeçalho
-    flow.append(Paragraph(f"Relatório de Conformidade - {norma}", s["titulo"]))
     subtitulo_partes = [organizacao]
     if data_auditoria:
         subtitulo_partes.append(f"Data da auditoria: {data_auditoria}")
     subtitulo_partes.append(f"Gerado em {datetime.now().strftime('%d/%m/%Y %H:%M')}")
-    flow.append(_hero("Relatorio de Conformidade", norma, " · ".join(subtitulo_partes), s))
+    flow.append(_hero("Relatório de Conformidade", norma, " · ".join(subtitulo_partes), s))
     flow.append(Spacer(1, 0.4 * cm))
 
     # Sumário Executivo
@@ -275,7 +275,7 @@ def _gerar_pdf_base(
     flow.append(Paragraph("Sumário Executivo", s["h2"]))
     flow.append(_metric_cards(score_total, status_label(score_total), avaliados, len(itens), total_na, s))
     flow.append(Spacer(1, 0.2 * cm))
-    flow.append(Paragraph("Indice geral de conformidade", s["caption"]))
+    flow.append(Paragraph("Índice geral de conformidade", s["caption"]))
     cabecalho = Table(
         [
             [
@@ -321,19 +321,29 @@ def _gerar_pdf_base(
         for cat_id in categorias
     }
 
-    flow.append(Paragraph("Distribuição dos Status", s["h2"]))
-    flow.append(chart_donut_status(resumos))
+    flow.append(KeepTogether([Paragraph("Distribuição dos Status", s["h2"]), chart_donut_status(resumos)]))
 
     if len(categorias) >= 3:
-        flow.append(Paragraph(f"Aderência por {titulo_categoria} (Radar)", s["h2"]))
-        flow.append(chart_radar(categorias, resumos))
+        flow.append(
+            KeepTogether(
+                [
+                    Paragraph(f"Aderência por {titulo_categoria} (Radar)", s["h2"]),
+                    chart_radar(categorias, resumos),
+                ]
+            )
+        )
 
-
-    flow.append(Paragraph(f"Score por {titulo_categoria}", s["h2"]))
-    flow.append(chart_barras_categoria(categorias, resumos))
+    flow.append(
+        KeepTogether(
+            [
+                Paragraph(f"Score por {titulo_categoria}", s["h2"]),
+                chart_barras_categoria(categorias, resumos),
+            ]
+        )
+    )
 
     flow.append(Paragraph(f"Resultado Tabular por {titulo_categoria}", s["h2"]))
-    linhas_cat: list[list[object]] = [[titulo_categoria, "Score", "Status", "Conformes", "Em Adequação", "Não Conf.", "N/A"]]
+    linhas_cat: list[list[object]] = [[titulo_categoria, "Score", "Status", "Conf.", "Em Adeq.", "NC", "N/A"]]
     for cat_id, cat_label in categorias.items():
         r = resumos[cat_id]
         linhas_cat.append(
@@ -347,7 +357,7 @@ def _gerar_pdf_base(
                 Paragraph(str(r.na), s["cell"]),
             ]
         )
-    tabela_cat = Table(linhas_cat, colWidths=[5 * cm, 2 * cm, 3 * cm, 2 * cm, 2 * cm, 2 * cm, 1.5 * cm], repeatRows=1)
+    tabela_cat = Table(linhas_cat, colWidths=[6.0 * cm, 1.8 * cm, 2.8 * cm, 1.5 * cm, 1.8 * cm, 1.3 * cm, 1.3 * cm], repeatRows=1)
     tabela_cat.setStyle(_tabela_estilo())
     flow.append(tabela_cat)
 
@@ -491,7 +501,7 @@ def gerar_pdf_27701(
     ponderado: bool = True,
     data_auditoria: str = "",
 ) -> bytes:
-    """Gera o PDF executivo de conformidade ISO/IEC 27701:2019 (SGPI).
+    """Gera o PDF executivo de conformidade ISO/IEC 27701:2026 (SGPI).
 
     A 27701 organiza os itens em "categorias" (privacidade) e, como a 27001,
     não inclui plano de ação no relatório. Os parâmetros de catálogo vêm do
@@ -499,7 +509,7 @@ def gerar_pdf_27701(
     desacoplado do módulo da norma.
     """
     return _gerar_pdf_base(
-        norma="ISO/IEC 27701:2019 - SGPI",
+        norma="ISO/IEC 27701:2026 - SGPI",
         titulo_categoria="Categoria",
         label_item="Controle",
         itens=controles,
@@ -559,7 +569,7 @@ def gerar_pdf_comparativo(
         f"B: <b>{rotulo_b}</b> ({quando_b}) · "
         f"Gerado em {datetime.now().strftime('%d/%m/%Y %H:%M')}"
     )
-    flow.append(_hero("Relatorio Comparativo", norma, meta, s))
+    flow.append(_hero("Relatório Comparativo", norma, meta, s))
     flow.append(Spacer(1, 0.4 * cm))
 
     # Variação geral

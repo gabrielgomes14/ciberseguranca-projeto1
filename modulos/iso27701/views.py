@@ -13,7 +13,7 @@ from core.state import avaliacoes_do_modulo, diagnostico_ativo, persistir
 from modulos.iso27701.controles import CATEGORIAS, CONTROLES, CONTROLES_POR_CATEGORIA
 
 MODULO_ID = "iso27701"
-MODULO_NOME = "ISO/IEC 27701:2019"
+MODULO_NOME = "ISO/IEC 27701:2026"
 
 
 def _barra_diagnostico() -> None:
