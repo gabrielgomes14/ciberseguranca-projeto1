@@ -405,7 +405,17 @@ def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None 
             "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?)",
             (modulo, organizacao, data_aud, agora, agora),
         )
-        return int(cur.lastrowid or 0)
+        diag_id = int(cur.lastrowid or 0)
+
+    from core import audit  # lazy import: audit.py importa de db.py
+
+    audit.registrar(
+        audit.Acao.DIAGNOSTICO_CRIADO,
+        alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
+        alvo_id=diag_id,
+        detalhes={"modulo": modulo, "organizacao": organizacao, "data_auditoria": data_aud},
+    )
+    return diag_id
 
 
 def listar_diagnosticos(modulo: str | None = None) -> list[Diagnostico]:
@@ -481,6 +491,19 @@ def salvar_avaliacoes(diagnostico_id: int, avaliacoes: dict[str, Avaliacao]) -> 
             (_agora(), diagnostico_id),
         )
 
+    from core import audit
+
+    contagens: dict[str, int] = {}
+    for a in avaliacoes.values():
+        chave = a.status or "Não avaliado"
+        contagens[chave] = contagens.get(chave, 0) + 1
+    audit.registrar(
+        audit.Acao.AVALIACOES_SALVAS,
+        alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
+        alvo_id=diagnostico_id,
+        detalhes={"total": len(avaliacoes), "por_status": contagens},
+    )
+
 
 def atualizar_diagnostico(diagnostico_id: int, organizacao: str, data_auditoria: str) -> None:
     with conexao() as con:
@@ -489,10 +512,27 @@ def atualizar_diagnostico(diagnostico_id: int, organizacao: str, data_auditoria:
             (organizacao, data_auditoria, _agora(), diagnostico_id),
         )
 
+    from core import audit
+
+    audit.registrar(
+        audit.Acao.DIAGNOSTICO_ATUALIZADO,
+        alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
+        alvo_id=diagnostico_id,
+        detalhes={"organizacao": organizacao, "data_auditoria": data_auditoria},
+    )
+
 
 def excluir_diagnostico(diagnostico_id: int) -> None:
     with conexao() as con:
         con.execute("DELETE FROM diagnostico WHERE id = ?", (diagnostico_id,))
+
+    from core import audit
+
+    audit.registrar(
+        audit.Acao.DIAGNOSTICO_EXCLUIDO,
+        alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
+        alvo_id=diagnostico_id,
+    )
 
 
 def salvar_snapshot(
@@ -502,20 +542,36 @@ def salvar_snapshot(
     scores_por_categoria: dict[str, float],
     avaliados: int,
 ) -> int:
+    rotulo_final = rotulo or _agora()
     with conexao() as con:
         cur = con.execute(
             """INSERT INTO snapshot (diagnostico_id, rotulo, criado_em, score_geral, scores_por_categoria, avaliados)
                VALUES (?, ?, ?, ?, ?, ?)""",
             (
                 diagnostico_id,
-                rotulo or _agora(),
+                rotulo_final,
                 _agora(),
                 score_geral,
                 json.dumps(scores_por_categoria, ensure_ascii=False),
                 avaliados,
             ),
         )
-        return int(cur.lastrowid or 0)
+        snap_id = int(cur.lastrowid or 0)
+
+    from core import audit
+
+    audit.registrar(
+        audit.Acao.SNAPSHOT_CRIADO,
+        alvo_tipo=audit.AlvoTipo.SNAPSHOT,
+        alvo_id=snap_id,
+        detalhes={
+            "diagnostico_id": diagnostico_id,
+            "rotulo": rotulo_final,
+            "score_geral": score_geral,
+            "avaliados": avaliados,
+        },
+    )
+    return snap_id
 
 
 def listar_snapshots(diagnostico_id: int) -> list[Snapshot]:
@@ -547,6 +603,14 @@ def listar_snapshots(diagnostico_id: int) -> list[Snapshot]:
 def excluir_snapshot(snapshot_id: int) -> None:
     with conexao() as con:
         con.execute("DELETE FROM snapshot WHERE id = ?", (snapshot_id,))
+
+    from core import audit
+
+    audit.registrar(
+        audit.Acao.SNAPSHOT_EXCLUIDO,
+        alvo_tipo=audit.AlvoTipo.SNAPSHOT,
+        alvo_id=snapshot_id,
+    )
 
 
 def registrar_evento(
