@@ -514,7 +514,12 @@ def carregar_avaliacoes(diagnostico_id: int) -> dict[str, Avaliacao]:
     return resultado
 
 
-def salvar_avaliacoes(diagnostico_id: int, avaliacoes: dict[str, Avaliacao]) -> None:
+def salvar_avaliacoes(
+    diagnostico_id: int,
+    avaliacoes: dict[str, Avaliacao],
+    *,
+    usuario_email: str | None = None,
+) -> None:
     with conexao() as con:
         con.execute("DELETE FROM avaliacao WHERE diagnostico_id = ?", (diagnostico_id,))
         for item_id, a in avaliacoes.items():
@@ -548,13 +553,20 @@ def salvar_avaliacoes(diagnostico_id: int, avaliacoes: dict[str, Avaliacao]) -> 
         contagens[chave] = contagens.get(chave, 0) + 1
     audit.registrar(
         audit.Acao.AVALIACOES_SALVAS,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
         alvo_id=diagnostico_id,
         detalhes={"total": len(avaliacoes), "por_status": contagens},
     )
 
 
-def atualizar_diagnostico(diagnostico_id: int, organizacao: str, data_auditoria: str) -> None:
+def atualizar_diagnostico(
+    diagnostico_id: int,
+    organizacao: str,
+    data_auditoria: str,
+    *,
+    usuario_email: str | None = None,
+) -> None:
     with conexao() as con:
         con.execute(
             "UPDATE diagnostico SET organizacao = ?, data_auditoria = ?, atualizado_em = ? WHERE id = ?",
@@ -565,13 +577,14 @@ def atualizar_diagnostico(diagnostico_id: int, organizacao: str, data_auditoria:
 
     audit.registrar(
         audit.Acao.DIAGNOSTICO_ATUALIZADO,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
         alvo_id=diagnostico_id,
         detalhes={"organizacao": organizacao, "data_auditoria": data_auditoria},
     )
 
 
-def excluir_diagnostico(diagnostico_id: int) -> None:
+def excluir_diagnostico(diagnostico_id: int, *, usuario_email: str | None = None) -> None:
     with conexao() as con:
         con.execute("DELETE FROM diagnostico WHERE id = ?", (diagnostico_id,))
 
@@ -579,6 +592,7 @@ def excluir_diagnostico(diagnostico_id: int) -> None:
 
     audit.registrar(
         audit.Acao.DIAGNOSTICO_EXCLUIDO,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
         alvo_id=diagnostico_id,
     )
@@ -590,6 +604,8 @@ def salvar_snapshot(
     score_geral: float,
     scores_por_categoria: dict[str, float],
     avaliados: int,
+    *,
+    usuario_email: str | None = None,
 ) -> int:
     rotulo_final = rotulo or _agora()
     with conexao() as con:
@@ -611,6 +627,7 @@ def salvar_snapshot(
 
     audit.registrar(
         audit.Acao.SNAPSHOT_CRIADO,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.SNAPSHOT,
         alvo_id=snap_id,
         detalhes={
@@ -649,7 +666,7 @@ def listar_snapshots(diagnostico_id: int) -> list[Snapshot]:
     return out
 
 
-def excluir_snapshot(snapshot_id: int) -> None:
+def excluir_snapshot(snapshot_id: int, *, usuario_email: str | None = None) -> None:
     with conexao() as con:
         con.execute("DELETE FROM snapshot WHERE id = ?", (snapshot_id,))
 
@@ -657,6 +674,7 @@ def excluir_snapshot(snapshot_id: int) -> None:
 
     audit.registrar(
         audit.Acao.SNAPSHOT_EXCLUIDO,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.SNAPSHOT,
         alvo_id=snapshot_id,
     )

@@ -144,3 +144,42 @@ def test_fluxo_completo_gera_sequencia_de_eventos(db_path: str) -> None:
         "avaliacoes.salvas",
         "diagnostico.criado",
     ]
+
+
+def test_eventos_propagam_usuario_email(db_path: str) -> None:
+    """Quando funções recebem usuario_email, o audit_log preserva o autor."""
+    from core.db import (
+        atualizar_diagnostico,
+        criar_diagnostico,
+        excluir_diagnostico,
+        excluir_snapshot,
+        init_db,
+        listar_eventos,
+        salvar_avaliacoes,
+        salvar_snapshot,
+    )
+
+    init_db()
+    email = "alice@example.com"
+
+    did = criar_diagnostico("iso27001", "Acme", usuario_email=email)
+    salvar_avaliacoes(did, {"5.1": Avaliacao(status="Conforme")}, usuario_email=email)
+    atualizar_diagnostico(did, "Acme S/A", "2026-05-01", usuario_email=email)
+    sid = salvar_snapshot(did, "v1", 100.0, {}, 1, usuario_email=email)
+    excluir_snapshot(sid, usuario_email=email)
+    excluir_diagnostico(did, usuario_email=email)
+
+    eventos = listar_eventos()
+    assert len(eventos) == 6
+    assert all(e.usuario_email == email for e in eventos)
+
+
+def test_eventos_email_none_quando_nao_informado(db_path: str) -> None:
+    """Sem auth (testes/seed), eventos ainda são gravados mas com usuario_email=None."""
+    from core.db import criar_diagnostico, init_db, listar_eventos
+
+    init_db()
+    criar_diagnostico("iso27001", "Acme")
+    eventos = listar_eventos()
+    assert len(eventos) == 1
+    assert eventos[0].usuario_email is None

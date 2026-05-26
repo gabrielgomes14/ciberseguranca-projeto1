@@ -120,7 +120,7 @@ def render() -> None:
     with col_v:
         if st.button("Remover", width="stretch", disabled=idx is None):
             if idx is not None:
-                excluir_snapshot(snapshots[idx].id)
+                excluir_snapshot(snapshots[idx].id, usuario_email=auth.usuario_logado_email())
                 st.rerun()
 
     with st.sidebar:

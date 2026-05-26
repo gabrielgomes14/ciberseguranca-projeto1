@@ -91,7 +91,12 @@ def render() -> None:
                         label_visibility="collapsed",
                     )
                     if nova and nova.isoformat() != d.data_auditoria:
-                        atualizar_diagnostico(d.id, d.organizacao, nova.isoformat())
+                        atualizar_diagnostico(
+                            d.id,
+                            d.organizacao,
+                            nova.isoformat(),
+                            usuario_email=auth.usuario_logado_email(),
+                        )
                         st.rerun()
                     st.caption(f"Auditoria: {nova.strftime('%d/%m/%Y') if nova else '-'}")
                 with col3:
@@ -103,7 +108,7 @@ def render() -> None:
                         st.rerun()
                 with col4:
                     if st.button("Excluir", key=f"del_{d.id}", width="stretch", help="Excluir"):
-                        excluir_diagnostico(d.id)
+                        excluir_diagnostico(d.id, usuario_email=auth.usuario_logado_email())
                         if ativo == d.id:
                             st.session_state.diagnostico_ativo.pop(modulo_id, None)
                             st.session_state.avaliacoes_por_modulo[modulo_id] = {}

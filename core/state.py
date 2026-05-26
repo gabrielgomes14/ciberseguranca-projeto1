@@ -1,5 +1,6 @@
 import streamlit as st
 
+from core import auth
 from core.db import (
     carregar_avaliacoes,
     init_db,
@@ -50,5 +51,9 @@ def persistir(modulo_id: str) -> bool:
     diag_id = diagnostico_ativo(modulo_id)
     if diag_id is None:
         return False
-    salvar_avaliacoes(diag_id, avaliacoes_do_modulo(modulo_id))
+    salvar_avaliacoes(
+        diag_id,
+        avaliacoes_do_modulo(modulo_id),
+        usuario_email=auth.usuario_logado_email(),
+    )
     return True

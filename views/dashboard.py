@@ -142,6 +142,7 @@ def render() -> None:
                     score_total,
                     {tema: resumos[tema].score for tema in TEMAS},
                     avaliados_n,
+                    usuario_email=auth.usuario_logado_email(),
                 )
                 st.toast("Snapshot salvo no banco.")
 

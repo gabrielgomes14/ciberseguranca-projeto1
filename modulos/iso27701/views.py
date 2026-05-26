@@ -241,6 +241,7 @@ def render_dashboard() -> None:
                     score_total,
                     {cat: resumos[cat].score for cat in CATEGORIAS},
                     avaliados_n,
+                    usuario_email=auth.usuario_logado_email(),
                 )
                 st.toast("Snapshot salvo.")
 
