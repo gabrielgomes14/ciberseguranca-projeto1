@@ -404,7 +404,23 @@ def _gerar_pdf_base(
     flow.append(PageBreak())
     flow.append(Paragraph(f"Detalhamento Completo dos {label_item}s", s["h2"]))
     linhas_det: list[list[object]] = [[label_item, "Título", "Status", "Criticidade"]]
-    for it in itens:
+    # Ordena priorizando achados de não conformidade. Dentro de cada grupo,
+    # mantém a ordem original dos itens (estável) para não embaralhar IDs.
+    _ORDEM_STATUS = {
+        "Não Conforme": 0,
+        "Em Adequação": 1,
+        "Conforme": 2,
+        "N/A": 3,
+        "Não avaliado": 4,
+    }
+    itens_ordenados = sorted(
+        itens,
+        key=lambda it: _ORDEM_STATUS.get(
+            status_individual(avaliacoes.get(it.id) if avaliacoes.get(it.id, Avaliacao()).status else None),
+            99,
+        ),
+    )
+    for it in itens_ordenados:
         av = avaliacoes.get(it.id, Avaliacao())
         label = status_individual(av if av.status else None)
         linhas_det.append(

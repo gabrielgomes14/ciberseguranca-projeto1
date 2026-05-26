@@ -3,7 +3,7 @@ import os
 import sqlite3
 from collections.abc import Iterator
 from contextlib import contextmanager
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
 
@@ -56,6 +56,24 @@ class Controle27701Row:
     categoria_id: str
     controle_texto: str = ""
     orientacao: str = ""
+
+
+@dataclass(frozen=True)
+class EventoAuditoria:
+    """Registro imutável de uma ação relevante no sistema.
+
+    `usuario_email` é opcional: enquanto a autenticação não estiver implementada,
+    eventos são registrados sem identificação. `detalhes` é JSON serializado.
+    """
+
+    id: int
+    quando: str
+    acao: str
+    usuario_email: str | None = None
+    alvo_tipo: str | None = None
+    alvo_id: str | None = None
+    detalhes: dict[str, object] = field(default_factory=dict)
+
 
 
 _SCHEMA = """
@@ -127,6 +145,21 @@ CREATE INDEX IF NOT EXISTS idx_diag_modulo ON diagnostico(modulo);
 CREATE INDEX IF NOT EXISTS idx_snap_diag ON snapshot(diagnostico_id);
 CREATE INDEX IF NOT EXISTS idx_iso27001_controle_tema ON iso27001_controle(tema_id);
 CREATE INDEX IF NOT EXISTS idx_iso27701_controle_categoria ON iso27701_controle(categoria_id);
+
+CREATE TABLE IF NOT EXISTS audit_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    quando TEXT NOT NULL,
+    usuario_email TEXT,
+    acao TEXT NOT NULL,
+    alvo_tipo TEXT,
+    alvo_id TEXT,
+    detalhes TEXT NOT NULL DEFAULT '{}'
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_quando ON audit_log(quando DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_alvo ON audit_log(alvo_tipo, alvo_id);
+CREATE INDEX IF NOT EXISTS idx_audit_usuario ON audit_log(usuario_email);
+CREATE INDEX IF NOT EXISTS idx_audit_acao ON audit_log(acao);
 """
 
 
@@ -372,7 +405,17 @@ def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None 
             "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?)",
             (modulo, organizacao, data_aud, agora, agora),
         )
-        return int(cur.lastrowid or 0)
+        diag_id = int(cur.lastrowid or 0)
+
+    from core import audit  # lazy import: audit.py importa de db.py
+
+    audit.registrar(
+        audit.Acao.DIAGNOSTICO_CRIADO,
+        alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
+        alvo_id=diag_id,
+        detalhes={"modulo": modulo, "organizacao": organizacao, "data_auditoria": data_aud},
+    )
+    return diag_id
 
 
 def listar_diagnosticos(modulo: str | None = None) -> list[Diagnostico]:
@@ -448,6 +491,19 @@ def salvar_avaliacoes(diagnostico_id: int, avaliacoes: dict[str, Avaliacao]) -> 
             (_agora(), diagnostico_id),
         )
 
+    from core import audit
+
+    contagens: dict[str, int] = {}
+    for a in avaliacoes.values():
+        chave = a.status or "Não avaliado"
+        contagens[chave] = contagens.get(chave, 0) + 1
+    audit.registrar(
+        audit.Acao.AVALIACOES_SALVAS,
+        alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
+        alvo_id=diagnostico_id,
+        detalhes={"total": len(avaliacoes), "por_status": contagens},
+    )
+
 
 def atualizar_diagnostico(diagnostico_id: int, organizacao: str, data_auditoria: str) -> None:
     with conexao() as con:
@@ -456,10 +512,27 @@ def atualizar_diagnostico(diagnostico_id: int, organizacao: str, data_auditoria:
             (organizacao, data_auditoria, _agora(), diagnostico_id),
         )
 
+    from core import audit
+
+    audit.registrar(
+        audit.Acao.DIAGNOSTICO_ATUALIZADO,
+        alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
+        alvo_id=diagnostico_id,
+        detalhes={"organizacao": organizacao, "data_auditoria": data_auditoria},
+    )
+
 
 def excluir_diagnostico(diagnostico_id: int) -> None:
     with conexao() as con:
         con.execute("DELETE FROM diagnostico WHERE id = ?", (diagnostico_id,))
+
+    from core import audit
+
+    audit.registrar(
+        audit.Acao.DIAGNOSTICO_EXCLUIDO,
+        alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
+        alvo_id=diagnostico_id,
+    )
 
 
 def salvar_snapshot(
@@ -469,20 +542,36 @@ def salvar_snapshot(
     scores_por_categoria: dict[str, float],
     avaliados: int,
 ) -> int:
+    rotulo_final = rotulo or _agora()
     with conexao() as con:
         cur = con.execute(
             """INSERT INTO snapshot (diagnostico_id, rotulo, criado_em, score_geral, scores_por_categoria, avaliados)
                VALUES (?, ?, ?, ?, ?, ?)""",
             (
                 diagnostico_id,
-                rotulo or _agora(),
+                rotulo_final,
                 _agora(),
                 score_geral,
                 json.dumps(scores_por_categoria, ensure_ascii=False),
                 avaliados,
             ),
         )
-        return int(cur.lastrowid or 0)
+        snap_id = int(cur.lastrowid or 0)
+
+    from core import audit
+
+    audit.registrar(
+        audit.Acao.SNAPSHOT_CRIADO,
+        alvo_tipo=audit.AlvoTipo.SNAPSHOT,
+        alvo_id=snap_id,
+        detalhes={
+            "diagnostico_id": diagnostico_id,
+            "rotulo": rotulo_final,
+            "score_geral": score_geral,
+            "avaliados": avaliados,
+        },
+    )
+    return snap_id
 
 
 def listar_snapshots(diagnostico_id: int) -> list[Snapshot]:
@@ -514,3 +603,98 @@ def listar_snapshots(diagnostico_id: int) -> list[Snapshot]:
 def excluir_snapshot(snapshot_id: int) -> None:
     with conexao() as con:
         con.execute("DELETE FROM snapshot WHERE id = ?", (snapshot_id,))
+
+    from core import audit
+
+    audit.registrar(
+        audit.Acao.SNAPSHOT_EXCLUIDO,
+        alvo_tipo=audit.AlvoTipo.SNAPSHOT,
+        alvo_id=snapshot_id,
+    )
+
+
+def registrar_evento(
+    acao: str,
+    *,
+    usuario_email: str | None = None,
+    alvo_tipo: str | None = None,
+    alvo_id: str | None = None,
+    detalhes: dict[str, object] | None = None,
+) -> int:
+    """Persiste um evento na tabela `audit_log`.
+
+    Não silencia exceções - quem chama (helper `core.audit.registrar`) decide
+    se uma falha de log deve propagar ou ser engolida.
+    """
+    payload = json.dumps(detalhes or {}, ensure_ascii=False)
+    with conexao() as con:
+        cur = con.execute(
+            """INSERT INTO audit_log (quando, usuario_email, acao, alvo_tipo, alvo_id, detalhes)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            (_agora(), usuario_email, acao, alvo_tipo, alvo_id, payload),
+        )
+        return int(cur.lastrowid or 0)
+
+
+def listar_eventos(
+    *,
+    usuario_email: str | None = None,
+    acao: str | None = None,
+    alvo_tipo: str | None = None,
+    alvo_id: str | None = None,
+    desde: str | None = None,
+    ate: str | None = None,
+    limite: int = 200,
+) -> list[EventoAuditoria]:
+    """Lista eventos do `audit_log` ordenados do mais recente para o mais antigo.
+
+    Todos os filtros são opcionais e combinam com AND. `desde`/`ate` esperam
+    strings ISO 8601 (mesmo formato salvo em `quando`). `limite` evita carregar
+    o histórico inteiro de uma vez na UI.
+    """
+    where: list[str] = []
+    params: list[object] = []
+    if usuario_email is not None:
+        where.append("usuario_email = ?")
+        params.append(usuario_email)
+    if acao is not None:
+        where.append("acao = ?")
+        params.append(acao)
+    if alvo_tipo is not None:
+        where.append("alvo_tipo = ?")
+        params.append(alvo_tipo)
+    if alvo_id is not None:
+        where.append("alvo_id = ?")
+        params.append(alvo_id)
+    if desde is not None:
+        where.append("quando >= ?")
+        params.append(desde)
+    if ate is not None:
+        where.append("quando <= ?")
+        params.append(ate)
+    sql = "SELECT * FROM audit_log"
+    if where:
+        sql += " WHERE " + " AND ".join(where)
+    sql += " ORDER BY quando DESC, id DESC LIMIT ?"
+    params.append(int(limite))
+
+    with conexao() as con:
+        rows = con.execute(sql, tuple(params)).fetchall()
+    out: list[EventoAuditoria] = []
+    for r in rows:
+        try:
+            detalhes = json.loads(r["detalhes"] or "{}")
+        except json.JSONDecodeError:
+            detalhes = {}
+        out.append(
+            EventoAuditoria(
+                id=int(r["id"]),
+                quando=str(r["quando"]),
+                acao=str(r["acao"]),
+                usuario_email=str(r["usuario_email"]) if r["usuario_email"] is not None else None,
+                alvo_tipo=str(r["alvo_tipo"]) if r["alvo_tipo"] is not None else None,
+                alvo_id=str(r["alvo_id"]) if r["alvo_id"] is not None else None,
+                detalhes=detalhes,
+            )
+        )
+    return out
