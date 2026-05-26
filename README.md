@@ -30,6 +30,7 @@ Aplicação Python/Streamlit, arquitetura modular, persistência local em SQLite
 - Plano de ação priorizado por gravidade e criticidade (export CSV) e relatórios PDF completo e comparativo (ReportLab).
 - Catálogo de controles persistido no banco e seed automático a partir dos JSONs em `data/` no primeiro `init_db()`.
 - Seed opcional de diagnóstico demo (controlável pela variável `DIAGNOSTICO_SEED_DEMO`).
+- Trilha de auditoria das ações realizadas no próprio sistema (criação/edição/exclusão de diagnósticos, salvamento de avaliações, snapshots), com tela dedicada de consulta. Atende ao controle 8.15 (Logging) da ABNT NBR ISO/IEC 27001:2022.
 
 ### Estrutura do código
 
@@ -63,6 +64,7 @@ Banco SQLite criado automaticamente em `diagnosticos.db` na raiz do projeto. A v
 - `snapshot` — fotografia do score geral e por tema/categoria em um instante.
 - `iso27001_tema`, `iso27001_controle` — catálogo da 27001.
 - `iso27701_categoria`, `iso27701_controle` — catálogo da 27701.
+- `audit_log` — trilha de auditoria das ações relevantes (criação/edição/exclusão de diagnósticos, snapshots e avaliações), com `quando` (ISO 8601), `usuario_email` (nullable enquanto a autenticação não estiver ativa), `acao`, `alvo_tipo`, `alvo_id` e `detalhes` em JSON.
 
 ### Requisitos
 
@@ -82,6 +84,7 @@ Banco SQLite criado automaticamente em `diagnosticos.db` na raiz do projeto. A v
 | **RF10** | É possível comparar dois snapshots lado a lado, ver a evolução por categoria e identificar o que melhorou ou piorou. |
 | **RF11** | A partir das avaliações o sistema gera um plano de ação priorizado, com opção de exportar em CSV. |
 | **RF12** | O relatório em PDF pode ser gerado da auditoria atual ou comparando dois snapshots anteriores. |
+| **RF13** | O sistema mantém uma trilha de auditoria das ações relevantes (criação/edição/exclusão de diagnósticos, salvamento de avaliações e snapshots) com data/hora, ação, alvo e detalhes. Uma tela dedicada permite consultar o histórico com filtros por ação e período. |
 
 #### Não-funcionais (RNF)
 
@@ -117,6 +120,7 @@ Banco SQLite criado automaticamente em `diagnosticos.db` na raiz do projeto. A v
 | **RN13** | Na comparação entre snapshots ([views/history.py](views/history.py)), uma variação maior que +0,5 pp marca a categoria como melhorou; menor que -0,5 pp como piorou; entre os dois extremos, fica como estável. |
 | **RN14** | Quando um diagnóstico é excluído, todas as suas avaliações e snapshots são removidos junto, por efeito do `ON DELETE CASCADE`. |
 | **RN15** | As evidências de cada controle são guardadas como JSON na coluna `evidencias` da tabela `avaliacao`. |
+| **RN16** | A trilha de auditoria registra cada ação relevante na tabela `audit_log` ([core/audit.py](core/audit.py)). Falhas no registro de eventos não interrompem a operação principal: são apenas reportadas no logger Python `audit` para o operador, garantindo que nenhuma avaliação ou snapshot deixe de ser persistido por causa de um problema de log. |
 
 ---
 
