@@ -56,11 +56,15 @@ def render() -> None:
                 _abrir_modulo(modulo.id)
 
     st.divider()
-    col_h1, col_h2 = st.columns(2)
+    col_h1, col_h2, col_h3 = st.columns(3)
     with col_h1:
         if st.button("Ver histórico", width="stretch"):
             st.session_state.page = "history"
             st.rerun()
     with col_h2:
+        if st.button("Trilha de auditoria", width="stretch"):
+            st.session_state.page = "audit_log"
+            st.rerun()
+    with col_h3:
         total = sum(len(listar_diagnosticos(m.id)) for m in MODULOS)
         st.metric("Diagnósticos totais", total)
