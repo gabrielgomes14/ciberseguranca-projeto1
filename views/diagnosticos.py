@@ -2,6 +2,7 @@ from datetime import date, datetime
 
 import streamlit as st
 
+from core import auth
 from core.db import (
     atualizar_diagnostico,
     criar_diagnostico,
@@ -55,14 +56,19 @@ def render() -> None:
             st.write("")
             criar_disabled = not nova_org.strip()
             if st.button("Criar", type="primary", width="stretch", disabled=criar_disabled):
-                novo_id = criar_diagnostico(modulo_id, nova_org.strip(), nova_data.isoformat())
+                novo_id = criar_diagnostico(
+                    modulo_id,
+                    nova_org.strip(),
+                    nova_data.isoformat(),
+                    usuario_email=auth.usuario_logado_email(),
+                )
                 definir_diagnostico_ativo(modulo_id, novo_id)
                 st.session_state.page = rota_abrir
                 st.rerun()
 
     st.divider()
 
-    diagnosticos = listar_diagnosticos(modulo_id)
+    diagnosticos = listar_diagnosticos(modulo_id, usuario_email=auth.usuario_logado_email())
     if not diagnosticos:
         st.info("Nenhum diagnóstico criado para este módulo. Use o formulário acima.")
     else:
@@ -85,7 +91,12 @@ def render() -> None:
                         label_visibility="collapsed",
                     )
                     if nova and nova.isoformat() != d.data_auditoria:
-                        atualizar_diagnostico(d.id, d.organizacao, nova.isoformat())
+                        atualizar_diagnostico(
+                            d.id,
+                            d.organizacao,
+                            nova.isoformat(),
+                            usuario_email=auth.usuario_logado_email(),
+                        )
                         st.rerun()
                     st.caption(f"Auditoria: {nova.strftime('%d/%m/%Y') if nova else '-'}")
                 with col3:
@@ -97,7 +108,7 @@ def render() -> None:
                         st.rerun()
                 with col4:
                     if st.button("Excluir", key=f"del_{d.id}", width="stretch", help="Excluir"):
-                        excluir_diagnostico(d.id)
+                        excluir_diagnostico(d.id, usuario_email=auth.usuario_logado_email())
                         if ativo == d.id:
                             st.session_state.diagnostico_ativo.pop(modulo_id, None)
                             st.session_state.avaliacoes_por_modulo[modulo_id] = {}

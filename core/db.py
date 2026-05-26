@@ -25,6 +25,7 @@ class Diagnostico:
     data_auditoria: str
     criado_em: str
     atualizado_em: str
+    usuario_email: str | None = None
 
 
 @dataclass(frozen=True)
@@ -59,6 +60,17 @@ class Controle27701Row:
 
 
 @dataclass(frozen=True)
+class Usuario:
+    """Conta de auditor para login local. Senha é hash bcrypt."""
+
+    email: str
+    nome: str
+    senha_hash: str
+    criado_em: str
+    ativo: bool = True
+
+
+@dataclass(frozen=True)
 class EventoAuditoria:
     """Registro imutável de uma ação relevante no sistema.
 
@@ -83,7 +95,8 @@ CREATE TABLE IF NOT EXISTS diagnostico (
     organizacao TEXT NOT NULL,
     data_auditoria TEXT NOT NULL DEFAULT '',
     criado_em TEXT NOT NULL,
-    atualizado_em TEXT NOT NULL
+    atualizado_em TEXT NOT NULL,
+    usuario_email TEXT
 );
 
 CREATE TABLE IF NOT EXISTS avaliacao (
@@ -145,6 +158,14 @@ CREATE INDEX IF NOT EXISTS idx_diag_modulo ON diagnostico(modulo);
 CREATE INDEX IF NOT EXISTS idx_snap_diag ON snapshot(diagnostico_id);
 CREATE INDEX IF NOT EXISTS idx_iso27001_controle_tema ON iso27001_controle(tema_id);
 CREATE INDEX IF NOT EXISTS idx_iso27701_controle_categoria ON iso27701_controle(categoria_id);
+
+CREATE TABLE IF NOT EXISTS usuario (
+    email TEXT PRIMARY KEY,
+    nome TEXT NOT NULL,
+    senha_hash TEXT NOT NULL,
+    criado_em TEXT NOT NULL,
+    ativo INTEGER NOT NULL DEFAULT 1
+);
 
 CREATE TABLE IF NOT EXISTS audit_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -327,6 +348,8 @@ def _migrar(con: sqlite3.Connection) -> None:
     _adicionar_coluna(con, "iso27001_controle", "orientacao", "orientacao TEXT NOT NULL DEFAULT ''")
     _adicionar_coluna(con, "iso27701_controle", "controle_texto", "controle_texto TEXT NOT NULL DEFAULT ''")
     _adicionar_coluna(con, "iso27701_controle", "orientacao", "orientacao TEXT NOT NULL DEFAULT ''")
+    _adicionar_coluna(con, "diagnostico", "usuario_email", "usuario_email TEXT")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_diag_usuario ON diagnostico(usuario_email)")
 
 
 def init_db() -> None:
@@ -397,13 +420,19 @@ def _hoje_iso() -> str:
     return date.today().isoformat()
 
 
-def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None = None) -> int:
+def criar_diagnostico(
+    modulo: str,
+    organizacao: str,
+    data_auditoria: str | None = None,
+    usuario_email: str | None = None,
+) -> int:
     agora = _agora()
     data_aud = (data_auditoria or "").strip() or _hoje_iso()
+    email = (usuario_email or "").strip().lower() or None
     with conexao() as con:
         cur = con.execute(
-            "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?)",
-            (modulo, organizacao, data_aud, agora, agora),
+            "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em, usuario_email) VALUES (?, ?, ?, ?, ?, ?)",
+            (modulo, organizacao, data_aud, agora, agora, email),
         )
         diag_id = int(cur.lastrowid or 0)
 
@@ -411,6 +440,7 @@ def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None 
 
     audit.registrar(
         audit.Acao.DIAGNOSTICO_CRIADO,
+        usuario_email=email,
         alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
         alvo_id=diag_id,
         detalhes={"modulo": modulo, "organizacao": organizacao, "data_auditoria": data_aud},
@@ -418,15 +448,33 @@ def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None 
     return diag_id
 
 
-def listar_diagnosticos(modulo: str | None = None) -> list[Diagnostico]:
+def listar_diagnosticos(
+    modulo: str | None = None,
+    usuario_email: str | None = None,
+) -> list[Diagnostico]:
+    """Lista diagnósticos, opcionalmente filtrando por módulo e/ou usuário.
+
+    Quando `usuario_email` é informado, retorna apenas os diagnósticos do
+    próprio usuário e os "públicos" (sem dono - oriundos do seed demo ou de
+    bancos antigos antes da migração). Quando não é informado (ex.: bypass
+    de dev), retorna todos.
+    """
+    where: list[str] = []
+    params: list[object] = []
+    if modulo:
+        where.append("modulo = ?")
+        params.append(modulo)
+    if usuario_email:
+        where.append("(usuario_email = ? OR usuario_email IS NULL)")
+        params.append(usuario_email.strip().lower())
+
+    sql = "SELECT * FROM diagnostico"
+    if where:
+        sql += " WHERE " + " AND ".join(where)
+    sql += " ORDER BY atualizado_em DESC"
+
     with conexao() as con:
-        if modulo:
-            rows = con.execute(
-                "SELECT * FROM diagnostico WHERE modulo = ? ORDER BY atualizado_em DESC",
-                (modulo,),
-            ).fetchall()
-        else:
-            rows = con.execute("SELECT * FROM diagnostico ORDER BY atualizado_em DESC").fetchall()
+        rows = con.execute(sql, tuple(params)).fetchall()
     return [
         Diagnostico(
             id=int(r["id"]),
@@ -435,6 +483,7 @@ def listar_diagnosticos(modulo: str | None = None) -> list[Diagnostico]:
             data_auditoria=str(r["data_auditoria"] or ""),
             criado_em=str(r["criado_em"]),
             atualizado_em=str(r["atualizado_em"]),
+            usuario_email=str(r["usuario_email"]) if r["usuario_email"] is not None else None,
         )
         for r in rows
     ]
@@ -465,7 +514,12 @@ def carregar_avaliacoes(diagnostico_id: int) -> dict[str, Avaliacao]:
     return resultado
 
 
-def salvar_avaliacoes(diagnostico_id: int, avaliacoes: dict[str, Avaliacao]) -> None:
+def salvar_avaliacoes(
+    diagnostico_id: int,
+    avaliacoes: dict[str, Avaliacao],
+    *,
+    usuario_email: str | None = None,
+) -> None:
     with conexao() as con:
         con.execute("DELETE FROM avaliacao WHERE diagnostico_id = ?", (diagnostico_id,))
         for item_id, a in avaliacoes.items():
@@ -499,13 +553,20 @@ def salvar_avaliacoes(diagnostico_id: int, avaliacoes: dict[str, Avaliacao]) -> 
         contagens[chave] = contagens.get(chave, 0) + 1
     audit.registrar(
         audit.Acao.AVALIACOES_SALVAS,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
         alvo_id=diagnostico_id,
         detalhes={"total": len(avaliacoes), "por_status": contagens},
     )
 
 
-def atualizar_diagnostico(diagnostico_id: int, organizacao: str, data_auditoria: str) -> None:
+def atualizar_diagnostico(
+    diagnostico_id: int,
+    organizacao: str,
+    data_auditoria: str,
+    *,
+    usuario_email: str | None = None,
+) -> None:
     with conexao() as con:
         con.execute(
             "UPDATE diagnostico SET organizacao = ?, data_auditoria = ?, atualizado_em = ? WHERE id = ?",
@@ -516,13 +577,14 @@ def atualizar_diagnostico(diagnostico_id: int, organizacao: str, data_auditoria:
 
     audit.registrar(
         audit.Acao.DIAGNOSTICO_ATUALIZADO,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
         alvo_id=diagnostico_id,
         detalhes={"organizacao": organizacao, "data_auditoria": data_auditoria},
     )
 
 
-def excluir_diagnostico(diagnostico_id: int) -> None:
+def excluir_diagnostico(diagnostico_id: int, *, usuario_email: str | None = None) -> None:
     with conexao() as con:
         con.execute("DELETE FROM diagnostico WHERE id = ?", (diagnostico_id,))
 
@@ -530,6 +592,7 @@ def excluir_diagnostico(diagnostico_id: int) -> None:
 
     audit.registrar(
         audit.Acao.DIAGNOSTICO_EXCLUIDO,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
         alvo_id=diagnostico_id,
     )
@@ -541,6 +604,8 @@ def salvar_snapshot(
     score_geral: float,
     scores_por_categoria: dict[str, float],
     avaliados: int,
+    *,
+    usuario_email: str | None = None,
 ) -> int:
     rotulo_final = rotulo or _agora()
     with conexao() as con:
@@ -562,6 +627,7 @@ def salvar_snapshot(
 
     audit.registrar(
         audit.Acao.SNAPSHOT_CRIADO,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.SNAPSHOT,
         alvo_id=snap_id,
         detalhes={
@@ -600,7 +666,7 @@ def listar_snapshots(diagnostico_id: int) -> list[Snapshot]:
     return out
 
 
-def excluir_snapshot(snapshot_id: int) -> None:
+def excluir_snapshot(snapshot_id: int, *, usuario_email: str | None = None) -> None:
     with conexao() as con:
         con.execute("DELETE FROM snapshot WHERE id = ?", (snapshot_id,))
 
@@ -608,9 +674,71 @@ def excluir_snapshot(snapshot_id: int) -> None:
 
     audit.registrar(
         audit.Acao.SNAPSHOT_EXCLUIDO,
+        usuario_email=usuario_email,
         alvo_tipo=audit.AlvoTipo.SNAPSHOT,
         alvo_id=snapshot_id,
     )
+
+
+def criar_usuario(email: str, nome: str, senha_hash: str) -> None:
+    """Persiste um novo usuário. Levanta `ValueError` se o email já existir."""
+    email = email.strip().lower()
+    with conexao() as con:
+        existing = con.execute("SELECT 1 FROM usuario WHERE email = ?", (email,)).fetchone()
+        if existing:
+            raise ValueError(f"Email já cadastrado: {email}")
+        con.execute(
+            "INSERT INTO usuario (email, nome, senha_hash, criado_em, ativo) VALUES (?, ?, ?, ?, 1)",
+            (email, nome, senha_hash, _agora()),
+        )
+
+
+def listar_usuarios(somente_ativos: bool = True) -> list[Usuario]:
+    """Lista todos os usuários cadastrados; por padrão filtra os ativos."""
+    sql = "SELECT email, nome, senha_hash, criado_em, ativo FROM usuario"
+    if somente_ativos:
+        sql += " WHERE ativo = 1"
+    sql += " ORDER BY criado_em ASC"
+    with conexao() as con:
+        rows = con.execute(sql).fetchall()
+    return [
+        Usuario(
+            email=str(r["email"]),
+            nome=str(r["nome"]),
+            senha_hash=str(r["senha_hash"]),
+            criado_em=str(r["criado_em"]),
+            ativo=bool(r["ativo"]),
+        )
+        for r in rows
+    ]
+
+
+def buscar_usuario(email: str) -> Usuario | None:
+    """Retorna um usuário pelo email ou None se não existir."""
+    email = email.strip().lower()
+    with conexao() as con:
+        row = con.execute(
+            "SELECT email, nome, senha_hash, criado_em, ativo FROM usuario WHERE email = ?",
+            (email,),
+        ).fetchone()
+    if row is None:
+        return None
+    return Usuario(
+        email=str(row["email"]),
+        nome=str(row["nome"]),
+        senha_hash=str(row["senha_hash"]),
+        criado_em=str(row["criado_em"]),
+        ativo=bool(row["ativo"]),
+    )
+
+
+def atualizar_senha_usuario(email: str, novo_hash: str) -> None:
+    """Atualiza o hash da senha de um usuário existente."""
+    with conexao() as con:
+        con.execute(
+            "UPDATE usuario SET senha_hash = ? WHERE email = ?",
+            (novo_hash, email.strip().lower()),
+        )
 
 
 def registrar_evento(

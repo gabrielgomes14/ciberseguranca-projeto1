@@ -1,6 +1,7 @@
 import streamlit as st
 
 from components.control_card import render_control_card
+from core import auth
 from core.db import listar_diagnosticos
 from core.models import Avaliacao
 from core.scoring import RESPOSTA_NAO_AVALIADO, RESPOSTAS_SELECIONAVEIS
@@ -31,7 +32,7 @@ def _aplicar_em_massa(avaliacoes: dict[str, Avaliacao], ids: list[str], status: 
 
 def _barra_diagnostico() -> None:
     ativo_id = diagnostico_ativo("iso27001")
-    diags = listar_diagnosticos("iso27001")
+    diags = listar_diagnosticos("iso27001", usuario_email=auth.usuario_logado_email())
     diag_atual = next((d for d in diags if d.id == ativo_id), None)
     col_d1, col_d2, col_d3 = st.columns([3, 1, 1])
     with col_d1:
