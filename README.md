@@ -31,15 +31,18 @@ Aplicação Python/Streamlit, arquitetura modular, persistência local em SQLite
 - Catálogo de controles persistido no banco e seed automático a partir dos JSONs em `data/` no primeiro `init_db()`.
 - Seed opcional de diagnóstico demo (controlável pela variável `DIAGNOSTICO_SEED_DEMO`).
 - Trilha de auditoria das ações realizadas no próprio sistema (criação/edição/exclusão de diagnósticos, salvamento de avaliações, snapshots), com tela dedicada de consulta. Atende ao controle 8.15 (Logging) da ABNT NBR ISO/IEC 27001:2022.
+- Autenticação multi-usuário com email/senha local (hash bcrypt) e cookie persistente de 30 dias via [streamlit-authenticator](https://github.com/mkhorasani/Streamlit-Authenticator). Cadastro aberto, com gravação direta no SQLite. Pode ser desabilitada em desenvolvimento via `DIAGNOSTICO_AUTH=off`.
 
 ### Estrutura do código
 
 ```text
 .
-├─ app.py                     # Entrypoint Streamlit; tabela de rotas.
+├─ app.py                     # Entrypoint Streamlit; gate de auth e tabela de rotas.
 ├─ core/
 │  ├─ state.py                 # Estado da sessão e persistência por módulo.
-│  ├─ db.py                    # Acesso SQLite (diagnósticos, avaliações, snapshots, catálogos).
+│  ├─ db.py                    # Acesso SQLite (diagnósticos, avaliações, snapshots, usuários, catálogos).
+│  ├─ auth.py                  # Autenticação multi-usuário (streamlit-authenticator + SQLite).
+│  ├─ audit.py                 # Trilha de auditoria (registrar/listar eventos).
 │  ├─ models.py                # Dataclass Avaliacao e constantes de domínio.
 │  ├─ types.py                 # Tipos compartilhados (ItemDiagnostico, ModuloInfo).
 │  ├─ scoring.py               # Cálculo de score, agregação por tema e ResultadoTema.
@@ -50,7 +53,7 @@ Aplicação Python/Streamlit, arquitetura modular, persistência local em SQLite
 ├─ modulos/
 │  ├─ iso27001/                # Catálogo da 27001 (controles agrupados pelos temas da 27002).
 │  └─ iso27701/                # Catálogo da 27701 (controles e categorias) e telas próprias.
-├─ views/                      # Telas: home, diagnósticos, assessment, dashboard, action_plan, history.
+├─ views/                      # Telas: home, login, diagnósticos, assessment, dashboard, action_plan, history, audit_log.
 ├─ components/                 # Componentes visuais reutilizáveis (cards, gauge, métricas, sumário de tema).
 └─ data/                       # Catálogos JSON e diagnóstico demo.
 ```
@@ -59,12 +62,13 @@ Aplicação Python/Streamlit, arquitetura modular, persistência local em SQLite
 
 Banco SQLite criado automaticamente em `diagnosticos.db` na raiz do projeto. A variável `DIAGNOSTICO_DB_PATH` permite redirecionar para outro caminho (útil em testes). Tabelas:
 
-- `diagnostico` — uma linha por auditoria (modulo, organização, data, timestamps).
+- `diagnostico` — uma linha por auditoria (modulo, organização, data, timestamps, `usuario_email` opcional do dono).
 - `avaliacao` — avaliações por (diagnóstico, controle), com chave estrangeira em cascata.
 - `snapshot` — fotografia do score geral e por tema/categoria em um instante.
 - `iso27001_tema`, `iso27001_controle` — catálogo da 27001.
 - `iso27701_categoria`, `iso27701_controle` — catálogo da 27701.
-- `audit_log` — trilha de auditoria das ações relevantes (criação/edição/exclusão de diagnósticos, snapshots e avaliações), com `quando` (ISO 8601), `usuario_email` (nullable enquanto a autenticação não estiver ativa), `acao`, `alvo_tipo`, `alvo_id` e `detalhes` em JSON.
+- `usuario` — contas de auditor (email, nome, senha bcrypt, criado_em, ativo). Populada por cadastro aberto na tela de login.
+- `audit_log` — trilha de auditoria das ações relevantes (criação/edição/exclusão de diagnósticos, snapshots e avaliações), com `quando` (ISO 8601), `usuario_email` (do logado), `acao`, `alvo_tipo`, `alvo_id` e `detalhes` em JSON.
 
 ### Requisitos
 
@@ -85,6 +89,7 @@ Banco SQLite criado automaticamente em `diagnosticos.db` na raiz do projeto. A v
 | **RF11** | A partir das avaliações o sistema gera um plano de ação priorizado, com opção de exportar em CSV. |
 | **RF12** | O relatório em PDF pode ser gerado da auditoria atual ou comparando dois snapshots anteriores. |
 | **RF13** | O sistema mantém uma trilha de auditoria das ações relevantes (criação/edição/exclusão de diagnósticos, salvamento de avaliações e snapshots) com data/hora, ação, alvo e detalhes. Uma tela dedicada permite consultar o histórico com filtros por ação e período. |
+| **RF14** | A aplicação exige autenticação por email e senha local antes de qualquer operação. Cadastro é aberto na tela de login e cada usuário só vê seus próprios diagnósticos. |
 
 #### Não-funcionais (RNF)
 
@@ -100,6 +105,7 @@ Banco SQLite criado automaticamente em `diagnosticos.db` na raiz do projeto. A v
 | **RNF08** | Os testes em pytest rodam contra um banco temporário, sem interferir no `diagnosticos.db` real. |
 | **RNF09** | A pipeline do GitHub Actions executa lint, type-check e testes a cada push e pull request na main. |
 | **RNF10** | Toda a interface é em pt-br, mantendo a acentuação e a nomenclatura oficial das normas ISO. |
+| **RNF11** | Senhas de usuário são armazenadas com hash bcrypt (cost padrão da `streamlit-authenticator`); a sessão é mantida por cookie assinado HMAC com expiração de 30 dias. |
 
 ### Regras de negócio
 
@@ -230,6 +236,31 @@ streamlit run app.py
 ```
 
 O banco `diagnosticos.db` é criado automaticamente na primeira execução. Para usar outro caminho, defina a variável de ambiente `DIAGNOSTICO_DB_PATH`. Para desabilitar o seed do diagnóstico demo em DB vazio, defina `DIAGNOSTICO_SEED_DEMO=0`.
+
+### Autenticação
+
+A aplicação exige login por email e senha antes de mostrar qualquer tela. Na primeira execução, vá até a aba **Cadastrar** da tela de login e crie sua conta - o usuário é gravado direto no SQLite com senha hash bcrypt. A sessão fica ativa por 30 dias via cookie assinado.
+
+Para o cookie funcionar, configure o segredo de assinatura em `.streamlit/secrets.toml` (não comite o arquivo):
+
+```toml
+[auth]
+cookie_secret = "uma-string-aleatoria-longa"
+```
+
+Gere um valor com:
+
+```bash
+python -c "import secrets; print(secrets.token_urlsafe(32))"
+```
+
+Em desenvolvimento e em CI, é possível desligar a autenticação completamente:
+
+```bash
+DIAGNOSTICO_AUTH=off streamlit run app.py
+```
+
+Nesse modo o sistema usa um usuário fictício `dev@local` para preencher o `usuario_email` no banco e na trilha de auditoria, e a tela de login não é renderizada.
 
 ### Docker
 
