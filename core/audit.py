@@ -35,8 +35,6 @@ class Acao:
     AVALIACOES_SALVAS: Final = "avaliacoes.salvas"
     SNAPSHOT_CRIADO: Final = "snapshot.criado"
     SNAPSHOT_EXCLUIDO: Final = "snapshot.excluido"
-    PDF_GERADO: Final = "pdf.gerado"
-    CSV_EXPORTADO: Final = "csv.exportado"
 
 
 class AlvoTipo:
