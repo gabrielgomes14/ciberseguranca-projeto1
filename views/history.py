@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
 
+from core import auth
 from core.db import Snapshot, excluir_snapshot, listar_diagnosticos, listar_snapshots
 from core.pdf_report import gerar_pdf_comparativo
 from modulos.iso27001.controls import TEMA_LABELS, TEMAS
@@ -59,7 +60,7 @@ def render() -> None:
         key="hist_modulo",
     )
 
-    diagnosticos = listar_diagnosticos(modulo)
+    diagnosticos = listar_diagnosticos(modulo, usuario_email=auth.usuario_logado_email())
     if not diagnosticos:
         st.info("Nenhum diagnóstico salvo neste módulo.")
         if st.button("Criar / abrir diagnóstico"):

@@ -4,6 +4,7 @@ import streamlit as st
 from components.score_gauge import render_bar_temas, render_gauge, render_radar
 from components.status_metrics import render_status_metrics
 from components.theme_summary import render_theme_summary
+from core import auth
 from core.action_plan import gerar_plano
 from core.db import listar_diagnosticos, salvar_snapshot
 from core.export import gerar_csv, montar_linhas
@@ -15,7 +16,7 @@ from modulos.iso27001.controls import TEMA_LABELS, TEMAS, TODOS_CONTROLES
 
 def _barra_diagnostico() -> None:
     ativo_id = diagnostico_ativo("iso27001")
-    diags = listar_diagnosticos("iso27001")
+    diags = listar_diagnosticos("iso27001", usuario_email=auth.usuario_logado_email())
     diag_atual = next((d for d in diags if d.id == ativo_id), None)
     col_d1, col_d2 = st.columns([4, 1])
     with col_d1:
@@ -99,7 +100,7 @@ def render() -> None:
     st.divider()
     st.subheader("Exportar")
     diag_ativo_id = diagnostico_ativo("iso27001")
-    diags_lista = listar_diagnosticos("iso27001")
+    diags_lista = listar_diagnosticos("iso27001", usuario_email=auth.usuario_logado_email())
     diag_obj = next((d for d in diags_lista if d.id == diag_ativo_id), None)
     organizacao = diag_obj.organizacao if diag_obj else st.session_state.get("organizacao", "Organização")
     data_aud = diag_obj.data_auditoria if diag_obj else ""

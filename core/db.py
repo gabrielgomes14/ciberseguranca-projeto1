@@ -25,6 +25,7 @@ class Diagnostico:
     data_auditoria: str
     criado_em: str
     atualizado_em: str
+    usuario_email: str | None = None
 
 
 @dataclass(frozen=True)
@@ -94,7 +95,8 @@ CREATE TABLE IF NOT EXISTS diagnostico (
     organizacao TEXT NOT NULL,
     data_auditoria TEXT NOT NULL DEFAULT '',
     criado_em TEXT NOT NULL,
-    atualizado_em TEXT NOT NULL
+    atualizado_em TEXT NOT NULL,
+    usuario_email TEXT
 );
 
 CREATE TABLE IF NOT EXISTS avaliacao (
@@ -346,6 +348,8 @@ def _migrar(con: sqlite3.Connection) -> None:
     _adicionar_coluna(con, "iso27001_controle", "orientacao", "orientacao TEXT NOT NULL DEFAULT ''")
     _adicionar_coluna(con, "iso27701_controle", "controle_texto", "controle_texto TEXT NOT NULL DEFAULT ''")
     _adicionar_coluna(con, "iso27701_controle", "orientacao", "orientacao TEXT NOT NULL DEFAULT ''")
+    _adicionar_coluna(con, "diagnostico", "usuario_email", "usuario_email TEXT")
+    con.execute("CREATE INDEX IF NOT EXISTS idx_diag_usuario ON diagnostico(usuario_email)")
 
 
 def init_db() -> None:
@@ -416,13 +420,19 @@ def _hoje_iso() -> str:
     return date.today().isoformat()
 
 
-def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None = None) -> int:
+def criar_diagnostico(
+    modulo: str,
+    organizacao: str,
+    data_auditoria: str | None = None,
+    usuario_email: str | None = None,
+) -> int:
     agora = _agora()
     data_aud = (data_auditoria or "").strip() or _hoje_iso()
+    email = (usuario_email or "").strip().lower() or None
     with conexao() as con:
         cur = con.execute(
-            "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em) VALUES (?, ?, ?, ?, ?)",
-            (modulo, organizacao, data_aud, agora, agora),
+            "INSERT INTO diagnostico (modulo, organizacao, data_auditoria, criado_em, atualizado_em, usuario_email) VALUES (?, ?, ?, ?, ?, ?)",
+            (modulo, organizacao, data_aud, agora, agora, email),
         )
         diag_id = int(cur.lastrowid or 0)
 
@@ -430,6 +440,7 @@ def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None 
 
     audit.registrar(
         audit.Acao.DIAGNOSTICO_CRIADO,
+        usuario_email=email,
         alvo_tipo=audit.AlvoTipo.DIAGNOSTICO,
         alvo_id=diag_id,
         detalhes={"modulo": modulo, "organizacao": organizacao, "data_auditoria": data_aud},
@@ -437,15 +448,33 @@ def criar_diagnostico(modulo: str, organizacao: str, data_auditoria: str | None 
     return diag_id
 
 
-def listar_diagnosticos(modulo: str | None = None) -> list[Diagnostico]:
+def listar_diagnosticos(
+    modulo: str | None = None,
+    usuario_email: str | None = None,
+) -> list[Diagnostico]:
+    """Lista diagnósticos, opcionalmente filtrando por módulo e/ou usuário.
+
+    Quando `usuario_email` é informado, retorna apenas os diagnósticos do
+    próprio usuário e os "públicos" (sem dono - oriundos do seed demo ou de
+    bancos antigos antes da migração). Quando não é informado (ex.: bypass
+    de dev), retorna todos.
+    """
+    where: list[str] = []
+    params: list[object] = []
+    if modulo:
+        where.append("modulo = ?")
+        params.append(modulo)
+    if usuario_email:
+        where.append("(usuario_email = ? OR usuario_email IS NULL)")
+        params.append(usuario_email.strip().lower())
+
+    sql = "SELECT * FROM diagnostico"
+    if where:
+        sql += " WHERE " + " AND ".join(where)
+    sql += " ORDER BY atualizado_em DESC"
+
     with conexao() as con:
-        if modulo:
-            rows = con.execute(
-                "SELECT * FROM diagnostico WHERE modulo = ? ORDER BY atualizado_em DESC",
-                (modulo,),
-            ).fetchall()
-        else:
-            rows = con.execute("SELECT * FROM diagnostico ORDER BY atualizado_em DESC").fetchall()
+        rows = con.execute(sql, tuple(params)).fetchall()
     return [
         Diagnostico(
             id=int(r["id"]),
@@ -454,6 +483,7 @@ def listar_diagnosticos(modulo: str | None = None) -> list[Diagnostico]:
             data_auditoria=str(r["data_auditoria"] or ""),
             criado_em=str(r["criado_em"]),
             atualizado_em=str(r["atualizado_em"]),
+            usuario_email=str(r["usuario_email"]) if r["usuario_email"] is not None else None,
         )
         for r in rows
     ]

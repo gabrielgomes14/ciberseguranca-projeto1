@@ -1,5 +1,6 @@
 import streamlit as st
 
+from core import auth
 from core.db import listar_diagnosticos
 from core.types import ModuloInfo
 
@@ -40,7 +41,7 @@ def render() -> None:
             st.markdown(f"### {modulo.nome}")
             st.caption(modulo.norma)
             st.write(modulo.descricao)
-            diags = listar_diagnosticos(modulo.id)
+            diags = listar_diagnosticos(modulo.id, usuario_email=auth.usuario_logado_email())
             if diags:
                 st.success(f"{len(diags)} diagnóstico(s) salvo(s)")
             else:
@@ -66,5 +67,8 @@ def render() -> None:
             st.session_state.page = "audit_log"
             st.rerun()
     with col_h3:
-        total = sum(len(listar_diagnosticos(m.id)) for m in MODULOS)
+        total = sum(
+            len(listar_diagnosticos(m.id, usuario_email=auth.usuario_logado_email()))
+            for m in MODULOS
+        )
         st.metric("Diagnósticos totais", total)

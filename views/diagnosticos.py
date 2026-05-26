@@ -2,6 +2,7 @@ from datetime import date, datetime
 
 import streamlit as st
 
+from core import auth
 from core.db import (
     atualizar_diagnostico,
     criar_diagnostico,
@@ -55,14 +56,19 @@ def render() -> None:
             st.write("")
             criar_disabled = not nova_org.strip()
             if st.button("Criar", type="primary", width="stretch", disabled=criar_disabled):
-                novo_id = criar_diagnostico(modulo_id, nova_org.strip(), nova_data.isoformat())
+                novo_id = criar_diagnostico(
+                    modulo_id,
+                    nova_org.strip(),
+                    nova_data.isoformat(),
+                    usuario_email=auth.usuario_logado_email(),
+                )
                 definir_diagnostico_ativo(modulo_id, novo_id)
                 st.session_state.page = rota_abrir
                 st.rerun()
 
     st.divider()
 
-    diagnosticos = listar_diagnosticos(modulo_id)
+    diagnosticos = listar_diagnosticos(modulo_id, usuario_email=auth.usuario_logado_email())
     if not diagnosticos:
         st.info("Nenhum diagnóstico criado para este módulo. Use o formulário acima.")
     else:

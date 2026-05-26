@@ -5,6 +5,7 @@ from components.generic_item_card import render_item_card
 from components.score_gauge import render_bar_temas, render_gauge, render_radar
 from components.status_metrics import render_status_metrics
 from components.theme_summary import render_theme_summary
+from core import auth
 from core.db import listar_diagnosticos, salvar_snapshot
 from core.models import Avaliacao
 from core.pdf_report import gerar_pdf_27701
@@ -19,7 +20,7 @@ MODULO_NOME = "ISO/IEC 27701:2026"
 def _barra_diagnostico() -> None:
     """Mostra o diagnóstico ativo e ações de salvar/listar no topo da view."""
     ativo_id = diagnostico_ativo(MODULO_ID)
-    diags = listar_diagnosticos(MODULO_ID)
+    diags = listar_diagnosticos(MODULO_ID, usuario_email=auth.usuario_logado_email())
     diag_atual = next((d for d in diags if d.id == ativo_id), None)
     col_d1, col_d2, col_d3 = st.columns([3, 1, 1])
     with col_d1:
@@ -197,7 +198,7 @@ def render_dashboard() -> None:
     st.divider()
     st.subheader("Exportar")
     diag_id_atual = diagnostico_ativo(MODULO_ID)
-    diags_27701 = listar_diagnosticos(MODULO_ID)
+    diags_27701 = listar_diagnosticos(MODULO_ID, usuario_email=auth.usuario_logado_email())
     diag_obj = next((d for d in diags_27701 if d.id == diag_id_atual), None)
     organizacao = diag_obj.organizacao if diag_obj else "Organização"
     data_aud = diag_obj.data_auditoria if diag_obj else ""
