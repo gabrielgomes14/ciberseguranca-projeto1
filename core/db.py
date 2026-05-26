@@ -59,6 +59,17 @@ class Controle27701Row:
 
 
 @dataclass(frozen=True)
+class Usuario:
+    """Conta de auditor para login local. Senha é hash bcrypt."""
+
+    email: str
+    nome: str
+    senha_hash: str
+    criado_em: str
+    ativo: bool = True
+
+
+@dataclass(frozen=True)
 class EventoAuditoria:
     """Registro imutável de uma ação relevante no sistema.
 
@@ -145,6 +156,14 @@ CREATE INDEX IF NOT EXISTS idx_diag_modulo ON diagnostico(modulo);
 CREATE INDEX IF NOT EXISTS idx_snap_diag ON snapshot(diagnostico_id);
 CREATE INDEX IF NOT EXISTS idx_iso27001_controle_tema ON iso27001_controle(tema_id);
 CREATE INDEX IF NOT EXISTS idx_iso27701_controle_categoria ON iso27701_controle(categoria_id);
+
+CREATE TABLE IF NOT EXISTS usuario (
+    email TEXT PRIMARY KEY,
+    nome TEXT NOT NULL,
+    senha_hash TEXT NOT NULL,
+    criado_em TEXT NOT NULL,
+    ativo INTEGER NOT NULL DEFAULT 1
+);
 
 CREATE TABLE IF NOT EXISTS audit_log (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -611,6 +630,67 @@ def excluir_snapshot(snapshot_id: int) -> None:
         alvo_tipo=audit.AlvoTipo.SNAPSHOT,
         alvo_id=snapshot_id,
     )
+
+
+def criar_usuario(email: str, nome: str, senha_hash: str) -> None:
+    """Persiste um novo usuário. Levanta `ValueError` se o email já existir."""
+    email = email.strip().lower()
+    with conexao() as con:
+        existing = con.execute("SELECT 1 FROM usuario WHERE email = ?", (email,)).fetchone()
+        if existing:
+            raise ValueError(f"Email já cadastrado: {email}")
+        con.execute(
+            "INSERT INTO usuario (email, nome, senha_hash, criado_em, ativo) VALUES (?, ?, ?, ?, 1)",
+            (email, nome, senha_hash, _agora()),
+        )
+
+
+def listar_usuarios(somente_ativos: bool = True) -> list[Usuario]:
+    """Lista todos os usuários cadastrados; por padrão filtra os ativos."""
+    sql = "SELECT email, nome, senha_hash, criado_em, ativo FROM usuario"
+    if somente_ativos:
+        sql += " WHERE ativo = 1"
+    sql += " ORDER BY criado_em ASC"
+    with conexao() as con:
+        rows = con.execute(sql).fetchall()
+    return [
+        Usuario(
+            email=str(r["email"]),
+            nome=str(r["nome"]),
+            senha_hash=str(r["senha_hash"]),
+            criado_em=str(r["criado_em"]),
+            ativo=bool(r["ativo"]),
+        )
+        for r in rows
+    ]
+
+
+def buscar_usuario(email: str) -> Usuario | None:
+    """Retorna um usuário pelo email ou None se não existir."""
+    email = email.strip().lower()
+    with conexao() as con:
+        row = con.execute(
+            "SELECT email, nome, senha_hash, criado_em, ativo FROM usuario WHERE email = ?",
+            (email,),
+        ).fetchone()
+    if row is None:
+        return None
+    return Usuario(
+        email=str(row["email"]),
+        nome=str(row["nome"]),
+        senha_hash=str(row["senha_hash"]),
+        criado_em=str(row["criado_em"]),
+        ativo=bool(row["ativo"]),
+    )
+
+
+def atualizar_senha_usuario(email: str, novo_hash: str) -> None:
+    """Atualiza o hash da senha de um usuário existente."""
+    with conexao() as con:
+        con.execute(
+            "UPDATE usuario SET senha_hash = ? WHERE email = ?",
+            (novo_hash, email.strip().lower()),
+        )
 
 
 def registrar_evento(
